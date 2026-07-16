@@ -1,0 +1,275 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: string;
+}
+
+const {
+  title = "Şeyma Nur Çebi — Yazılım Mühendisliği Öğrencisi",
+  description = "Yapay zekâ, prompt engineering ve dil ajanları meraklısı Yazılım Mühendisliği öğrencisi. TEKNOFEST takım kaptanı, T3 Vakfı eğitmeni ve bursiyeri.",
+  lang = "tr",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0d0f16" />
+    <!-- Sosyal medya kartları -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <title>{title}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✳</text></svg>" />
+    <!-- Tipografi: Fraunces (başlıklar) + Manrope (gövde) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Manrope:wght@300..800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Açılış perdesi -->
+    <div class="preloader" id="preloader" aria-hidden="true">
+      <div class="preloader-name">Şeyma Nur<span>.</span></div>
+      <div class="preloader-line"></div>
+    </div>
+
+    <!-- Scroll ilerleme çubuğu -->
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+    <!-- Film greni dokusu -->
+    <div class="grain" aria-hidden="true"></div>
+
+    <slot />
+
+    <!-- Yukarı dön -->
+    <button class="to-top" id="to-top" aria-label="Yukarı dön">↑</button>
+
+    <!-- Özel imleç (masaüstü) -->
+    <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+    <script>
+      // ---------- Açılış perdesi ----------
+      const finishIntro = () => {
+        document.body.classList.add("loaded");
+        setTimeout(() => document.getElementById("preloader")?.remove(), 900);
+      };
+      // içerik hazır olunca perdeyi kaldır (en geç 2.2 sn'de garanti)
+      window.addEventListener("load", () => setTimeout(finishIntro, 700));
+      setTimeout(finishIntro, 2200);
+
+      // ---------- Scroll'da yumuşak görünme ----------
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+      // ---------- Scroll ilerleme çubuğu ----------
+      const progress = document.getElementById("scroll-progress");
+      const updateProgress = () => {
+        const h = document.documentElement;
+        const max = h.scrollHeight - h.clientHeight;
+        if (progress) progress.style.width = `${(h.scrollTop / max) * 100}%`;
+      };
+      addEventListener("scroll", updateProgress, { passive: true });
+
+      // ---------- Sekme sistemi ----------
+      const panels = [...document.querySelectorAll<HTMLElement>(".tab-panel")];
+      const navLinks = [...document.querySelectorAll<HTMLAnchorElement>(".nav-links a[href^='#']")];
+      const showTab = (id: string) => {
+        const target = panels.find((p) => p.id === id) ?? panels[0];
+        panels.forEach((p) => p.classList.toggle("active", p === target));
+        navLinks.forEach((a) =>
+          a.classList.toggle("active", a.hash === `#${target.id}`)
+        );
+        // editör çubuğundaki açık dosya adını güncelle
+        const file = target.dataset.file || "";
+        const openFile = document.getElementById("open-file");
+        const crumbFile = document.getElementById("crumb-file");
+        if (openFile) openFile.textContent = file;
+        if (crumbFile) crumbFile.textContent = file;
+        const activeLink = navLinks.find((a) => a.hash === `#${target.id}`);
+        const dot = activeLink?.querySelector(".file-dot");
+        const barDot = document.getElementById("open-file-dot");
+        if (dot && barDot) barDot.className = dot.className;
+        // başlıkları "çözülme" animasyonuyla getir
+        target.querySelectorAll<HTMLElement>(".section-title").forEach(scramble);
+        scrollTo({ top: 0, behavior: "auto" });
+      };
+
+      // ---------- Yazı çözülme (decode) efekti ----------
+      const SCRAMBLE_CHARS = "!<>-_/\\[]{}=+*^?#____";
+      function scramble(el: HTMLElement) {
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const orig = el.dataset.orig ?? (el.dataset.orig = el.textContent || "");
+        let frame = 0;
+        const iv = setInterval(() => {
+          frame += 1;
+          el.textContent = orig
+            .split("")
+            .map((ch, i) =>
+              i < frame || ch === " "
+                ? ch
+                : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)]
+            )
+            .join("");
+          if (frame >= orig.length) clearInterval(iv);
+        }, 22);
+      }
+      // sekmeye işaret eden TÜM bağlantıları yakala (menü, butonlar, footer)
+      document.addEventListener("click", (e) => {
+        const a = (e.target as HTMLElement).closest?.("a[href^='#']") as HTMLAnchorElement | null;
+        if (!a) return;
+        const id = a.hash.slice(1);
+        if (!panels.some((p) => p.id === id)) return;
+        e.preventDefault();
+        history.pushState(null, "", `#${id}`);
+        showTab(id);
+      });
+      addEventListener("popstate", () => showTab(location.hash.slice(1) || "giris"));
+      showTab(location.hash.slice(1) || "giris");
+
+      // ---------- Sayaç animasyonu ----------
+      const counters = document.querySelectorAll<HTMLElement>("[data-count]");
+      const countSpy = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            const el = entry.target as HTMLElement;
+            countSpy.unobserve(el);
+            const target = parseInt(el.dataset.count || "0", 10);
+            const suffix = el.dataset.suffix || "";
+            const prefix = el.dataset.prefix || "";
+            const t0 = performance.now();
+            const dur = 1400;
+            const tick = (t: number) => {
+              const p = Math.min((t - t0) / dur, 1);
+              const eased = 1 - Math.pow(1 - p, 3);
+              el.textContent = `${prefix}${Math.round(target * eased)}${suffix}`;
+              if (p < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+          }
+        },
+        { threshold: 0.6 }
+      );
+      counters.forEach((el) => countSpy.observe(el));
+
+      // ---------- Aurora fare paralaksı ----------
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!reduceMotion) {
+        const auroras = document.querySelectorAll<HTMLElement>(".aurora");
+        let raf = 0;
+        addEventListener("mousemove", (e) => {
+          if (raf) return;
+          raf = requestAnimationFrame(() => {
+            const x = e.clientX / innerWidth - 0.5;
+            const y = e.clientY / innerHeight - 0.5;
+            auroras.forEach((a, i) => {
+              const depth = (i % 3) + 1;
+              a.style.translate = `${x * 22 * depth}px ${y * 16 * depth}px`;
+            });
+            raf = 0;
+          });
+        });
+      }
+
+      // ---------- Canlı saat (footer) ----------
+      const clock = document.getElementById("local-time");
+      const tickClock = () => {
+        if (!clock) return;
+        clock.textContent = new Intl.DateTimeFormat("tr-TR", {
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZone: "Europe/Istanbul",
+        }).format(new Date());
+      };
+      tickClock();
+      setInterval(tickClock, 30_000);
+
+      // ---------- Yukarı dön ----------
+      const toTop = document.getElementById("to-top");
+      addEventListener(
+        "scroll",
+        () => toTop?.classList.toggle("show", scrollY > 600),
+        { passive: true }
+      );
+      toTop?.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+
+      // ---------- Özel imleç ----------
+      const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
+      if (finePointer && !reduceMotion) {
+        const dotEl = document.getElementById("cursor-dot");
+        const ringEl = document.getElementById("cursor-ring");
+        let rx = innerWidth / 2, ry = innerHeight / 2;
+        let tx = rx, ty = ry;
+        addEventListener("mousemove", (e) => {
+          tx = e.clientX; ty = e.clientY;
+          if (dotEl) dotEl.style.transform = `translate(${tx}px, ${ty}px) translate(-50%, -50%)`;
+          const overLink = (e.target as HTMLElement).closest?.("a, button");
+          ringEl?.classList.toggle("hovering", !!overLink);
+        });
+        const followRing = () => {
+          rx += (tx - rx) * 0.16;
+          ry += (ty - ry) * 0.16;
+          if (ringEl) ringEl.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+          requestAnimationFrame(followRing);
+        };
+        followRing();
+      }
+
+      // ---------- Mıknatıslı butonlar ----------
+      if (finePointer && !reduceMotion) {
+        document.querySelectorAll<HTMLElement>(".btn").forEach((btn) => {
+          btn.addEventListener("mousemove", (e) => {
+            const r = btn.getBoundingClientRect();
+            const dx = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+            const dy = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+            btn.style.transform = `translate(${dx * 5}px, ${dy * 4 - 3}px)`;
+          });
+          btn.addEventListener("mouseleave", () => { btn.style.transform = ""; });
+        });
+      }
+
+      // ---------- Fotoğrafta 3B eğilme ----------
+      if (finePointer && !reduceMotion) {
+        const photo = document.querySelector<HTMLElement>(".hero-photo");
+        const frame = document.querySelector<HTMLElement>(".portrait-frame");
+        if (photo && frame) {
+          photo.addEventListener("mousemove", (e) => {
+            const r = photo.getBoundingClientRect();
+            const dx = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+            const dy = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+            frame.style.transform = `rotateY(${dx * 8}deg) rotateX(${dy * -8}deg)`;
+          });
+          photo.addEventListener("mouseleave", () => { frame.style.transform = ""; });
+        }
+      }
+
+      // ---------- Konsol sürprizi — kaynak koda bakanlara ----------
+      console.log(
+        "%c Merhaba, meraklı geliştirici! 👋 %c\n\nBu siteyi hazır şablonla değil, satır satır kendim yazdım.\nAstro + TypeScript + saf CSS. Merak eden varsa: seymanurcebi6@gmail.com\ngithub.com/cebi101\n\n— Şeyma Nur Çebi",
+        "font-size:14px; font-weight:bold; background:linear-gradient(90deg,#6fd7ff,#ff7ac2,#b78cff); color:#0d0f16; padding:6px 12px; border-radius:6px;",
+        "font-size:12px; color:#6fd7ff;"
+      );
+    </script>
+  </body>
+</html>
