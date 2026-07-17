@@ -1,8 +1,10 @@
 ---
-// Tüm site — dil sözlüğünden (t) beslenen ortak bileşen
-// Tasarım dili: "IDE / kod editörü" — dosya gezgini, editör sekmesi, durum çubuğu
+// "KOD & KAHVE" arayüzü — Portfolyo.dc tasarımından uyarlandı
+// Sol kenar: profil kartı · numaralı menü · ŞU AN kartı · tema & dil
+// Sayfalar (sekme): Ana Sayfa · Hakkımda · Projeler · İletişim
 import Layout from "../layouts/Layout.astro";
 import type { Dict } from "../i18n/translations";
+import { SKILLS } from "../i18n/translations";
 
 interface Props {
   t: Dict;
@@ -11,327 +13,241 @@ const { t } = Astro.props;
 
 const GITHUB = "https://github.com/cebi101";
 const LINKEDIN = "https://www.linkedin.com/in/seymanurcebi";
-const MAIL = "mailto:seymanurcebi6@gmail.com";
+const EMAIL = "seymanurcebi6@gmail.com";
 
 const langs = [
   { code: "TR", href: "/" },
   { code: "EN", href: "/en/" },
   { code: "DE", href: "/de/" },
+  { code: "RU", href: "/ru/" },
+  { code: "AR", href: "/ar/" },
 ];
 
-// dosya gezgini: sekme kimliği → dosya adı + tür rengi
-const files = [
-  { id: "giris", name: t.files.giris, type: "tsx" },
-  { id: "hakkimda", name: t.files.hakkimda, type: "md" },
-  { id: "yolculuk", name: t.files.yolculuk, type: "log" },
-  { id: "uzmanlik", name: t.files.uzmanlik, type: "json" },
-  { id: "projeler", name: t.files.projeler, type: "ts" },
-  { id: "iletisim", name: t.files.iletisim, type: "sh" },
+const navItems = [
+  { id: "home", num: "01", label: t.nav.home },
+  { id: "about", num: "02", label: t.nav.about },
+  { id: "projects", num: "03", label: t.nav.projects },
+  { id: "contact", num: "04", label: t.nav.contact },
 ];
+
+const sideSocials = [
+  { short: "GH", label: "GitHub", href: GITHUB },
+  { short: "IN", label: "LinkedIn", href: LINKEDIN },
+  { short: "@", label: t.emailLabel, href: `mailto:${EMAIL}` },
+];
+
+const projectHrefs = [GITHUB, GITHUB, GITHUB, GITHUB];
 ---
 
-<Layout title={t.title} description={t.description} lang={t.lang}>
-  <!-- ======== EDİTÖR ÜST ÇUBUĞU ======== -->
-  <div class="editor-bar">
-    <div class="win-dots">
-      <span></span><span></span><span></span>
-    </div>
-    <div class="open-tab">
-      <span class="file-dot" id="open-file-dot"></span>
-      <span id="open-file">{t.files.giris}</span>
-      <span class="tab-x">×</span>
-    </div>
-    <div class="crumb" aria-hidden="true">
-      seymanur-portfolio <span>›</span> <span id="crumb-file">{t.files.giris}</span>
-    </div>
-  </div>
+<Layout title={t.title} description={t.description} lang={t.lang} dir={t.dir}>
+  <div class="app">
+    <!-- ════════ KENAR ÇUBUĞU ════════ -->
+    <aside class="sidebar">
+      <div class="profile-card">
+        <div class="avatar-wrap">
+          <img src="/foto.jpg" alt={t.hero.photoAlt} class="avatar" />
+          <span class="status-dot"></span>
+        </div>
+        <div class="profile-name">{t.name}</div>
+        <div class="profile-role">{t.role}</div>
+        <div class="profile-sig">~ {t.signature}</div>
+      </div>
 
-  <!-- ======== DOSYA GEZGİNİ — tek navigasyon ======== -->
-  <aside class="side-nav">
-    <div class="explorer-label">Explorer</div>
-    <div class="tree-root">
-      <span class="tw">▾</span> seymanur-portfolio
-    </div>
-
-    <ul class="nav-links">
-      {files.map((f) => (
-        <li>
-          <a href={`#${f.id}`} data-file={f.name}>
-            <span class={`file-dot ft-${f.type}`}></span>{f.name}
+      <nav class="nav-links">
+        {navItems.map((n) => (
+          <a href={`#${n.id}`} class="nav-btn">
+            <span class="num">{n.num}</span>
+            <span class="lbl">{n.label}</span>
+            <span class="arrow">→</span>
           </a>
-        </li>
-      ))}
-    </ul>
+        ))}
+      </nav>
 
-    <div class="lang-switch">
-      {langs.map((l) => (
-        <a href={l.href} class={t.path === l.href ? "on" : ""}>{l.code}</a>
-      ))}
-    </div>
-
-    <div class="side-foot">
-      <a href={GITHUB} target="_blank" rel="noopener">GitHub ↗</a>
-      <a href={LINKEDIN} target="_blank" rel="noopener">LinkedIn ↗</a>
-      <a href={MAIL}>E-posta ↗</a>
-    </div>
-  </aside>
-
-  <!-- ════════ SEKME: GİRİŞ ════════ -->
-  <div class="tab-panel active" id="giris" data-file={t.files.giris}>
-    <header class="hero">
-      <span class="aurora au-1"></span>
-      <span class="aurora au-2"></span>
-      <span class="aurora au-3"></span>
-
-      <div class="container hero-content">
-        <div class="hero-grid">
-          <div class="hero-text">
-            <div class="eyebrow">{t.hero.eyebrow}</div>
-            <h1 set:html={t.hero.h1} />
-            <p class="lead">{t.hero.lead}</p>
-            <div class="hero-actions">
-              <a href="#projeler" class="btn btn-light">{t.hero.btnProjects}</a>
-              <a href="#iletisim" class="btn btn-outline">{t.hero.btnContact}</a>
-            </div>
-
-            <div class="hero-meta">
-              {t.hero.meta.map((m) => (
-                <div class="meta-item">
-                  <div class="k">{m.k}</div>
-                  <div class="v">{m.v}</div>
-                </div>
-              ))}
-            </div>
+      <div class="side-bottom">
+        <div class="now-card">
+          <div class="now-head">
+            <span class="now-dot"></span>
+            <span class="now-label">{t.now.label}</span>
           </div>
-
-          <div class="hero-photo">
-            <div class="portrait-frame">
-              <div class="portrait" role="img" aria-label={t.hero.photoAlt}></div>
+          {t.now.items.map((it) => (
+            <div class="now-item">
+              <span class="now-k">{it.k}</span>
+              <span class="now-v">{it.v}</span>
             </div>
+          ))}
+        </div>
 
-            <!-- fotoğrafın üzerine taşan neon kod kartı -->
-            <div class="hero-code" aria-hidden="true">
-              <div><span class="c-purple">const</span> <span class="c-cyan">seymaNur</span> <span class="c-pink">=</span> {"{"}</div>
-              <div>&nbsp;&nbsp;<span class="c-green">rol</span>: <span class="c-yellow">"{t.code.rol}"</span>,</div>
-              <div>&nbsp;&nbsp;<span class="c-green">odak</span>: [<span class="c-yellow">"{t.code.odak[0]}"</span>, <span class="c-yellow">"{t.code.odak[1]}"</span>],</div>
-              <div>&nbsp;&nbsp;<span class="c-green">su_an</span>: <span class="c-yellow">"{t.code.suAn}"</span>,</div>
-              <div>{"}"};<span class="cursor"></span></div>
-            </div>
-          </div>
+        <div class="social-row">
+          {sideSocials.map((s) => (
+            <a
+              href={s.href}
+              target={s.href.startsWith("http") ? "_blank" : undefined}
+              rel={s.href.startsWith("http") ? "noopener" : undefined}
+              title={s.label}
+            >{s.short}</a>
+          ))}
+        </div>
+
+        <div class="side-label">{t.themeLabel}</div>
+        <div class="mode-switch">
+          <button data-mode="light" title={t.modeLight}>☀</button>
+          <button data-mode="dark" title={t.modeDark}>☾</button>
+        </div>
+
+        <div class="side-label">{t.langLabel}</div>
+        <div class="lang-switch">
+          {langs.map((l) => (
+            <a href={l.href} class={t.path === l.href ? "on" : ""}>{l.code}</a>
+          ))}
         </div>
       </div>
-    </header>
+    </aside>
 
-    <div class="strip" aria-hidden="true">
-      <div class="strip-track">
-        {[...t.strip, ...t.strip].map((w) => (
-          <><span>{w}</span><span class="sep">✳</span></>
-        ))}
-      </div>
-    </div>
-  </div>
-
-  <!-- ════════ SEKME: HAKKIMDA ════════ -->
-  <div class="tab-panel" id="hakkimda" data-file={t.files.hakkimda}>
-    <section class="about">
-      <div class="container">
-        <div class="about-grid">
-          <div class="about-text reveal">
-            <div class="eyebrow">{t.about.eyebrow}</div>
-            <h2 class="section-title">{t.about.title}</h2>
-            <p set:html={t.about.p1} />
-            <p set:html={t.about.p2} />
-            <div class="about-stats">
-              {t.about.stats.map((s) => (
+    <!-- ════════ İÇERİK ════════ -->
+    <div class="content">
+      <!-- ── 01 ANA SAYFA ── -->
+      <div class="tab-panel active" id="home">
+        <main class="page home">
+          <div class="hero-left">
+            <div class="hero-head">
+              <div class="hello">{t.hero.hello}</div>
+              <h1>
+                {t.hero.h1a}<br />
+                <em>{t.hero.h1b}</em>
+              </h1>
+            </div>
+            <p class="tagline">{t.hero.tagline}</p>
+            <div class="cta-row">
+              <a href="#projects" class="btn btn-solid">{t.hero.cta} <span class="arr">→</span></a>
+              <a href="#contact" class="btn btn-line">{t.nav.contact}</a>
+            </div>
+            <div class="stats-row">
+              {t.hero.stats.map((s) => (
                 <div class="stat">
                   <div
-                    class="num"
+                    class="stat-num"
                     data-count={"count" in s ? s.count : undefined}
                     data-prefix={"prefix" in s ? s.prefix : undefined}
                     data-suffix={"suffix" in s ? s.suffix : undefined}
                   >{s.num}</div>
-                  <div class="cap">{s.cap}</div>
+                  <div class="stat-label">{s.label}</div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="certs">
-      <div class="container">
-        <div class="section-head center reveal">
-          <div class="eyebrow">{t.certs.eyebrow}</div>
-          <h2 class="section-title">{t.certs.title}</h2>
-        </div>
-        <div class="cert-grid">
-          {t.certs.items.map((c, i) => (
-            <div class={`cert-card reveal ${i ? "d1" : ""}`}>
-              <div class="cert-org">{c.org}</div>
-              <h3>{c.name}</h3>
-              <p>{c.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- ════════ SEKME: YOLCULUK ════════ -->
-  <div class="tab-panel" id="yolculuk" data-file={t.files.yolculuk}>
-    <section class="journey">
-      <div class="container">
-        <div class="journey-grid">
-          <div class="section-head reveal">
-            <div class="eyebrow">{t.journey.eyebrow}</div>
-            <h2 class="section-title">{t.journey.title}</h2>
-            <p class="section-desc">{t.journey.desc}</p>
+          <div class="hero-photo reveal">
+            <div class="photo-backdrop"></div>
+            <img src="/foto.jpg" alt={t.hero.photoAlt} class="photo" />
+            <div class="photo-badge">{t.role}</div>
           </div>
+        </main>
+      </div>
+
+      <!-- ── 02 HAKKIMDA ── -->
+      <div class="tab-panel" id="about">
+        <main class="page">
+          <div class="page-head">
+            <span class="page-no">{t.about.no}</span>
+            <h2 class="section-title">{t.about.title}</h2>
+          </div>
+
+          <div class="about-grid">
+            <div class="about-photo reveal">
+              <img src="/foto.jpg" alt={t.hero.photoAlt} />
+              <div class="photo-badge">{t.about.year}</div>
+            </div>
+            <div class="about-body reveal d1">
+              <p class="about-p1">{t.about.p1}</p>
+              <p class="about-p2">{t.about.p2}</p>
+              <div class="side-label">{t.about.skillsLabel}</div>
+              <div class="chips">
+                {SKILLS.map((sk) => <span class="chip">{sk}</span>)}
+              </div>
+            </div>
+          </div>
+
+          <div class="side-label block-label reveal">{t.about.journeyLabel}</div>
           <div class="timeline">
-            {t.journey.items.map((item, i) => (
+            {t.about.journey.map((j, i) => (
               <div class={`tl-item reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
-                <div class="when">{item.when}</div>
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
+                <div class="tl-when">{j.when}</div>
+                <h3>{j.title}</h3>
+                <p>{j.desc}</p>
               </div>
             ))}
           </div>
-        </div>
-      </div>
-    </section>
-  </div>
 
-  <!-- ════════ SEKME: UZMANLIK ════════ -->
-  <div class="tab-panel" id="uzmanlik" data-file={t.files.uzmanlik}>
-    <section class="skills">
-      <div class="container">
-        <div class="section-head reveal">
-          <div class="eyebrow">{t.skills.eyebrow}</div>
-          <h2 class="section-title">{t.skills.title}</h2>
-          <p class="section-desc">{t.skills.desc}</p>
-        </div>
-        <div class="skills-grid">
-          {t.skills.items.map((s, i) => (
-            <div class={`skill-card reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
-              <div class="no">{s.no}</div>
-              <h3>{s.title}</h3>
-              <p set:html={s.desc} />
-            </div>
-          ))}
-        </div>
+          <div class="side-label block-label reveal">{t.about.certsLabel}</div>
+          <div class="cert-grid">
+            {t.about.certs.map((c, i) => (
+              <div class={`cert-card reveal ${i ? "d1" : ""}`}>
+                <span class="cert-org">{c.org}</span>
+                <h3>{c.name}</h3>
+                <p>{c.desc}</p>
+              </div>
+            ))}
+          </div>
+        </main>
       </div>
-    </section>
 
-    <section class="stack">
-      <div class="container">
-        <div class="stack-grid">
-          <div class="reveal">
-            <div class="terminal">
-              <div class="terminal-bar">
-                <span class="tdot"></span>
-                <span class="tdot"></span>
-                <span class="tdot"></span>
-                <span class="ttitle">{t.stack.terminalTitle}</span>
-              </div>
-              <div class="terminal-body">
-                {t.stack.lines.map((l) => (
-                  <>
-                    <span class="tline"><span class="prompt">seymanur@arel ~ %</span> <span class="cmd">{l.cmd}</span></span>
-                    <span class="tline out" set:html={l.out} />
-                  </>
-                ))}
-              </div>
+      <!-- ── 03 PROJELER ── -->
+      <div class="tab-panel" id="projects">
+        <main class="page">
+          <div class="page-head">
+            <span class="page-no">{t.projects.no}</span>
+            <h2 class="section-title">{t.projects.title}</h2>
+          </div>
+          <div class="project-list">
+            {t.projects.items.map((p, i) => (
+              <a
+                href={projectHrefs[i]}
+                target="_blank"
+                rel="noopener"
+                class={`project-row reveal ${i ? `d${Math.min(i, 3)}` : ""}`}
+              >
+                <span class="pr-num">{String(i + 1).padStart(2, "0")}</span>
+                <span class="pr-body">
+                  <span class="pr-title">{p.title}</span>
+                  <span class="pr-desc">{p.desc}</span>
+                  <span class="pr-tags">{p.tags}</span>
+                </span>
+                <span class="pr-arrow">↗</span>
+              </a>
+            ))}
+          </div>
+        </main>
+      </div>
+
+      <!-- ── 04 İLETİŞİM ── -->
+      <div class="tab-panel" id="contact">
+        <main class="page">
+          <div class="page-head">
+            <span class="page-no">{t.contact.no}</span>
+            <h2 class="section-title">{t.contact.title}</h2>
+          </div>
+          <div class="contact-grid">
+            <form class="contact-form reveal" id="contact-form" data-email={EMAIL} data-subject={t.contact.fSubject}>
+              <p class="contact-sub">{t.contact.sub}</p>
+              <input type="text" name="name" placeholder={t.contact.fName} required />
+              <input type="email" name="email" placeholder={t.contact.fEmail} required />
+              <textarea name="msg" rows="5" placeholder={t.contact.fMsg} required></textarea>
+              <button type="submit" class="btn btn-solid">{t.contact.fSend} <span class="arr">→</span></button>
+              <span class="form-hint">{t.contact.fHint}</span>
+            </form>
+            <div class="contact-side reveal d1">
+              <div class="side-label">{t.contact.social}</div>
+              <a href={GITHUB} target="_blank" rel="noopener" class="social-link"><span>GitHub</span><span>↗</span></a>
+              <a href={LINKEDIN} target="_blank" rel="noopener" class="social-link"><span>LinkedIn</span><span>↗</span></a>
+              <a href={`mailto:${EMAIL}`} class="social-link"><span>{t.emailLabel}</span><span>↗</span></a>
             </div>
           </div>
-          <div class="reveal d1">
-            <div class="eyebrow">{t.stack.eyebrow}</div>
-            <h2 class="section-title">{t.stack.title}</h2>
-            <p class="section-desc">{t.stack.desc}</p>
-            <div class="tech-chips">
-              {t.stack.chips.map((c) => <span class="tech-chip">{c}</span>)}
-            </div>
-          </div>
-        </div>
+        </main>
       </div>
-    </section>
 
-    <section class="learning">
-      <div class="container">
-        <div class="section-head center reveal">
-          <div class="eyebrow">{t.learning.eyebrow}</div>
-          <h2 class="section-title">{t.learning.title}</h2>
-          <p class="section-desc">{t.learning.desc}</p>
-        </div>
-        <div class="learn-list reveal d1">
-          {t.learning.items.map((item, i) => (
-            <div class="learn-item">
-              <span class="no">{String(i + 1).padStart(2, "0")}</span>
-              <span class="title">{item.title}</span>
-              <span class="note">{item.note}</span>
-              <span class="dot"></span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+      <footer>
+        <span>© 2026 {t.name}</span>
+        <span class="footer-motto">{t.footer}</span>
+      </footer>
+    </div>
   </div>
-
-  <!-- ════════ SEKME: PROJELER ════════ -->
-  <div class="tab-panel" id="projeler" data-file={t.files.projeler}>
-    <section class="projects">
-      <div class="container">
-        <div class="section-head reveal">
-          <div class="eyebrow">{t.projects.eyebrow}</div>
-          <h2 class="section-title">{t.projects.title}</h2>
-          <p class="section-desc">{t.projects.desc}</p>
-        </div>
-        <div class="projects-grid">
-          {t.projects.items.map((p, i) => (
-            <article class={`project-card reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
-              <div class={`project-thumb thumb-${(i % 4) + 1}`}>{p.dir}</div>
-              <div class="project-body">
-                <span class="tag">{p.tag}</span>
-                <h3>{p.title}</h3>
-                <p>{p.desc}</p>
-                <a href={GITHUB} target="_blank" rel="noopener" class="project-link">
-                  {p.link === "github" ? t.projects.linkLabels.github : t.projects.linkLabels.view}
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- ════════ SEKME: İLETİŞİM ════════ -->
-  <div class="tab-panel" id="iletisim" data-file={t.files.iletisim}>
-    <section class="contact">
-      <div class="container">
-        <div class="contact-inner reveal">
-          <div class="eyebrow" style="justify-content: center;">{t.contact.eyebrow}</div>
-          <h2 set:html={t.contact.title} />
-          <p>{t.contact.desc}</p>
-          <a href={MAIL} class="btn btn-light">{t.contact.btn}</a>
-          <div class="socials">
-            <a href={GITHUB} target="_blank" rel="noopener" class="social-link">GitHub</a>
-            <a href={LINKEDIN} target="_blank" rel="noopener" class="social-link">LinkedIn</a>
-            <a href={MAIL} class="social-link">E-posta</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- ======== DURUM ÇUBUĞU (VS Code usulü) ======== -->
-  <footer class="status-bar">
-    <span class="sb-item sb-branch">⎇ main</span>
-    <span class="sb-item">✓ prettier</span>
-    <span class="sb-item sb-hide-sm">UTF-8</span>
-    <span class="sb-spacer"></span>
-    <span class="sb-item">{t.lang.toUpperCase()}</span>
-    <span class="sb-item">{t.footer.city} · <span id="local-time"></span></span>
-    <span class="sb-item sb-copy sb-hide-sm">{t.footer.copyright}</span>
-  </footer>
 </Layout>

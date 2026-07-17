@@ -1,311 +1,212 @@
 // ============================================
-// ÇEVİRİLER — TR (varsayılan) · EN · DE
-// Not: bazı değerler HTML içerir, set:html ile basılır
+// ÇEVİRİLER — TR · EN · DE · RU · AR (RTL)
+// Tasarım: "kod & kahve" arayüzü (Portfolyo.dc)
 // ============================================
+
+export type Stat = {
+  num: string;
+  label: string;
+  count?: string;
+  prefix?: string;
+  suffix?: string;
+};
 
 export type Dict = typeof tr;
 
 export const tr = {
   lang: "tr",
+  dir: "ltr",
   path: "/",
   title: "Şeyma Nur Çebi — Yazılım Mühendisliği Öğrencisi",
   description:
     "Yapay zekâ, prompt engineering ve dil ajanları meraklısı Yazılım Mühendisliği öğrencisi. TEKNOFEST takım kaptanı, T3 Vakfı eğitmeni ve bursiyeri.",
 
-  files: {
-    giris: "giris.tsx",
-    hakkimda: "hakkimda.md",
-    yolculuk: "yolculuk.log",
-    uzmanlik: "uzmanlik.json",
-    projeler: "projeler.ts",
-    iletisim: "iletisim.sh",
+  name: "ŞEYMA NUR ÇEBİ",
+  role: "Yazılım Müh.",
+  signature: "kod & kahve",
+  emailLabel: "E-posta",
+
+  nav: { home: "Ana Sayfa", about: "Hakkımda", projects: "Projeler", contact: "İletişim" },
+
+  now: {
+    label: "ŞU AN",
+    items: [
+      { k: "öğreniyorum", v: "Yapay zekâ & LLM" },
+      { k: "geliştiriyorum", v: "TEKNOFEST Dil Ajanları" },
+      { k: "kahve", v: "Az şekerli filtre ☕" },
+    ],
   },
 
-  code: {
-    rol: "Yazılım Müh. Öğrencisi",
-    odak: ["yapay zekâ", "dil ajanları"],
-    suAn: "Microsoft & T3 stajyeri",
-  },
-
-  nav: {
-    giris: "Giriş",
-    hakkimda: "Hakkımda",
-    yolculuk: "Yolculuk",
-    uzmanlik: "Uzmanlık",
-    projeler: "Projeler",
-    iletisim: "İletişim",
-  },
+  themeLabel: "GÖRÜNÜM",
+  modeLight: "Gündüz",
+  modeDark: "Gece",
+  langLabel: "DİL",
 
   hero: {
-    eyebrow: "Şeyma Nur Çebi — Yazılım Mühendisliği Öğrencisi",
-    h1: `Fikirleri, yapay zekâ ile<br /><span class="accent">çalışan ürünlere</span> dönüştürüyorum.`,
-    lead: "Yapay zekâ, prompt engineering ve dil ajanlarına tutku duyan bir Yazılım Mühendisliği öğrencisiyim. Sağlık teknolojisi ve açıklanabilir yapay zekâ üzerine projeler geliştiriyor; ulusal yarışmalarda takım kaptanlığı yapıyorum.",
-    btnProjects: "Projelerimi İncele",
-    btnContact: "İletişime Geç",
-    meta: [
-      { k: "konum", v: "İstanbul, Türkiye" },
-      { k: "egitim", v: "Arel Ünv. — Yazılım Müh." },
-      { k: "su_an", v: "Microsoft & T3 — Stajyer" },
-    ],
-    captionL: "fig. 01 — Şeyma Nur Çebi",
-    captionR: "İstanbul, 2026",
+    hello: "// merhaba, ben",
+    h1a: "Kod yazan",
+    h1b: "meraklı bir zihin.",
+    tagline:
+      "Yazılım mühendisliği 3. sınıf öğrencisiyim. Yapay zekâ, dil ajanları ve web projeleriyle fikirleri çalışan ürünlere dönüştürüyorum.",
+    cta: "Projelerim",
     photoAlt: "Şeyma Nur Çebi'nin portre fotoğrafı",
+    stats: [
+      { num: "1.", label: "GİRİŞ DERECESİ" },
+      { num: "%100", count: "100", prefix: "%", label: "BURS" },
+      { num: "∞", label: "MERAK" },
+    ] as Stat[],
   },
-
-  strip: ["yapay zekâ", "dil ajanları", "prompt engineering", "takım kaptanı", "T3 eğitmeni & bursiyeri", "drone pilotu"],
 
   about: {
-    eyebrow: "Hakkımda",
-    title: "Kısaca ben",
-    p1: `<strong>İstanbul Arel Üniversitesi'nde tam burslu Yazılım Mühendisliği öğrencisiyim — bölüme birincilikle girdim.</strong> Yapay zekâ, prompt engineering ve dil ajanlarına tutkuyla bağlıyım; sağlık teknolojisi ve açıklanabilir yapay zekâ (XAI) üzerine projeler geliştiriyorum.`,
-    p2: `T3 Vakfı'nda hem eğitmen hem bursiyerim; bu yaz eş zamanlı olarak <em>Microsoft Gönüllü Staj Programı'nda ve T3 bünyesinde stajyerim</em>. İki ayrı TEKNOFEST projesinde takım kaptanıyım; BTK ve TÜSEB ulusal yarışmalarında da projeler yürütüyorum. Öğrendiğimi paylaşmak, öğrenmenin en kalıcı hali bence.`,
-    stats: [
-      { num: "1.", cap: "Bölüme giriş derecesi" },
-      { num: "%100", count: "100", prefix: "%", cap: "Burs oranı" },
-      { num: "93/100", count: "93", suffix: "/100", cap: "TEKNOFEST ÖDR puanı" },
-    ],
-  },
-
-  certs: {
-    eyebrow: "Sertifikalar & Lisanslar",
-    title: "Belgeli meraklar",
-    items: [
-      {
-        org: "SHGM — Sivil Havacılık Genel Müdürlüğü",
-        name: "IHA-1 Sportif / Amatör Pilot Lisansı",
-        desc: "İnsansız hava aracı (drone) pilotaj yetkisi — süresiz lisans.",
-      },
-      {
-        org: "SSB — Savunma Sanayii Başkanlığı",
-        name: "Milli Yetkinlik Hamlesi",
-        desc: "Savunma sanayii kariyer ve yetkinlik programı katılım belgesi.",
-      },
-    ],
-  },
-
-  journey: {
-    eyebrow: "Yolculuk",
-    title: "Bugüne gelen adımlar",
-    desc: "Eğitim, gönüllülük ve yarışmalar — kronolojik bir özet.",
-    items: [
+    no: "01",
+    title: "Hakkımda",
+    year: "3'ncü Sınıf",
+    p1: "İstanbul Arel Üniversitesi'nde tam burslu Yazılım Mühendisliği öğrencisiyim — bölüme birincilikle girdim. Yapay zekâ, prompt engineering ve dil ajanlarına tutkuyla bağlıyım.",
+    p2: "T3 Vakfı'nda hem eğitmen hem bursiyerim; bu yaz Microsoft ve T3'te eş zamanlı stajyerim. Hedefim: fark yaratan, temiz ve işe yarar yazılımlar.",
+    skillsLabel: "YETENEKLER",
+    journeyLabel: "YOLCULUK",
+    journey: [
       {
         when: "2024 — Üniversite",
         title: "Arel Üniversitesi — Yazılım Mühendisliği",
-        desc: "Bölüme birincilikle, tam burslu olarak girdim (2024–2028). Bu derece bir sonuç değil; sorumluluğunu taşıdığım bir başlangıç.",
+        desc: "Bölüme birincilikle, tam burslu girdim (2024–2028). Bu derece bir sonuç değil; sorumluluğunu taşıdığım bir başlangıç.",
       },
       {
         when: "2024 — T3 Vakfı",
         title: "T3 Vakfı — Eğitmen & Bursiyer",
-        desc: "Deneyap Teknoloji Atölyeleri'nde eğitmenim ve T3 bursiyeriyim; öğrencilere robotik kodlama ve algoritmik düşünme eğitimleri veriyorum.",
+        desc: "Deneyap Teknoloji Atölyeleri'nde eğitmenim ve T3 bursiyeriyim; robotik kodlama ve algoritmik düşünme eğitimleri veriyorum.",
       },
       {
         when: "2024 → Devam",
         title: "TEKNOFEST — İki projede takım kaptanı",
-        desc: "VARIANT-GNN (sağlıkta yapay zekâ, ÖDR: 93/100) ve Yapay Zekâ Dil Ajanları projelerinde takım kaptanıyım; iki koldan TEKNOFEST 2026 yolundayız.",
+        desc: "VARIANT-GNN (sağlıkta yapay zekâ, ÖDR: 93/100) ve Yapay Zekâ Dil Ajanları projelerinde takım kaptanıyım.",
       },
       {
         when: "2026 — Yarışmalar",
         title: "BTK & TÜSEB",
-        desc: "BTK ulusal teknoloji yarışmasında sunum aşamasına gelen bir yazılım projesi; TÜSEB'de sağlık teknolojisi kategorisinde biyobelirteç analizi çalışması yürütüyorum.",
+        desc: "BTK'da sunum aşamasına gelen bir yazılım projesi; TÜSEB'de biyobelirteç analizi çalışması yürütüyorum.",
       },
       {
         when: "Yaz 2026 — Şu An",
         title: "Microsoft & T3 — Eş Zamanlı Staj",
-        desc: "Microsoft Gönüllü Staj Programı'nda ve T3 Vakfı bünyesinde eş zamanlı stajyerim; yazılım geliştirme süreçlerini ve kurumsal teknoloji ekosistemini sahada deneyimliyorum.",
+        desc: "Microsoft Gönüllü Staj Programı'nda ve T3 Vakfı bünyesinde eş zamanlı stajyerim.",
       },
     ],
-  },
-
-  skills: {
-    eyebrow: "Uzmanlık",
-    title: "Neler yapıyorum",
-    desc: "Dört ana alanda üretiyorum; hepsinin kesişiminde tek bir şey var: problem çözmek.",
-    items: [
+    certsLabel: "SERTİFİKALAR",
+    certs: [
       {
-        no: "01",
-        title: "Yapay Zekâ & Makine Öğrenmesi",
-        desc: `Graf sinir ağları ve açıklanabilir yapay zekâ ile sağlık alanında modeller geliştiriyorum. <code>GNN</code> <code>PyTorch</code> <code>XAI</code> <code>Scikit-learn</code> <code>XGBoost</code>`,
+        org: "SHGM",
+        name: "IHA-1 Drone Pilot Lisansı",
+        desc: "İnsansız hava aracı pilotaj yetkisi — süresiz.",
       },
       {
-        no: "02",
-        title: "Prompt Engineering & LLM",
-        desc: `Büyük dil modelleriyle üretken sistemler kuruyorum. <code>Few-shot</code> <code>CoT</code> <code>OpenAI API</code> <code>Anthropic API</code>`,
+        org: "SSB",
+        name: "Milli Yetkinlik Hamlesi",
+        desc: "Savunma sanayii kariyer programı katılım belgesi.",
       },
-      {
-        no: "03",
-        title: "Yapay Zekâ Ajanları",
-        desc: `Büyük dil modelleriyle görev odaklı, araç kullanan otonom ajanlar tasarlıyorum — TEKNOFEST Yapay Zekâ Dil Ajanları projemizi bu alanda yürütüyorum. <code>LLM Ajanları</code> <code>Tool Use</code> <code>RAG</code>`,
-      },
-      {
-        no: "04",
-        title: "Yazılım Geliştirme",
-        desc: `Fikirden çalışan ürüne giden her aşamada kod yazıyorum. <code>Python</code> <code>Java</code> <code>JavaScript</code> <code>C</code> <code>C++</code> <code>Docker</code> <code>Linux</code>`,
-      },
-    ],
-  },
-
-  stack: {
-    eyebrow: "Stack",
-    title: "Araç çantam",
-    desc: "Derslerde, yarışmalarda ve kendi projelerimde kullandığım, her dönem genişleyen teknoloji seti.",
-    terminalTitle: "seymanur@arel — zsh",
-    lines: [
-      { cmd: "whoami", out: `Yapay zekâ & dil ajanları meraklısı — <span class="hl-rose">tam burslu</span>, <span class="hl-sky">bölüm birincisi</span>` },
-      { cmd: "ls yarismalar/", out: "variant-gnn&nbsp;&nbsp;dil-ajanlari&nbsp;&nbsp;btk&nbsp;&nbsp;tuseb" },
-      { cmd: "ps -e | grep staj", out: `microsoft-staj <span class="hl-rose">▸ çalışıyor</span>&nbsp;&nbsp;&nbsp;t3-staj <span class="hl-rose">▸ çalışıyor</span> <span class="cursor"></span>` },
-    ],
-    chips: ["Python", "Java", "JavaScript", "C", "C++", "PyTorch", "Scikit-learn", "XGBoost", "Git & GitHub", "Docker", "Linux", "OpenAI API", "Anthropic API"],
-  },
-
-  learning: {
-    eyebrow: "Güncel Odak",
-    title: "Şu an masamda olanlar",
-    desc: "Aktif olarak yürüttüğüm çalışmalar ve geliştirdiğim yetkinlikler.",
-    items: [
-      { title: "Yapay Zekâ Dil Ajanları", note: "TEKNOFEST 2026 · takım kaptanı" },
-      { title: "BTK Yarışma Projesi", note: "sunum aşamasında" },
-      { title: "TÜSEB Biyobelirteç Analizi", note: "sağlık teknolojisi kategorisi" },
-      { title: "İngilizce", note: "B1 → hedef B2+" },
     ],
   },
 
   projects: {
-    eyebrow: "Seçilmiş İşler",
-    title: "Projeler & Yarışmalar",
-    desc: "Ulusal yarışmalarda yürüttüğüm, sağlık ve teknoloji kesişimindeki çalışmalar.",
-    linkLabels: { github: "GitHub", view: "İncele" },
+    no: "02",
+    title: "Projeler",
     items: [
       {
-        dir: "variant-gnn/",
-        tag: "TEKNOFEST 2026 · Takım Kaptanı",
         title: "VARIANT-GNN",
         desc: "Genetik varyantları GNN + Ensemble mimarisiyle sınıflandıran, kararlarını XAI (LIME) ile şeffaflaştıran sağlıkta yapay zekâ modeli. ÖDR: 93/100.",
-        link: "github",
+        tags: "PyTorch · GNN · XAI · TEKNOFEST 2026",
       },
       {
-        dir: "dil-ajanlari/",
-        tag: "TEKNOFEST 2026 · Takım Kaptanı",
         title: "Yapay Zekâ Dil Ajanları",
-        desc: "TEKNOFEST Yapay Zekâ Dil Ajanları kategorisine başvurduğumuz LLM tabanlı ajan projesi — geliştirme sürecinde.",
-        link: "view",
+        desc: "TEKNOFEST Dil Ajanları kategorisine başvurduğumuz LLM tabanlı ajan projesi — takım kaptanıyım.",
+        tags: "LLM · Ajanlar · TEKNOFEST 2026",
       },
       {
-        dir: "btk-proje/",
-        tag: "BTK · 2026",
         title: "BTK Yarışma Projesi",
-        desc: "Bilgi Teknolojileri ve İletişim Kurumu ulusal yarışması için geliştirdiğimiz yazılım projesi — sunum aşamasında.",
-        link: "view",
+        desc: "Ulusal teknoloji yarışması için geliştirdiğimiz yazılım projesi — sunum aşamasında.",
+        tags: "Yazılım · BTK 2026",
       },
       {
-        dir: "biyobelirtec/",
-        tag: "TÜSEB · 2026",
         title: "Biyobelirteç Analizi",
-        desc: "Türkiye Sağlık Enstitüleri proje yarışması, sağlık teknolojisi kategorisinde biyobelirteç analizi çalışması.",
-        link: "view",
+        desc: "TÜSEB sağlık teknolojisi kategorisinde biyobelirteç analizi çalışması.",
+        tags: "Sağlık Teknolojisi · TÜSEB 2026",
       },
     ],
   },
 
   contact: {
-    eyebrow: "İletişim",
-    title: `Birlikte <em>üretelim</em>`,
-    desc: "Bir proje fikriniz mi var, staj ya da iş birliği fırsatı mı, yoksa yalnızca tanışmak mı istiyorsunuz? En hızlı e-posta ile dönüş yapıyorum.",
-    btn: "E-posta Gönder",
+    no: "03",
+    title: "İletişim",
+    sub: "Bir fikrin, iş birliği ya da soru mu var? Yaz, konuşalım.",
+    fName: "Adınız",
+    fEmail: "E-posta adresiniz",
+    fMsg: "Mesajınız",
+    fSend: "Gönder",
+    fHint: "Gönder'e basınca e-posta uygulaman açılır.",
+    fSubject: "Web sitesi — iletişim",
+    social: "SOSYAL MEDYA",
   },
 
-  footer: {
-    copyright: "© 2026 Şeyma Nur Çebi — hazır şablon değil, satır satır kodlandı.",
-    city: "İstanbul",
-  },
+  footer: "FARKLI DÜŞÜN — FARKLI KODLA",
 };
 
 export const en: Dict = {
   lang: "en",
+  dir: "ltr",
   path: "/en/",
   title: "Şeyma Nur Çebi — Software Engineering Student",
   description:
     "Software Engineering student passionate about AI, prompt engineering and language agents. TEKNOFEST team captain, T3 Foundation instructor and scholar.",
 
-  files: {
-    giris: "home.tsx",
-    hakkimda: "about.md",
-    yolculuk: "journey.log",
-    uzmanlik: "expertise.json",
-    projeler: "projects.ts",
-    iletisim: "contact.sh",
+  name: "ŞEYMA NUR ÇEBİ",
+  role: "Software Eng.",
+  signature: "code & coffee",
+  emailLabel: "Email",
+
+  nav: { home: "Home", about: "About", projects: "Projects", contact: "Contact" },
+
+  now: {
+    label: "NOW",
+    items: [
+      { k: "learning", v: "AI & LLMs" },
+      { k: "building", v: "TEKNOFEST Language Agents" },
+      { k: "coffee", v: "Filter, low sugar ☕" },
+    ],
   },
 
-  code: {
-    rol: "Software Eng. Student",
-    odak: ["AI", "language agents"],
-    suAn: "Microsoft & T3 intern",
-  },
-
-  nav: {
-    giris: "Home",
-    hakkimda: "About",
-    yolculuk: "Journey",
-    uzmanlik: "Expertise",
-    projeler: "Projects",
-    iletisim: "Contact",
-  },
+  themeLabel: "APPEARANCE",
+  modeLight: "Day",
+  modeDark: "Night",
+  langLabel: "LANG",
 
   hero: {
-    eyebrow: "Şeyma Nur Çebi — Software Engineering Student",
-    h1: `I turn ideas into<br /><span class="accent">working products</span> with AI.`,
-    lead: "I'm a Software Engineering student passionate about AI, prompt engineering and language agents. I build projects in health technology and explainable AI, and lead teams in national competitions.",
-    btnProjects: "View My Projects",
-    btnContact: "Get In Touch",
-    meta: [
-      { k: "location", v: "Istanbul, Türkiye" },
-      { k: "education", v: "Arel Univ. — Software Eng." },
-      { k: "currently", v: "Microsoft & T3 — Intern" },
-    ],
-    captionL: "fig. 01 — Şeyma Nur Çebi",
-    captionR: "Istanbul, 2026",
+    hello: "// hi, i am",
+    h1a: "A curious mind",
+    h1b: "who writes code.",
+    tagline:
+      "3rd-year software engineering student. I turn ideas into working products through AI, language agents and web projects.",
+    cta: "My Projects",
     photoAlt: "Portrait photo of Şeyma Nur Çebi",
+    stats: [
+      { num: "1st", label: "ENTRANCE RANK" },
+      { num: "100%", count: "100", suffix: "%", label: "SCHOLARSHIP" },
+      { num: "∞", label: "CURIOSITY" },
+    ],
   },
-
-  strip: ["artificial intelligence", "language agents", "prompt engineering", "team captain", "T3 instructor & scholar", "drone pilot"],
 
   about: {
-    eyebrow: "About",
-    title: "Who I am",
-    p1: `<strong>I'm a full-scholarship Software Engineering student at Istanbul Arel University — I entered the program ranked first.</strong> I'm passionate about AI, prompt engineering and language agents, building projects in health technology and explainable AI (XAI).`,
-    p2: `At the T3 Foundation I'm both an instructor and a scholar; this summer I'm interning <em>simultaneously at the Microsoft Volunteer Internship Program and at T3</em>. I'm team captain of two separate TEKNOFEST projects and also run projects in the BTK and TÜSEB national competitions. Sharing what I learn is, to me, the most lasting way of learning.`,
-    stats: [
-      { num: "1st", cap: "Program entrance rank" },
-      { num: "100%", count: "100", suffix: "%", cap: "Scholarship" },
-      { num: "93/100", count: "93", suffix: "/100", cap: "TEKNOFEST PER score" },
-    ],
-  },
-
-  certs: {
-    eyebrow: "Certificates & Licenses",
-    title: "Certified curiosities",
-    items: [
-      {
-        org: "DGCA — Directorate General of Civil Aviation",
-        name: "UAV-1 Sport / Amateur Pilot License",
-        desc: "Unmanned aerial vehicle (drone) pilot authorization — permanent license.",
-      },
-      {
-        org: "SSB — Presidency of Defence Industries",
-        name: "National Competence Initiative",
-        desc: "Defence industry career and competence program certificate.",
-      },
-    ],
-  },
-
-  journey: {
-    eyebrow: "Journey",
-    title: "The steps that led here",
-    desc: "Education, volunteering and competitions — a chronological summary.",
-    items: [
+    no: "01",
+    title: "About Me",
+    year: "3rd Year",
+    p1: "I'm a full-scholarship Software Engineering student at Istanbul Arel University — I entered the program ranked first. I'm passionate about AI, prompt engineering and language agents.",
+    p2: "At the T3 Foundation I'm both an instructor and a scholar; this summer I'm interning at Microsoft and T3 simultaneously. My goal: clean, useful software that makes a difference.",
+    skillsLabel: "SKILLS",
+    journeyLabel: "JOURNEY",
+    journey: [
       {
         when: "2024 — University",
         title: "Arel University — Software Engineering",
-        desc: "I entered the program ranked first, on a full scholarship (2024–2028). That rank isn't a result to me; it's a starting point I carry responsibility for.",
+        desc: "Entered ranked first, on a full scholarship (2024–2028). That rank isn't a result; it's a starting point I carry responsibility for.",
       },
       {
         when: "2024 — T3 Foundation",
@@ -315,336 +216,494 @@ export const en: Dict = {
       {
         when: "2024 → Ongoing",
         title: "TEKNOFEST — Captain of two teams",
-        desc: "I'm team captain of VARIANT-GNN (AI in healthcare, PER: 93/100) and the AI Language Agents project; we're heading to TEKNOFEST 2026 on two fronts.",
+        desc: "Team captain of VARIANT-GNN (AI in healthcare, PER: 93/100) and the AI Language Agents project.",
       },
       {
         when: "2026 — Competitions",
         title: "BTK & TÜSEB",
-        desc: "A software project that reached the presentation stage in the BTK national technology competition; a biomarker analysis study in the health technology category at TÜSEB.",
+        desc: "A software project at presentation stage in BTK; a biomarker analysis study at TÜSEB.",
       },
       {
         when: "Summer 2026 — Now",
         title: "Microsoft & T3 — Concurrent Internships",
-        desc: "I'm interning simultaneously at the Microsoft Volunteer Internship Program and the T3 Foundation, experiencing software development processes and the corporate tech ecosystem first-hand.",
+        desc: "Interning simultaneously at the Microsoft Volunteer Internship Program and the T3 Foundation.",
       },
     ],
-  },
-
-  skills: {
-    eyebrow: "Expertise",
-    title: "What I do",
-    desc: "I work across four main areas; at the intersection of all of them is one thing: solving problems.",
-    items: [
+    certsLabel: "CERTIFICATES",
+    certs: [
       {
-        no: "01",
-        title: "AI & Machine Learning",
-        desc: `I build healthcare models with graph neural networks and explainable AI. <code>GNN</code> <code>PyTorch</code> <code>XAI</code> <code>Scikit-learn</code> <code>XGBoost</code>`,
+        org: "SHGM",
+        name: "IHA-1 Drone Pilot License",
+        desc: "Unmanned aerial vehicle pilot authorization — permanent.",
       },
       {
-        no: "02",
-        title: "Prompt Engineering & LLMs",
-        desc: `I build generative systems with large language models. <code>Few-shot</code> <code>CoT</code> <code>OpenAI API</code> <code>Anthropic API</code>`,
+        org: "SSB",
+        name: "National Competence Initiative",
+        desc: "Defence industry career program certificate.",
       },
-      {
-        no: "03",
-        title: "AI Agents",
-        desc: `I design task-oriented, tool-using autonomous agents with LLMs — our TEKNOFEST AI Language Agents project lives in this space. <code>LLM Agents</code> <code>Tool Use</code> <code>RAG</code>`,
-      },
-      {
-        no: "04",
-        title: "Software Development",
-        desc: `I write code at every stage from idea to working product. <code>Python</code> <code>Java</code> <code>JavaScript</code> <code>C</code> <code>C++</code> <code>Docker</code> <code>Linux</code>`,
-      },
-    ],
-  },
-
-  stack: {
-    eyebrow: "Stack",
-    title: "My toolbox",
-    desc: "The ever-growing set of technologies I use in courses, competitions and personal projects.",
-    terminalTitle: "seymanur@arel — zsh",
-    lines: [
-      { cmd: "whoami", out: `AI & language-agent enthusiast — <span class="hl-rose">full scholarship</span>, <span class="hl-sky">top of the program</span>` },
-      { cmd: "ls competitions/", out: "variant-gnn&nbsp;&nbsp;language-agents&nbsp;&nbsp;btk&nbsp;&nbsp;tuseb" },
-      { cmd: "ps -e | grep intern", out: `microsoft-intern <span class="hl-rose">▸ running</span>&nbsp;&nbsp;&nbsp;t3-intern <span class="hl-rose">▸ running</span> <span class="cursor"></span>` },
-    ],
-    chips: ["Python", "Java", "JavaScript", "C", "C++", "PyTorch", "Scikit-learn", "XGBoost", "Git & GitHub", "Docker", "Linux", "OpenAI API", "Anthropic API"],
-  },
-
-  learning: {
-    eyebrow: "Current Focus",
-    title: "What's on my desk right now",
-    desc: "The work I'm actively driving and the skills I'm building.",
-    items: [
-      { title: "AI Language Agents", note: "TEKNOFEST 2026 · team captain" },
-      { title: "BTK Competition Project", note: "at presentation stage" },
-      { title: "TÜSEB Biomarker Analysis", note: "health technology category" },
-      { title: "English", note: "B1 → aiming for B2+" },
     ],
   },
 
   projects: {
-    eyebrow: "Selected Work",
-    title: "Projects & Competitions",
-    desc: "Work at the intersection of health and technology, carried out in national competitions.",
-    linkLabels: { github: "GitHub", view: "View" },
+    no: "02",
+    title: "Projects",
     items: [
       {
-        dir: "variant-gnn/",
-        tag: "TEKNOFEST 2026 · Team Captain",
         title: "VARIANT-GNN",
-        desc: "A healthcare AI model that classifies genetic variants with a GNN + Ensemble architecture and makes its decisions transparent with XAI (LIME). PER: 93/100.",
-        link: "github",
+        desc: "Healthcare AI model classifying genetic variants with a GNN + Ensemble architecture, made transparent with XAI (LIME). PER: 93/100.",
+        tags: "PyTorch · GNN · XAI · TEKNOFEST 2026",
       },
       {
-        dir: "language-agents/",
-        tag: "TEKNOFEST 2026 · Team Captain",
         title: "AI Language Agents",
-        desc: "Our LLM-based agent project submitted to the TEKNOFEST AI Language Agents category — currently in development.",
-        link: "view",
+        desc: "LLM-based agent project submitted to the TEKNOFEST Language Agents category — I'm the team captain.",
+        tags: "LLM · Agents · TEKNOFEST 2026",
       },
       {
-        dir: "btk-project/",
-        tag: "BTK · 2026",
         title: "BTK Competition Project",
-        desc: "The software project we're building for the national competition of the Information and Communication Technologies Authority — at presentation stage.",
-        link: "view",
+        desc: "Software project built for the national technology competition — at presentation stage.",
+        tags: "Software · BTK 2026",
       },
       {
-        dir: "biomarker/",
-        tag: "TÜSEB · 2026",
         title: "Biomarker Analysis",
-        desc: "A biomarker analysis study in the health technology category of the Turkish Health Institutes project competition.",
-        link: "view",
+        desc: "Biomarker analysis study in the TÜSEB health technology category.",
+        tags: "Health Tech · TÜSEB 2026",
       },
     ],
   },
 
   contact: {
-    eyebrow: "Contact",
-    title: `Let's <em>build together</em>`,
-    desc: "Got a project idea, an internship or collaboration opportunity, or just want to say hi? Email is the fastest way to reach me.",
-    btn: "Send an Email",
+    no: "03",
+    title: "Contact",
+    sub: "Got an idea, a collaboration or a question? Write me, let's talk.",
+    fName: "Your name",
+    fEmail: "Your email",
+    fMsg: "Your message",
+    fSend: "Send",
+    fHint: "Pressing Send opens your email app.",
+    fSubject: "Website contact",
+    social: "SOCIAL MEDIA",
   },
 
-  footer: {
-    copyright: "© 2026 Şeyma Nur Çebi — no template, hand-coded line by line.",
-    city: "Istanbul",
-  },
+  footer: "THINK DIFFERENT — CODE DIFFERENT",
 };
 
 export const de: Dict = {
   lang: "de",
+  dir: "ltr",
   path: "/de/",
   title: "Şeyma Nur Çebi — Software-Engineering-Studentin",
   description:
     "Software-Engineering-Studentin mit Leidenschaft für KI, Prompt Engineering und Sprachagenten. TEKNOFEST-Teamkapitänin, Ausbilderin und Stipendiatin der T3-Stiftung.",
 
-  files: {
-    giris: "start.tsx",
-    hakkimda: "ueber-mich.md",
-    yolculuk: "werdegang.log",
-    uzmanlik: "expertise.json",
-    projeler: "projekte.ts",
-    iletisim: "kontakt.sh",
+  name: "ŞEYMA NUR ÇEBİ",
+  role: "Software-Eng.",
+  signature: "code & kaffee",
+  emailLabel: "E-Mail",
+
+  nav: { home: "Start", about: "Über mich", projects: "Projekte", contact: "Kontakt" },
+
+  now: {
+    label: "JETZT",
+    items: [
+      { k: "lerne", v: "KI & LLMs" },
+      { k: "baue", v: "TEKNOFEST-Sprachagenten" },
+      { k: "kaffee", v: "Filter, wenig Zucker ☕" },
+    ],
   },
 
-  code: {
-    rol: "Software-Eng.-Studentin",
-    odak: ["KI", "Sprachagenten"],
-    suAn: "Microsoft-&-T3-Praktikantin",
-  },
-
-  nav: {
-    giris: "Start",
-    hakkimda: "Über mich",
-    yolculuk: "Werdegang",
-    uzmanlik: "Expertise",
-    projeler: "Projekte",
-    iletisim: "Kontakt",
-  },
+  themeLabel: "ANSICHT",
+  modeLight: "Tag",
+  modeDark: "Nacht",
+  langLabel: "SPRACHE",
 
   hero: {
-    eyebrow: "Şeyma Nur Çebi — Software-Engineering-Studentin",
-    h1: `Ich verwandle Ideen mit KI in<br /><span class="accent">funktionierende Produkte</span>.`,
-    lead: "Ich bin Software-Engineering-Studentin mit Leidenschaft für KI, Prompt Engineering und Sprachagenten. Ich entwickle Projekte in Gesundheitstechnologie und erklärbarer KI und leite Teams in nationalen Wettbewerben.",
-    btnProjects: "Meine Projekte",
-    btnContact: "Kontakt aufnehmen",
-    meta: [
-      { k: "standort", v: "Istanbul, Türkei" },
-      { k: "studium", v: "Arel Univ. — Software Eng." },
-      { k: "aktuell", v: "Microsoft & T3 — Praktikantin" },
-    ],
-    captionL: "Abb. 01 — Şeyma Nur Çebi",
-    captionR: "Istanbul, 2026",
+    hello: "// hallo, ich bin",
+    h1a: "Ein neugieriger Kopf,",
+    h1b: "der Code schreibt.",
+    tagline:
+      "Software-Engineering-Studentin im 3. Jahr. Ich verwandle Ideen in funktionierende Produkte: KI, Sprachagenten und Web.",
+    cta: "Meine Projekte",
     photoAlt: "Porträtfoto von Şeyma Nur Çebi",
+    stats: [
+      { num: "1.", label: "AUFNAHMERANG" },
+      { num: "100%", count: "100", suffix: "%", label: "STIPENDIUM" },
+      { num: "∞", label: "NEUGIER" },
+    ],
   },
-
-  strip: ["künstliche intelligenz", "sprachagenten", "prompt engineering", "teamkapitänin", "T3-ausbilderin & stipendiatin", "drohnenpilotin"],
 
   about: {
-    eyebrow: "Über mich",
-    title: "Kurz zu mir",
-    p1: `<strong>Ich studiere Software Engineering mit Vollstipendium an der Istanbul Arel Universität — ich wurde als Jahrgangsbeste aufgenommen.</strong> Meine Leidenschaft gilt KI, Prompt Engineering und Sprachagenten; ich entwickle Projekte in Gesundheitstechnologie und erklärbarer KI (XAI).`,
-    p2: `Bei der T3-Stiftung bin ich Ausbilderin und Stipendiatin zugleich; diesen Sommer absolviere ich <em>parallel Praktika im Microsoft Volunteer Internship Program und bei T3</em>. Ich bin Teamkapitänin zweier TEKNOFEST-Projekte und führe außerdem Projekte in den nationalen Wettbewerben BTK und TÜSEB. Wissen zu teilen ist für mich die nachhaltigste Form des Lernens.`,
-    stats: [
-      { num: "1.", cap: "Aufnahmerang" },
-      { num: "100%", count: "100", suffix: "%", cap: "Stipendium" },
-      { num: "93/100", count: "93", suffix: "/100", cap: "TEKNOFEST-Bewertung" },
-    ],
-  },
-
-  certs: {
-    eyebrow: "Zertifikate & Lizenzen",
-    title: "Belegte Neugier",
-    items: [
-      {
-        org: "SHGM — Generaldirektion für Zivilluftfahrt",
-        name: "UAV-1 Sport-/Amateur-Pilotenlizenz",
-        desc: "Pilotenberechtigung für unbemannte Luftfahrzeuge (Drohnen) — unbefristet.",
-      },
-      {
-        org: "SSB — Präsidium der Verteidigungsindustrie",
-        name: "Nationale Kompetenzinitiative",
-        desc: "Teilnahmezertifikat des Karriere- und Kompetenzprogramms der Verteidigungsindustrie.",
-      },
-    ],
-  },
-
-  journey: {
-    eyebrow: "Werdegang",
-    title: "Die Schritte bis heute",
-    desc: "Studium, Engagement und Wettbewerbe — eine chronologische Übersicht.",
-    items: [
+    no: "01",
+    title: "Über mich",
+    year: "3. Jahr",
+    p1: "Ich studiere Software Engineering mit Vollstipendium an der Istanbul Arel Universität — aufgenommen als Jahrgangsbeste. Meine Leidenschaft: KI, Prompt Engineering und Sprachagenten.",
+    p2: "Bei der T3-Stiftung bin ich Ausbilderin und Stipendiatin; diesen Sommer absolviere ich parallel Praktika bei Microsoft und T3. Mein Ziel: sauberer, nützlicher Code, der etwas bewirkt.",
+    skillsLabel: "FÄHIGKEITEN",
+    journeyLabel: "WERDEGANG",
+    journey: [
       {
         when: "2024 — Universität",
         title: "Arel Universität — Software Engineering",
-        desc: "Aufnahme als Jahrgangsbeste mit Vollstipendium (2024–2028). Dieser Rang ist für mich kein Ergebnis, sondern ein Anfang, für den ich Verantwortung trage.",
+        desc: "Aufnahme als Jahrgangsbeste mit Vollstipendium (2024–2028). Dieser Rang ist kein Ergebnis, sondern ein Anfang mit Verantwortung.",
       },
       {
         when: "2024 — T3-Stiftung",
         title: "T3-Stiftung — Ausbilderin & Stipendiatin",
-        desc: "In den Deneyap-Technologiewerkstätten unterrichte ich Robotik-Programmierung und algorithmisches Denken; zugleich bin ich T3-Stipendiatin.",
+        desc: "In den Deneyap-Werkstätten unterrichte ich Robotik-Programmierung und algorithmisches Denken.",
       },
       {
         when: "2024 → Laufend",
         title: "TEKNOFEST — Kapitänin zweier Teams",
-        desc: "Ich bin Teamkapitänin von VARIANT-GNN (KI im Gesundheitswesen, Bewertung: 93/100) und des Projekts KI-Sprachagenten; wir steuern auf zwei Wegen auf TEKNOFEST 2026 zu.",
+        desc: "Teamkapitänin von VARIANT-GNN (KI im Gesundheitswesen, 93/100) und dem Projekt KI-Sprachagenten.",
       },
       {
         when: "2026 — Wettbewerbe",
         title: "BTK & TÜSEB",
-        desc: "Ein Softwareprojekt im nationalen BTK-Technologiewettbewerb, das die Präsentationsphase erreicht hat; bei TÜSEB eine Biomarker-Analyse in der Kategorie Gesundheitstechnologie.",
+        desc: "Ein Softwareprojekt in der Präsentationsphase bei BTK; eine Biomarker-Analyse bei TÜSEB.",
       },
       {
         when: "Sommer 2026 — Jetzt",
         title: "Microsoft & T3 — Parallele Praktika",
-        desc: "Ich absolviere parallel Praktika im Microsoft Volunteer Internship Program und bei der T3-Stiftung und erlebe Softwareentwicklung und Unternehmens-Ökosysteme aus erster Hand.",
+        desc: "Parallele Praktika im Microsoft Volunteer Internship Program und bei der T3-Stiftung.",
       },
     ],
-  },
-
-  skills: {
-    eyebrow: "Expertise",
-    title: "Was ich mache",
-    desc: "Ich arbeite in vier Kernbereichen; an ihrer Schnittstelle steht eines: Probleme lösen.",
-    items: [
+    certsLabel: "ZERTIFIKATE",
+    certs: [
       {
-        no: "01",
-        title: "KI & Maschinelles Lernen",
-        desc: `Ich entwickle Modelle für das Gesundheitswesen mit Graph Neural Networks und erklärbarer KI. <code>GNN</code> <code>PyTorch</code> <code>XAI</code> <code>Scikit-learn</code> <code>XGBoost</code>`,
+        org: "SHGM",
+        name: "IHA-1-Drohnen-Pilotenlizenz",
+        desc: "Pilotenberechtigung für unbemannte Luftfahrzeuge — unbefristet.",
       },
       {
-        no: "02",
-        title: "Prompt Engineering & LLMs",
-        desc: `Ich baue generative Systeme mit großen Sprachmodellen. <code>Few-shot</code> <code>CoT</code> <code>OpenAI API</code> <code>Anthropic API</code>`,
+        org: "SSB",
+        name: "Nationale Kompetenzinitiative",
+        desc: "Zertifikat des Karriereprogramms der Verteidigungsindustrie.",
       },
-      {
-        no: "03",
-        title: "KI-Agenten",
-        desc: `Ich entwerfe aufgabenorientierte, werkzeugnutzende autonome Agenten mit LLMs — unser TEKNOFEST-Projekt KI-Sprachagenten entsteht in diesem Feld. <code>LLM-Agenten</code> <code>Tool Use</code> <code>RAG</code>`,
-      },
-      {
-        no: "04",
-        title: "Softwareentwicklung",
-        desc: `Ich schreibe Code in jeder Phase — von der Idee bis zum funktionierenden Produkt. <code>Python</code> <code>Java</code> <code>JavaScript</code> <code>C</code> <code>C++</code> <code>Docker</code> <code>Linux</code>`,
-      },
-    ],
-  },
-
-  stack: {
-    eyebrow: "Stack",
-    title: "Mein Werkzeugkasten",
-    desc: "Das stetig wachsende Technologie-Set, das ich in Kursen, Wettbewerben und eigenen Projekten einsetze.",
-    terminalTitle: "seymanur@arel — zsh",
-    lines: [
-      { cmd: "whoami", out: `Begeistert von KI & Sprachagenten — <span class="hl-rose">Vollstipendium</span>, <span class="hl-sky">Jahrgangsbeste</span>` },
-      { cmd: "ls wettbewerbe/", out: "variant-gnn&nbsp;&nbsp;sprachagenten&nbsp;&nbsp;btk&nbsp;&nbsp;tuseb" },
-      { cmd: "ps -e | grep praktikum", out: `microsoft <span class="hl-rose">▸ läuft</span>&nbsp;&nbsp;&nbsp;t3 <span class="hl-rose">▸ läuft</span> <span class="cursor"></span>` },
-    ],
-    chips: ["Python", "Java", "JavaScript", "C", "C++", "PyTorch", "Scikit-learn", "XGBoost", "Git & GitHub", "Docker", "Linux", "OpenAI API", "Anthropic API"],
-  },
-
-  learning: {
-    eyebrow: "Aktueller Fokus",
-    title: "Was gerade auf meinem Tisch liegt",
-    desc: "Arbeiten, die ich aktiv vorantreibe, und Fähigkeiten, die ich ausbaue.",
-    items: [
-      { title: "KI-Sprachagenten", note: "TEKNOFEST 2026 · Teamkapitänin" },
-      { title: "BTK-Wettbewerbsprojekt", note: "in der Präsentationsphase" },
-      { title: "TÜSEB Biomarker-Analyse", note: "Kategorie Gesundheitstechnologie" },
-      { title: "Englisch", note: "B1 → Ziel B2+" },
     ],
   },
 
   projects: {
-    eyebrow: "Ausgewählte Arbeiten",
-    title: "Projekte & Wettbewerbe",
-    desc: "Arbeiten an der Schnittstelle von Gesundheit und Technologie, entstanden in nationalen Wettbewerben.",
-    linkLabels: { github: "GitHub", view: "Ansehen" },
+    no: "02",
+    title: "Projekte",
     items: [
       {
-        dir: "variant-gnn/",
-        tag: "TEKNOFEST 2026 · Teamkapitänin",
         title: "VARIANT-GNN",
-        desc: "Ein KI-Modell für das Gesundheitswesen, das genetische Varianten mit einer GNN-+-Ensemble-Architektur klassifiziert und seine Entscheidungen mit XAI (LIME) transparent macht. Bewertung: 93/100.",
-        link: "github",
+        desc: "KI-Modell für das Gesundheitswesen, das genetische Varianten mit GNN + Ensemble klassifiziert — transparent dank XAI (LIME). Bewertung: 93/100.",
+        tags: "PyTorch · GNN · XAI · TEKNOFEST 2026",
       },
       {
-        dir: "sprachagenten/",
-        tag: "TEKNOFEST 2026 · Teamkapitänin",
         title: "KI-Sprachagenten",
-        desc: "Unser LLM-basiertes Agentenprojekt für die TEKNOFEST-Kategorie KI-Sprachagenten — derzeit in Entwicklung.",
-        link: "view",
+        desc: "LLM-basiertes Agentenprojekt für die TEKNOFEST-Kategorie Sprachagenten — ich bin Teamkapitänin.",
+        tags: "LLM · Agenten · TEKNOFEST 2026",
       },
       {
-        dir: "btk-projekt/",
-        tag: "BTK · 2026",
         title: "BTK-Wettbewerbsprojekt",
-        desc: "Unser Softwareprojekt für den nationalen Wettbewerb der Behörde für Informations- und Kommunikationstechnologien — in der Präsentationsphase.",
-        link: "view",
+        desc: "Softwareprojekt für den nationalen Technologiewettbewerb — in der Präsentationsphase.",
+        tags: "Software · BTK 2026",
       },
       {
-        dir: "biomarker/",
-        tag: "TÜSEB · 2026",
         title: "Biomarker-Analyse",
-        desc: "Eine Biomarker-Analyse in der Kategorie Gesundheitstechnologie des Projektwettbewerbs der Türkischen Gesundheitsinstitute.",
-        link: "view",
+        desc: "Biomarker-Analyse in der TÜSEB-Kategorie Gesundheitstechnologie.",
+        tags: "Gesundheitstechnologie · TÜSEB 2026",
       },
     ],
   },
 
   contact: {
-    eyebrow: "Kontakt",
-    title: `Lass uns <em>gemeinsam bauen</em>`,
-    desc: "Eine Projektidee, ein Praktikums- oder Kooperationsangebot — oder einfach nur Hallo sagen? Per E-Mail erreichen Sie mich am schnellsten.",
-    btn: "E-Mail senden",
+    no: "03",
+    title: "Kontakt",
+    sub: "Eine Idee, Zusammenarbeit oder Frage? Schreiben Sie mir.",
+    fName: "Ihr Name",
+    fEmail: "Ihre E-Mail",
+    fMsg: "Ihre Nachricht",
+    fSend: "Senden",
+    fHint: "„Senden“ öffnet Ihre E-Mail-App.",
+    fSubject: "Website-Kontakt",
+    social: "SOZIALE MEDIEN",
   },
 
-  footer: {
-    copyright: "© 2026 Şeyma Nur Çebi — keine Vorlage, Zeile für Zeile selbst geschrieben.",
-    city: "Istanbul",
-  },
+  footer: "ANDERS DENKEN — ANDERS CODEN",
 };
 
-export const locales = { tr, en, de };
+export const ru: Dict = {
+  lang: "ru",
+  dir: "ltr",
+  path: "/ru/",
+  title: "Шейма Нур Чеби — студентка программной инженерии",
+  description:
+    "Студентка программной инженерии, увлечённая ИИ, промпт-инжинирингом и языковыми агентами. Капитан команд TEKNOFEST, преподавательница и стипендиатка фонда T3.",
+
+  name: "ŞEYMA NUR ÇEBİ",
+  role: "Программная инженерия",
+  signature: "код и кофе",
+  emailLabel: "Почта",
+
+  nav: { home: "Главная", about: "Обо мне", projects: "Проекты", contact: "Контакты" },
+
+  now: {
+    label: "СЕЙЧАС",
+    items: [
+      { k: "изучаю", v: "ИИ и LLM" },
+      { k: "разрабатываю", v: "Языковые агенты TEKNOFEST" },
+      { k: "кофе", v: "Фильтр, мало сахара ☕" },
+    ],
+  },
+
+  themeLabel: "ВИД",
+  modeLight: "День",
+  modeDark: "Ночь",
+  langLabel: "ЯЗЫК",
+
+  hero: {
+    hello: "// привет, я",
+    h1a: "Любознательный ум,",
+    h1b: "который пишет код.",
+    tagline:
+      "Студентка 3-го курса программной инженерии. Превращаю идеи в работающие продукты: ИИ, языковые агенты и веб.",
+    cta: "Мои проекты",
+    photoAlt: "Портрет Шеймы Нур Чеби",
+    stats: [
+      { num: "1-я", label: "ПРИ ПОСТУПЛЕНИИ" },
+      { num: "100%", count: "100", suffix: "%", label: "СТИПЕНДИЯ" },
+      { num: "∞", label: "ЛЮБОПЫТСТВО" },
+    ],
+  },
+
+  about: {
+    no: "01",
+    title: "Обо мне",
+    year: "3-й курс",
+    p1: "Я учусь на программной инженерии в Стамбульском университете Арел с полной стипендией — поступила на направление первой. Увлечена ИИ, промпт-инжинирингом и языковыми агентами.",
+    p2: "В фонде T3 я преподавательница и стипендиатка; этим летом прохожу параллельные стажировки в Microsoft и T3. Моя цель — чистый и полезный софт, который меняет что-то к лучшему.",
+    skillsLabel: "НАВЫКИ",
+    journeyLabel: "ПУТЬ",
+    journey: [
+      {
+        when: "2024 — Университет",
+        title: "Университет Арел — программная инженерия",
+        desc: "Поступила первой, с полной стипендией (2024–2028). Для меня это не итог, а точка старта и ответственность.",
+      },
+      {
+        when: "2024 — Фонд T3",
+        title: "Фонд T3 — преподавательница и стипендиатка",
+        desc: "Веду занятия по робототехнике и алгоритмическому мышлению в мастерских Deneyap.",
+      },
+      {
+        when: "2024 → сейчас",
+        title: "TEKNOFEST — капитан двух команд",
+        desc: "Капитан проектов VARIANT-GNN (ИИ в медицине, оценка 93/100) и «Языковые агенты ИИ».",
+      },
+      {
+        when: "2026 — Конкурсы",
+        title: "BTK и TÜSEB",
+        desc: "Проект на конкурсе BTK вышел на этап презентации; в TÜSEB веду анализ биомаркеров.",
+      },
+      {
+        when: "Лето 2026 — сейчас",
+        title: "Microsoft и T3 — параллельные стажировки",
+        desc: "Одновременно стажируюсь в волонтёрской программе Microsoft и в фонде T3.",
+      },
+    ],
+    certsLabel: "СЕРТИФИКАТЫ",
+    certs: [
+      {
+        org: "SHGM",
+        name: "Лицензия пилота дронов IHA-1",
+        desc: "Право пилотирования беспилотников — бессрочно.",
+      },
+      {
+        org: "SSB",
+        name: "Национальная инициатива компетенций",
+        desc: "Сертификат карьерной программы оборонной промышленности.",
+      },
+    ],
+  },
+
+  projects: {
+    no: "02",
+    title: "Проекты",
+    items: [
+      {
+        title: "VARIANT-GNN",
+        desc: "Модель ИИ для медицины: классифицирует генетические варианты (GNN + Ensemble), решения прозрачны благодаря XAI (LIME). Оценка: 93/100.",
+        tags: "PyTorch · GNN · XAI · TEKNOFEST 2026",
+      },
+      {
+        title: "Языковые агенты ИИ",
+        desc: "Проект агентов на основе LLM для категории TEKNOFEST «Языковые агенты» — я капитан команды.",
+        tags: "LLM · Агенты · TEKNOFEST 2026",
+      },
+      {
+        title: "Проект конкурса BTK",
+        desc: "Программный проект для национального технологического конкурса — этап презентации.",
+        tags: "Софт · BTK 2026",
+      },
+      {
+        title: "Анализ биомаркеров",
+        desc: "Исследование биомаркеров в категории медицинских технологий TÜSEB.",
+        tags: "Медтех · TÜSEB 2026",
+      },
+    ],
+  },
+
+  contact: {
+    no: "03",
+    title: "Контакты",
+    sub: "Есть идея, сотрудничество или вопрос? Напишите мне.",
+    fName: "Ваше имя",
+    fEmail: "Ваш e-mail",
+    fMsg: "Ваше сообщение",
+    fSend: "Отправить",
+    fHint: "«Отправить» откроет вашу почтовую программу.",
+    fSubject: "Сообщение с сайта",
+    social: "СОЦСЕТИ",
+  },
+
+  footer: "ДУМАЙ ИНАЧЕ — КОДИ ИНАЧЕ",
+};
+
+export const ar: Dict = {
+  lang: "ar",
+  dir: "rtl",
+  path: "/ar/",
+  title: "شيماء نور تشبي — طالبة هندسة البرمجيات",
+  description:
+    "طالبة هندسة برمجيات شغوفة بالذكاء الاصطناعي وهندسة الأوامر ووكلاء اللغة. قائدة فرق تكنوفيست، مدرّبة وحاصلة على منحة من مؤسسة T3.",
+
+  name: "ŞEYMA NUR ÇEBİ",
+  role: "هندسة البرمجيات",
+  signature: "كود وقهوة",
+  emailLabel: "البريد",
+
+  nav: { home: "الرئيسية", about: "عنّي", projects: "المشاريع", contact: "تواصل" },
+
+  now: {
+    label: "الآن",
+    items: [
+      { k: "أتعلّم", v: "الذكاء الاصطناعي و LLM" },
+      { k: "أطوّر", v: "وكلاء اللغة — تكنوفيست" },
+      { k: "قهوة", v: "فلتر، سكر قليل ☕" },
+    ],
+  },
+
+  themeLabel: "المظهر",
+  modeLight: "نهار",
+  modeDark: "ليل",
+  langLabel: "اللغة",
+
+  hero: {
+    hello: "// مرحباً، أنا",
+    h1a: "عقل فضولي",
+    h1b: "يكتب الشيفرة.",
+    tagline:
+      "طالبة هندسة برمجيات في السنة الثالثة. أحوّل الأفكار إلى منتجات تعمل عبر الذكاء الاصطناعي ووكلاء اللغة ومشاريع الويب.",
+    cta: "مشاريعي",
+    photoAlt: "صورة شخصية لشيماء نور تشبي",
+    stats: [
+      { num: "١", label: "ترتيب القبول" },
+      { num: "100%", count: "100", suffix: "%", label: "المنحة" },
+      { num: "∞", label: "الفضول" },
+    ],
+  },
+
+  about: {
+    no: "01",
+    title: "عنّي",
+    year: "السنة الثالثة",
+    p1: "أدرس هندسة البرمجيات بمنحة كاملة في جامعة أريل بإسطنبول — التحقت بالقسم بالمرتبة الأولى. شغوفة بالذكاء الاصطناعي وهندسة الأوامر ووكلاء اللغة.",
+    p2: "في مؤسسة T3 أنا مدرّبة وحاصلة على منحة؛ وهذا الصيف أتدرّب بالتوازي في مايكروسوفت و T3. هدفي: برمجيات نظيفة ومفيدة تُحدث فرقاً.",
+    skillsLabel: "المهارات",
+    journeyLabel: "المسيرة",
+    journey: [
+      {
+        when: "2024 — الجامعة",
+        title: "جامعة أريل — هندسة البرمجيات",
+        desc: "التحقت بالمرتبة الأولى وبمنحة كاملة (2024–2028). هذا الترتيب ليس نتيجة؛ بل بداية أحمل مسؤوليتها.",
+      },
+      {
+        when: "2024 — مؤسسة T3",
+        title: "مؤسسة T3 — مدرّبة وحاصلة على منحة",
+        desc: "أدرّس برمجة الروبوتات والتفكير الخوارزمي في ورش دنياب التقنية.",
+      },
+      {
+        when: "2024 — مستمر",
+        title: "تكنوفيست — قائدة فريقين",
+        desc: "أقود فريقي VARIANT-GNN (ذكاء اصطناعي في الصحة، تقييم 93/100) ومشروع وكلاء اللغة.",
+      },
+      {
+        when: "2026 — المسابقات",
+        title: "BTK و TÜSEB",
+        desc: "مشروع برمجي بلغ مرحلة العرض في BTK؛ ودراسة تحليل المؤشرات الحيوية في TÜSEB.",
+      },
+      {
+        when: "صيف 2026 — الآن",
+        title: "مايكروسوفت و T3 — تدريبان متزامنان",
+        desc: "أتدرّب بالتوازي في برنامج مايكروسوفت التطوعي وفي مؤسسة T3.",
+      },
+    ],
+    certsLabel: "الشهادات",
+    certs: [
+      {
+        org: "SHGM",
+        name: "رخصة IHA-1 لقيادة الطائرات المسيّرة",
+        desc: "صلاحية قيادة الطائرات المسيّرة — دائمة.",
+      },
+      {
+        org: "SSB",
+        name: "مبادرة الكفاءة الوطنية",
+        desc: "شهادة برنامج المسار المهني للصناعات الدفاعية.",
+      },
+    ],
+  },
+
+  projects: {
+    no: "02",
+    title: "المشاريع",
+    items: [
+      {
+        title: "VARIANT-GNN",
+        desc: "نموذج ذكاء اصطناعي صحّي يصنّف المتغيرات الجينية بمعمارية GNN + Ensemble، بقرارات شفافة عبر XAI (LIME). التقييم: 93/100.",
+        tags: "PyTorch · GNN · XAI · تكنوفيست 2026",
+      },
+      {
+        title: "وكلاء اللغة بالذكاء الاصطناعي",
+        desc: "مشروع وكلاء مبني على LLM لفئة وكلاء اللغة في تكنوفيست — أنا قائدة الفريق.",
+        tags: "LLM · وكلاء · تكنوفيست 2026",
+      },
+      {
+        title: "مشروع مسابقة BTK",
+        desc: "مشروع برمجي للمسابقة التقنية الوطنية — في مرحلة العرض.",
+        tags: "برمجيات · BTK 2026",
+      },
+      {
+        title: "تحليل المؤشرات الحيوية",
+        desc: "دراسة تحليل المؤشرات الحيوية في فئة التقنيات الصحية بمسابقة TÜSEB.",
+        tags: "تقنية صحية · TÜSEB 2026",
+      },
+    ],
+  },
+
+  contact: {
+    no: "03",
+    title: "تواصل",
+    sub: "لديك فكرة أو تعاون أو سؤال؟ اكتب لي ولنتحدث.",
+    fName: "اسمك",
+    fEmail: "بريدك الإلكتروني",
+    fMsg: "رسالتك",
+    fSend: "إرسال",
+    fHint: "زر «إرسال» يفتح تطبيق البريد لديك.",
+    fSubject: "رسالة من الموقع",
+    social: "التواصل الاجتماعي",
+  },
+
+  footer: "فكّر مختلفاً — برمج مختلفاً",
+};
+
+// Ortak: dilden bağımsız yetenek çipleri
+export const SKILLS = [
+  "Python", "Java", "JavaScript", "C", "C++",
+  "PyTorch", "Scikit-learn", "XGBoost",
+  "Git", "Docker", "Linux",
+  "OpenAI API", "Anthropic API",
+];
+
+export const locales = { tr, en, de, ru, ar };
