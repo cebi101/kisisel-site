@@ -1,8 +1,9 @@
 /* =====================================================
-   ŞEYMA NUR ÇEBİ — "KOD & KAHVE" tasarımı
+   ŞEYMA NUR ÇEBİ — kişisel site
    Portfolyo.dc arayüzünden uyarlandı:
-   sıcak kâğıt/çikolata zeminler · pudra gül vurgusu ·
-   adaçayı yeşili · Fraunces 900 + DM Mono + Sora
+   nokta desenli sıcak kâğıt/çikolata zeminler ·
+   pudra gül vurgusu · adaçayı yeşili ·
+   Fraunces 900 + DM Mono + Sora
    Gündüz/Gece modu · RTL (Arapça) desteği
    ===================================================== */
 
@@ -26,6 +27,7 @@
   --onaccent: #fbf7f1;
   --field: #fbf7f1;
   --navactive: #e4d6d0;
+  --dot: #dccfc9;
 }
 
 /* ---------- GECE (dark) ---------- */
@@ -47,6 +49,7 @@
   --onaccent: #231917;
   --field: #241b19;
   --navactive: #3a2e2c;
+  --dot: #372b29;
 }
 
 :root {
@@ -62,13 +65,18 @@ html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg);
+  /* nokta desenli zemin — kenar çubuğu kendi düz zeminiyle üstünü örter */
+  background-image: radial-gradient(var(--dot) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
   color: var(--body);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  transition: background 0.35s ease, color 0.35s ease;
+  /* background geçişe dahil değil: renk solarken nokta deseni anlık
+     değiştiğinden tema geçişinde yüksek kontrast parlaması oluşuyordu */
+  transition: color 0.35s ease;
 }
 
 ::selection { background: var(--peach); color: var(--body); }

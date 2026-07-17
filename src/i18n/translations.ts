@@ -1,6 +1,6 @@
 // ============================================
 // ÇEVİRİLER — TR · EN · DE · RU · AR (RTL)
-// Tasarım: "kod & kahve" arayüzü (Portfolyo.dc)
+// Tasarım: Portfolyo.dc arayüzü — nokta desenli zemin
 // ============================================
 
 export type Stat = {
@@ -23,7 +23,7 @@ export const tr = {
 
   name: "ŞEYMA NUR ÇEBİ",
   role: "Yazılım Müh.",
-  signature: "kod & kahve",
+  signature: "kod & merak",
   emailLabel: "E-posta",
 
   nav: { home: "Ana Sayfa", about: "Hakkımda", projects: "Projeler", contact: "İletişim" },
@@ -32,8 +32,7 @@ export const tr = {
     label: "ŞU AN",
     items: [
       { k: "öğreniyorum", v: "Yapay zekâ & LLM" },
-      { k: "geliştiriyorum", v: "TEKNOFEST Dil Ajanları" },
-      { k: "kahve", v: "Az şekerli filtre ☕" },
+      { k: "geliştiriyorum", v: "VARIANT-GNN & Yapay Zekâ Dil Ajanları" },
     ],
   },
 
@@ -160,7 +159,7 @@ export const en: Dict = {
 
   name: "ŞEYMA NUR ÇEBİ",
   role: "Software Eng.",
-  signature: "code & coffee",
+  signature: "code & curiosity",
   emailLabel: "Email",
 
   nav: { home: "Home", about: "About", projects: "Projects", contact: "Contact" },
@@ -169,8 +168,7 @@ export const en: Dict = {
     label: "NOW",
     items: [
       { k: "learning", v: "AI & LLMs" },
-      { k: "building", v: "TEKNOFEST Language Agents" },
-      { k: "coffee", v: "Filter, low sugar ☕" },
+      { k: "building", v: "VARIANT-GNN & AI Language Agents" },
     ],
   },
 
@@ -297,7 +295,7 @@ export const de: Dict = {
 
   name: "ŞEYMA NUR ÇEBİ",
   role: "Software-Eng.",
-  signature: "code & kaffee",
+  signature: "code & neugier",
   emailLabel: "E-Mail",
 
   nav: { home: "Start", about: "Über mich", projects: "Projekte", contact: "Kontakt" },
@@ -306,8 +304,7 @@ export const de: Dict = {
     label: "JETZT",
     items: [
       { k: "lerne", v: "KI & LLMs" },
-      { k: "baue", v: "TEKNOFEST-Sprachagenten" },
-      { k: "kaffee", v: "Filter, wenig Zucker ☕" },
+      { k: "baue", v: "VARIANT-GNN & KI-Sprachagenten" },
     ],
   },
 
@@ -434,7 +431,7 @@ export const ru: Dict = {
 
   name: "ŞEYMA NUR ÇEBİ",
   role: "Программная инженерия",
-  signature: "код и кофе",
+  signature: "код и любопытство",
   emailLabel: "Почта",
 
   nav: { home: "Главная", about: "Обо мне", projects: "Проекты", contact: "Контакты" },
@@ -443,8 +440,7 @@ export const ru: Dict = {
     label: "СЕЙЧАС",
     items: [
       { k: "изучаю", v: "ИИ и LLM" },
-      { k: "разрабатываю", v: "Языковые агенты TEKNOFEST" },
-      { k: "кофе", v: "Фильтр, мало сахара ☕" },
+      { k: "разрабатываю", v: "VARIANT-GNN и языковые агенты ИИ" },
     ],
   },
 
@@ -571,7 +567,7 @@ export const ar: Dict = {
 
   name: "ŞEYMA NUR ÇEBİ",
   role: "هندسة البرمجيات",
-  signature: "كود وقهوة",
+  signature: "كود وفضول",
   emailLabel: "البريد",
 
   nav: { home: "الرئيسية", about: "عنّي", projects: "المشاريع", contact: "تواصل" },
@@ -580,8 +576,7 @@ export const ar: Dict = {
     label: "الآن",
     items: [
       { k: "أتعلّم", v: "الذكاء الاصطناعي و LLM" },
-      { k: "أطوّر", v: "وكلاء اللغة — تكنوفيست" },
-      { k: "قهوة", v: "فلتر، سكر قليل ☕" },
+      { k: "أطوّر", v: "VARIANT-GNN ووكلاء اللغة بالذكاء الاصطناعي" },
     ],
   },
 
