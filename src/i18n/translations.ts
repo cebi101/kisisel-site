@@ -23,7 +23,6 @@ export const tr = {
 
   name: "ŞEYMA NUR ÇEBİ",
   role: "Yazılım Müh.",
-  signature: "kod & merak",
   emailLabel: "E-posta",
 
   nav: { home: "Ana Sayfa", about: "Hakkımda", projects: "Projeler", contact: "İletişim" },
@@ -43,8 +42,8 @@ export const tr = {
 
   hero: {
     hello: "// merhaba, ben",
-    h1a: "Kod yazan",
-    h1b: "meraklı bir zihin.",
+    h1a: "Şeyma Nur",
+    h1b: "Çebi.",
     tagline:
       "Yazılım mühendisliği 3. sınıf öğrencisiyim. Yapay zekâ, dil ajanları ve web projeleriyle fikirleri çalışan ürünlere dönüştürüyorum.",
     cta: "Projelerim",
@@ -159,7 +158,6 @@ export const en: Dict = {
 
   name: "ŞEYMA NUR ÇEBİ",
   role: "Software Eng.",
-  signature: "code & curiosity",
   emailLabel: "Email",
 
   nav: { home: "Home", about: "About", projects: "Projects", contact: "Contact" },
@@ -179,8 +177,8 @@ export const en: Dict = {
 
   hero: {
     hello: "// hi, i am",
-    h1a: "A curious mind",
-    h1b: "who writes code.",
+    h1a: "Şeyma Nur",
+    h1b: "Çebi.",
     tagline:
       "3rd-year software engineering student. I turn ideas into working products through AI, language agents and web projects.",
     cta: "My Projects",
@@ -295,7 +293,6 @@ export const de: Dict = {
 
   name: "ŞEYMA NUR ÇEBİ",
   role: "Software-Eng.",
-  signature: "code & neugier",
   emailLabel: "E-Mail",
 
   nav: { home: "Start", about: "Über mich", projects: "Projekte", contact: "Kontakt" },
@@ -315,8 +312,8 @@ export const de: Dict = {
 
   hero: {
     hello: "// hallo, ich bin",
-    h1a: "Ein neugieriger Kopf,",
-    h1b: "der Code schreibt.",
+    h1a: "Şeyma Nur",
+    h1b: "Çebi.",
     tagline:
       "Software-Engineering-Studentin im 3. Jahr. Ich verwandle Ideen in funktionierende Produkte: KI, Sprachagenten und Web.",
     cta: "Meine Projekte",
@@ -431,7 +428,6 @@ export const ru: Dict = {
 
   name: "ŞEYMA NUR ÇEBİ",
   role: "Программная инженерия",
-  signature: "код и любопытство",
   emailLabel: "Почта",
 
   nav: { home: "Главная", about: "Обо мне", projects: "Проекты", contact: "Контакты" },
@@ -451,8 +447,8 @@ export const ru: Dict = {
 
   hero: {
     hello: "// привет, я",
-    h1a: "Любознательный ум,",
-    h1b: "который пишет код.",
+    h1a: "Шейма Нур",
+    h1b: "Чеби.",
     tagline:
       "Студентка 3-го курса программной инженерии. Превращаю идеи в работающие продукты: ИИ, языковые агенты и веб.",
     cta: "Мои проекты",
@@ -567,7 +563,6 @@ export const ar: Dict = {
 
   name: "ŞEYMA NUR ÇEBİ",
   role: "هندسة البرمجيات",
-  signature: "كود وفضول",
   emailLabel: "البريد",
 
   nav: { home: "الرئيسية", about: "عنّي", projects: "المشاريع", contact: "تواصل" },
@@ -587,8 +582,8 @@ export const ar: Dict = {
 
   hero: {
     hello: "// مرحباً، أنا",
-    h1a: "عقل فضولي",
-    h1b: "يكتب الشيفرة.",
+    h1a: "شيماء نور",
+    h1b: "تشبي.",
     tagline:
       "طالبة هندسة برمجيات في السنة الثالثة. أحوّل الأفكار إلى منتجات تعمل عبر الذكاء الاصطناعي ووكلاء اللغة ومشاريع الويب.",
     cta: "مشاريعي",

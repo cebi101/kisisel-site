@@ -151,13 +151,6 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   color: var(--accent);
   text-transform: uppercase;
 }
-.profile-sig {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 14px;
-  color: var(--accent);
-  margin-top: 2px;
-}
 
 /* numaralı menü */
 .nav-links { display: flex; flex-direction: column; gap: 6px; }
