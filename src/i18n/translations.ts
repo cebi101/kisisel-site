@@ -3,14 +3,6 @@
 // Tasarım: Portfolyo.dc arayüzü — nokta desenli zemin
 // ============================================
 
-export type Stat = {
-  num: string;
-  label: string;
-  count?: string;
-  prefix?: string;
-  suffix?: string;
-};
-
 export type Dict = typeof tr;
 
 export const tr = {
@@ -46,14 +38,9 @@ export const tr = {
     h1a: "Şeyma Nur",
     h1b: "Çebi.",
     tagline:
-      "Yazılım mühendisliği 3. sınıf öğrencisiyim. Yapay zekâ, dil ajanları ve web projeleriyle fikirleri çalışan ürünlere dönüştürüyorum.",
+      "İstanbul Arel Üniversitesi Yazılım Mühendisliği'nde 3. sınıf öğrencisiyim — bölüme birincilikle ve tam bursla girdim. Yapay zekâ, dil ajanları ve web projeleriyle fikirleri çalışan ürünlere dönüştürüyorum.",
     cta: "Projelerim",
     photoAlt: "Şeyma Nur Çebi'nin portre fotoğrafı",
-    stats: [
-      { num: "1.", label: "GİRİŞ DERECESİ" },
-      { num: "%100", count: "100", prefix: "%", label: "BURS" },
-      { num: "∞", label: "MERAK" },
-    ] as Stat[],
   },
 
   about: {
@@ -182,14 +169,9 @@ export const en: Dict = {
     h1a: "Şeyma Nur",
     h1b: "Çebi.",
     tagline:
-      "3rd-year software engineering student. I turn ideas into working products through AI, language agents and web projects.",
+      "I'm a third-year software engineering student at Istanbul Arel University — I entered the program ranked first, on a full scholarship. I turn ideas into working products through AI, language agents and web projects.",
     cta: "My Projects",
     photoAlt: "Portrait photo of Şeyma Nur Çebi",
-    stats: [
-      { num: "1st", label: "ENTRANCE RANK" },
-      { num: "100%", count: "100", suffix: "%", label: "SCHOLARSHIP" },
-      { num: "∞", label: "CURIOSITY" },
-    ],
   },
 
   about: {
@@ -318,14 +300,9 @@ export const de: Dict = {
     h1a: "Şeyma Nur",
     h1b: "Çebi.",
     tagline:
-      "Software-Engineering-Studentin im 3. Jahr. Ich verwandle Ideen in funktionierende Produkte: KI, Sprachagenten und Web.",
+      "Ich studiere Software Engineering im 3. Jahr an der Istanbul Arel Universität — aufgenommen als Jahrgangsbeste, mit Vollstipendium. Ich verwandle Ideen in funktionierende Produkte: KI, Sprachagenten und Web.",
     cta: "Meine Projekte",
     photoAlt: "Porträtfoto von Şeyma Nur Çebi",
-    stats: [
-      { num: "1.", label: "AUFNAHMERANG" },
-      { num: "100%", count: "100", suffix: "%", label: "STIPENDIUM" },
-      { num: "∞", label: "NEUGIER" },
-    ],
   },
 
   about: {
@@ -454,14 +431,9 @@ export const ru: Dict = {
     h1a: "Шейма Нур",
     h1b: "Чеби.",
     tagline:
-      "Студентка 3-го курса программной инженерии. Превращаю идеи в работающие продукты: ИИ, языковые агенты и веб.",
+      "Я студентка 3-го курса программной инженерии Стамбульского университета Арел — поступила на направление первой, с полной стипендией. Превращаю идеи в работающие продукты: ИИ, языковые агенты и веб.",
     cta: "Мои проекты",
     photoAlt: "Портрет Шеймы Нур Чеби",
-    stats: [
-      { num: "1-я", label: "ПРИ ПОСТУПЛЕНИИ" },
-      { num: "100%", count: "100", suffix: "%", label: "СТИПЕНДИЯ" },
-      { num: "∞", label: "ЛЮБОПЫТСТВО" },
-    ],
   },
 
   about: {
@@ -590,14 +562,9 @@ export const ar: Dict = {
     h1a: "شيماء نور",
     h1b: "تشبي.",
     tagline:
-      "طالبة هندسة برمجيات في السنة الثالثة. أحوّل الأفكار إلى منتجات تعمل عبر الذكاء الاصطناعي ووكلاء اللغة ومشاريع الويب.",
+      "أدرس هندسة البرمجيات في السنة الثالثة بجامعة أريل بإسطنبول — التحقت بالقسم بالمرتبة الأولى وبمنحة كاملة. أحوّل الأفكار إلى منتجات تعمل عبر الذكاء الاصطناعي ووكلاء اللغة ومشاريع الويب.",
     cta: "مشاريعي",
     photoAlt: "صورة شخصية لشيماء نور تشبي",
-    stats: [
-      { num: "١", label: "ترتيب القبول" },
-      { num: "100%", count: "100", suffix: "%", label: "المنحة" },
-      { num: "∞", label: "الفضول" },
-    ],
   },
 
   about: {

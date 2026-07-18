@@ -142,19 +142,6 @@ const projectHrefs = [GITHUB, GITHUB, GITHUB, "https://github.com/cebi101/YemekS
               <a href="#projects" class="btn btn-solid">{t.hero.cta} <span class="arr" aria-hidden="true">→</span></a>
               <a href="#contact" class="btn btn-line">{t.nav.contact}</a>
             </div>
-            <div class="stats-row">
-              {t.hero.stats.map((s) => (
-                <div class="stat">
-                  <div
-                    class="stat-num"
-                    data-count={"count" in s ? s.count : undefined}
-                    data-prefix={"prefix" in s ? s.prefix : undefined}
-                    data-suffix={"suffix" in s ? s.suffix : undefined}
-                  >{s.num}</div>
-                  <div class="stat-label">{s.label}</div>
-                </div>
-              ))}
-            </div>
           </div>
           <div class="hero-photo reveal">
             <div class="photo-backdrop" aria-hidden="true"></div>

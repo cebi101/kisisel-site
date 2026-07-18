@@ -215,7 +215,6 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 [dir="rtl"] .side-label,
 [dir="rtl"] .hello,
 [dir="rtl"] .tl-when,
-[dir="rtl"] .stat-label,
 [dir="rtl"] .cert-org,
 [dir="rtl"] .pr-tags,
 [dir="rtl"] .form-hint { letter-spacing: 0; }
@@ -428,30 +427,6 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   color: var(--body);
   border: 1px solid var(--border);
   font-weight: 500;
-}
-
-/* istatistikler */
-.stats-row {
-  display: flex;
-  gap: 52px;
-  flex-wrap: wrap;
-  border-top: 1px solid var(--border);
-  padding-top: 32px;
-  margin-top: 4px;
-}
-.stat { display: flex; flex-direction: column; gap: 4px; }
-.stat-num {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 42px;
-  color: var(--accent2);
-  line-height: 1;
-}
-.stat-label {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 1px;
-  color: var(--faint);
 }
 
 /* hero fotoğrafı — eğik şeftali fon + rozet */

@@ -154,36 +154,6 @@ const ogAlternates = Object.entries(OG_LOCALES)
       );
       document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 
-      // ---------- Sayaç animasyonu ----------
-      const counters = document.querySelectorAll<HTMLElement>("[data-count]");
-      const countSpy = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (!entry.isIntersecting) continue;
-            const el = entry.target as HTMLElement;
-            countSpy.unobserve(el);
-            const target = parseInt(el.dataset.count || "0", 10);
-            const suffix = el.dataset.suffix || "";
-            const prefix = el.dataset.prefix || "";
-            if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-              el.textContent = `${prefix}${target}${suffix}`;
-              continue;
-            }
-            const t0 = performance.now();
-            const dur = 1200;
-            const tick = (t: number) => {
-              const p = Math.min((t - t0) / dur, 1);
-              const eased = 1 - Math.pow(1 - p, 3);
-              el.textContent = `${prefix}${Math.round(target * eased)}${suffix}`;
-              if (p < 1) requestAnimationFrame(tick);
-            };
-            requestAnimationFrame(tick);
-          }
-        },
-        { threshold: 0.6 }
-      );
-      counters.forEach((el) => countSpy.observe(el));
-
       // ---------- İletişim formu → e-posta uygulaması ----------
       const form = document.getElementById("contact-form") as HTMLFormElement | null;
       form?.addEventListener("submit", (e) => {
