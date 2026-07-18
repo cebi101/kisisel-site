@@ -82,8 +82,8 @@ export const tr = {
       },
       {
         when: "2026 — Yarışmalar",
-        title: "BTK & TÜSEB",
-        desc: "BTK'da sunum aşamasına gelen bir yazılım projesi; TÜSEB'de biyobelirteç analizi çalışması yürütüyorum.",
+        title: "TÜSEB",
+        desc: "TÜSEB'de biyobelirteç analizi çalışması yürütüyorum.",
       },
       {
         when: "Yaz 2026 — Şu An",
@@ -121,14 +121,14 @@ export const tr = {
         tags: "LLM · Ajanlar · TEKNOFEST 2026",
       },
       {
-        title: "BTK Yarışma Projesi",
-        desc: "Ulusal teknoloji yarışması için geliştirdiğimiz yazılım projesi — sunum aşamasında.",
-        tags: "Yazılım · BTK 2026",
-      },
-      {
         title: "Biyobelirteç Analizi",
         desc: "TÜSEB sağlık teknolojisi kategorisinde biyobelirteç analizi çalışması.",
         tags: "Sağlık Teknolojisi · TÜSEB 2026",
+      },
+      {
+        title: "YemekStes",
+        desc: "1. sınıfta ders projesi olarak geliştirdiğim Java konsol uygulaması: nesne yönelimli yemek sipariş sistemi — kalıtım, soyutlama, polimorfizm; JUnit 5 testleri ve CSV kayıt.",
+        tags: "Java · OOP · JUnit 5 · Maven",
       },
     ],
   },
@@ -218,8 +218,8 @@ export const en: Dict = {
       },
       {
         when: "2026 — Competitions",
-        title: "BTK & TÜSEB",
-        desc: "A software project at presentation stage in BTK; a biomarker analysis study at TÜSEB.",
+        title: "TÜSEB",
+        desc: "A biomarker analysis study at TÜSEB.",
       },
       {
         when: "Summer 2026 — Now",
@@ -257,14 +257,14 @@ export const en: Dict = {
         tags: "LLM · Agents · TEKNOFEST 2026",
       },
       {
-        title: "BTK Competition Project",
-        desc: "Software project built for the national technology competition — at presentation stage.",
-        tags: "Software · BTK 2026",
-      },
-      {
         title: "Biomarker Analysis",
         desc: "Biomarker analysis study in the TÜSEB health technology category.",
         tags: "Health Tech · TÜSEB 2026",
+      },
+      {
+        title: "YemekStes",
+        desc: "Java console app I built as a first-year course project: an object-oriented food-ordering system — inheritance, abstraction, polymorphism; JUnit 5 tests and CSV persistence.",
+        tags: "Java · OOP · JUnit 5 · Maven",
       },
     ],
   },
@@ -354,8 +354,8 @@ export const de: Dict = {
       },
       {
         when: "2026 — Wettbewerbe",
-        title: "BTK & TÜSEB",
-        desc: "Ein Softwareprojekt in der Präsentationsphase bei BTK; eine Biomarker-Analyse bei TÜSEB.",
+        title: "TÜSEB",
+        desc: "Eine Biomarker-Analyse bei TÜSEB.",
       },
       {
         when: "Sommer 2026 — Jetzt",
@@ -393,14 +393,14 @@ export const de: Dict = {
         tags: "LLM · Agenten · TEKNOFEST 2026",
       },
       {
-        title: "BTK-Wettbewerbsprojekt",
-        desc: "Softwareprojekt für den nationalen Technologiewettbewerb — in der Präsentationsphase.",
-        tags: "Software · BTK 2026",
-      },
-      {
         title: "Biomarker-Analyse",
         desc: "Biomarker-Analyse in der TÜSEB-Kategorie Gesundheitstechnologie.",
         tags: "Gesundheitstechnologie · TÜSEB 2026",
+      },
+      {
+        title: "YemekStes",
+        desc: "Java-Konsolenanwendung aus einem Kursprojekt im 1. Studienjahr: objektorientiertes Essensbestellsystem — Vererbung, Abstraktion, Polymorphie; JUnit-5-Tests und CSV-Speicherung.",
+        tags: "Java · OOP · JUnit 5 · Maven",
       },
     ],
   },
@@ -490,8 +490,8 @@ export const ru: Dict = {
       },
       {
         when: "2026 — Конкурсы",
-        title: "BTK и TÜSEB",
-        desc: "Проект на конкурсе BTK вышел на этап презентации; в TÜSEB веду анализ биомаркеров.",
+        title: "TÜSEB",
+        desc: "В TÜSEB веду анализ биомаркеров.",
       },
       {
         when: "Лето 2026 — сейчас",
@@ -529,14 +529,14 @@ export const ru: Dict = {
         tags: "LLM · Агенты · TEKNOFEST 2026",
       },
       {
-        title: "Проект конкурса BTK",
-        desc: "Программный проект для национального технологического конкурса — этап презентации.",
-        tags: "Софт · BTK 2026",
-      },
-      {
         title: "Анализ биомаркеров",
         desc: "Исследование биомаркеров в категории медицинских технологий TÜSEB.",
         tags: "Медтех · TÜSEB 2026",
+      },
+      {
+        title: "YemekStes",
+        desc: "Консольное Java-приложение — учебный проект 1-го курса: объектно-ориентированная система заказа еды — наследование, абстракция, полиморфизм; тесты JUnit 5 и сохранение в CSV.",
+        tags: "Java · OOP · JUnit 5 · Maven",
       },
     ],
   },
@@ -626,8 +626,8 @@ export const ar: Dict = {
       },
       {
         when: "2026 — المسابقات",
-        title: "BTK و TÜSEB",
-        desc: "مشروع برمجي بلغ مرحلة العرض في BTK؛ ودراسة تحليل المؤشرات الحيوية في TÜSEB.",
+        title: "TÜSEB",
+        desc: "دراسة تحليل المؤشرات الحيوية في TÜSEB.",
       },
       {
         when: "صيف 2026 — الآن",
@@ -665,14 +665,14 @@ export const ar: Dict = {
         tags: "LLM · وكلاء · تكنوفيست 2026",
       },
       {
-        title: "مشروع مسابقة BTK",
-        desc: "مشروع برمجي للمسابقة التقنية الوطنية — في مرحلة العرض.",
-        tags: "برمجيات · BTK 2026",
-      },
-      {
         title: "تحليل المؤشرات الحيوية",
         desc: "دراسة تحليل المؤشرات الحيوية في فئة التقنيات الصحية بمسابقة TÜSEB.",
         tags: "تقنية صحية · TÜSEB 2026",
+      },
+      {
+        title: "YemekStes",
+        desc: "تطبيق جافا بواجهة سطر الأوامر أنجزته كمشروع مقرر في السنة الأولى: نظام طلب طعام كائني التوجه — وراثة وتجريد وتعدد أشكال؛ مع اختبارات JUnit 5 وحفظ CSV.",
+        tags: "Java · OOP · JUnit 5 · Maven",
       },
     ],
   },
