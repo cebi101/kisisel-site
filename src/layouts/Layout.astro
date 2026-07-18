@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { tr } from "../i18n/translations";
 
 interface Props {
   title?: string;
@@ -9,11 +10,22 @@ interface Props {
 }
 
 const {
-  title = "Şeyma Nur Çebi — Yazılım Mühendisliği Öğrencisi",
-  description = "Yapay zekâ, prompt engineering ve dil ajanları meraklısı Yazılım Mühendisliği öğrencisi.",
+  title = tr.title,
+  description = tr.description,
   lang = "tr",
   dir = "ltr",
 } = Astro.props;
+
+const OG_LOCALES: Record<string, string> = {
+  tr: "tr_TR",
+  en: "en_US",
+  de: "de_DE",
+  ru: "ru_RU",
+  ar: "ar_AR",
+};
+const ogAlternates = Object.entries(OG_LOCALES)
+  .filter(([k]) => k !== lang)
+  .map(([, v]) => v);
 ---
 
 <!doctype html>
@@ -26,26 +38,35 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Şeyma Nur Çebi" />
+    <meta property="og:locale" content={OG_LOCALES[lang] ?? "tr_TR"} />
+    {ogAlternates.map((l) => <meta property="og:locale:alternate" content={l} />)}
     <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <title>{title}</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <!-- Tipografi: Fraunces (900 display) + DM Mono + Sora -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Yalnızca kullanılan kesimler: Fraunces 900 (roman+italik), Sora 400/500/600, DM Mono 400 -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=DM+Mono:wght@400;500&family=Sora:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,900;1,9..144,900&family=DM+Mono&family=Sora:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <!-- Tema: boyamadan ÖNCE uygula (parlama olmasın) -->
     <script is:inline>
       (() => {
-        const saved = localStorage.getItem("mode");
+        // localStorage engelliyken (Safari kilitli mod vb.) SecurityError fırlatır
+        let saved = null;
+        try { saved = localStorage.getItem("mode"); } catch {}
         // mockup varsayılanı: gündüz; sistem gece tercihindeyse gece
         const system = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         document.documentElement.dataset.mode =
           saved === "light" || saved === "dark" ? saved : system;
       })();
     </script>
+    <noscript><style>.tab-panel { display: block; }</style></noscript>
   </head>
   <body>
     <slot />
@@ -56,29 +77,56 @@ const {
       const navBtns = [...document.querySelectorAll<HTMLAnchorElement>(".nav-btn")];
       const showTab = (id: string) => {
         const target = panels.find((p) => p.id === id) ?? panels[0];
+        if (!target) return; // panelsiz sayfalar (ör. 404) script'in kalanını kırmasın
         panels.forEach((p) => p.classList.toggle("active", p === target));
-        navBtns.forEach((a) =>
-          a.classList.toggle("active", a.hash === `#${target.id}`)
-        );
+        navBtns.forEach((a) => {
+          const on = a.hash === `#${target.id}`;
+          a.classList.toggle("active", on);
+          if (on) a.setAttribute("aria-current", "page");
+          else a.removeAttribute("aria-current");
+        });
         scrollTo({ top: 0, behavior: "auto" });
       };
       document.addEventListener("click", (e) => {
-        const a = (e.target as HTMLElement).closest?.("a[href^='#']") as HTMLAnchorElement | null;
+        const el = e.target as HTMLElement;
+        // dil değiştirirken aktif sekme hash ile taşınsın (koşulsuz: bayat hash de temizlensin;
+        // değiştirici kontrolünden ÖNCE ki Cmd+tık da doğru hash'le açılsın)
+        const lng = el.closest?.(".lang-switch a") as HTMLAnchorElement | null;
+        if (lng) {
+          lng.hash = location.hash;
+          return;
+        }
+        // Cmd/Ctrl+tık gibi değiştiricili tıklamalar tarayıcıya kalsın
+        if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        // skip-link sekme sistemini tetiklemesin: odağı doğrudan içeriğe taşı
+        if (el.closest?.(".skip-link")) {
+          e.preventDefault();
+          document.getElementById("icerik")?.focus();
+          return;
+        }
+        const a = el.closest?.("a[href^='#']") as HTMLAnchorElement | null;
         if (!a) return;
         const id = a.hash.slice(1);
         if (!panels.some((p) => p.id === id)) return;
         e.preventDefault();
-        history.pushState(null, "", `#${id}`);
+        if (location.hash !== `#${id}`) history.pushState(null, "", `#${id}`);
         showTab(id);
       });
       addEventListener("popstate", () => showTab(location.hash.slice(1) || "home"));
-      showTab(location.hash.slice(1) || "home");
+      const initialTab = location.hash.slice(1);
+      if (initialTab && panels.length && !panels.some((p) => p.id === initialTab)) {
+        history.replaceState(null, "", location.pathname + location.search); // çöp hash'i temizle
+      }
+      showTab(initialTab || "home");
 
       // ---------- Gündüz / Gece anahtarı ----------
       const modeBtns = [...document.querySelectorAll<HTMLButtonElement>(".mode-switch button")];
       const syncMode = () => {
         const mode = document.documentElement.dataset.mode;
-        modeBtns.forEach((b) => b.classList.toggle("on", b.dataset.mode === mode));
+        modeBtns.forEach((b) => {
+          b.classList.toggle("on", b.dataset.mode === mode);
+          b.setAttribute("aria-pressed", String(b.dataset.mode === mode));
+        });
         const themeMeta = document.querySelector('meta[name="theme-color"]');
         themeMeta?.setAttribute("content", mode === "dark" ? "#211a19" : "#f1eae8");
       };
@@ -86,7 +134,7 @@ const {
         b.addEventListener("click", () => {
           const m = b.dataset.mode || "dark";
           document.documentElement.dataset.mode = m;
-          localStorage.setItem("mode", m);
+          try { localStorage.setItem("mode", m); } catch {}
           syncMode();
         })
       );
@@ -117,6 +165,10 @@ const {
             const target = parseInt(el.dataset.count || "0", 10);
             const suffix = el.dataset.suffix || "";
             const prefix = el.dataset.prefix || "";
+            if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+              el.textContent = `${prefix}${target}${suffix}`;
+              continue;
+            }
             const t0 = performance.now();
             const dur = 1200;
             const tick = (t: number) => {
@@ -138,10 +190,11 @@ const {
         e.preventDefault();
         const fd = new FormData(form);
         const email = form.dataset.email || "";
-        const subject = encodeURIComponent(`${form.dataset.subject || ""} — ${fd.get("name") || ""}`);
-        const body = encodeURIComponent(
-          `${fd.get("msg") || ""}\n\n— ${fd.get("name") || ""} (${fd.get("email") || ""})`
-        );
+        const name = String(fd.get("name") || "").trim();
+        const from = String(fd.get("email") || "").trim();
+        const msg = String(fd.get("msg") || "").trim();
+        const subject = encodeURIComponent(`${form.dataset.subject || ""} — ${name}`);
+        const body = encodeURIComponent(`${msg}\n\n— ${name} (${from})`);
         location.href = `mailto:${email}?subject=${subject}&body=${body}`;
       });
 

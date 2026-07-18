@@ -24,6 +24,7 @@ export const tr = {
   name: "ŞEYMA NUR ÇEBİ",
   role: "Yazılım Müh.",
   emailLabel: "E-posta",
+  skipLink: "İçeriğe atla",
 
   nav: { home: "Ana Sayfa", about: "Hakkımda", projects: "Projeler", contact: "İletişim" },
 
@@ -159,6 +160,7 @@ export const en: Dict = {
   name: "ŞEYMA NUR ÇEBİ",
   role: "Software Eng.",
   emailLabel: "Email",
+  skipLink: "Skip to content",
 
   nav: { home: "Home", about: "About", projects: "Projects", contact: "Contact" },
 
@@ -294,6 +296,7 @@ export const de: Dict = {
   name: "ŞEYMA NUR ÇEBİ",
   role: "Software-Eng.",
   emailLabel: "E-Mail",
+  skipLink: "Zum Inhalt springen",
 
   nav: { home: "Start", about: "Über mich", projects: "Projekte", contact: "Kontakt" },
 
@@ -429,6 +432,7 @@ export const ru: Dict = {
   name: "ŞEYMA NUR ÇEBİ",
   role: "Программная инженерия",
   emailLabel: "Почта",
+  skipLink: "Перейти к содержимому",
 
   nav: { home: "Главная", about: "Обо мне", projects: "Проекты", contact: "Контакты" },
 
@@ -564,6 +568,7 @@ export const ar: Dict = {
   name: "ŞEYMA NUR ÇEBİ",
   role: "هندسة البرمجيات",
   emailLabel: "البريد",
+  skipLink: "تخطي إلى المحتوى",
 
   nav: { home: "الرئيسية", about: "عنّي", projects: "المشاريع", contact: "تواصل" },
 

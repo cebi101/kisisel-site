@@ -2,9 +2,11 @@
 // Portfolyo.dc tasarımından uyarlanan arayüz — nokta desenli zemin
 // Sol kenar: profil kartı · numaralı menü · ŞU AN kartı · tema & dil
 // Sayfalar (sekme): Ana Sayfa · Hakkımda · Projeler · İletişim
+import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
 import type { Dict } from "../i18n/translations";
 import { SKILLS } from "../i18n/translations";
+import foto from "../assets/foto.jpg";
 
 interface Props {
   t: Dict;
@@ -16,12 +18,21 @@ const LINKEDIN = "https://www.linkedin.com/in/seymanurcebi";
 const EMAIL = "seymanurcebi6@gmail.com";
 
 const langs = [
-  { code: "TR", href: "/" },
-  { code: "EN", href: "/en/" },
-  { code: "DE", href: "/de/" },
-  { code: "RU", href: "/ru/" },
-  { code: "AR", href: "/ar/" },
+  { code: "TR", href: "/", lang: "tr", name: "Türkçe" },
+  { code: "EN", href: "/en/", lang: "en", name: "English" },
+  { code: "DE", href: "/de/", lang: "de", name: "Deutsch" },
+  { code: "RU", href: "/ru/", lang: "ru", name: "Русский" },
+  { code: "AR", href: "/ar/", lang: "ar", name: "العربية" },
 ];
+
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Şeyma Nur Çebi",
+  jobTitle: t.title.split("—")[1]?.trim(),
+  email: `mailto:${EMAIL}`,
+  sameAs: [GITHUB, LINKEDIN],
+};
 
 const navItems = [
   { id: "home", num: "01", label: t.nav.home },
@@ -40,13 +51,15 @@ const projectHrefs = [GITHUB, GITHUB, GITHUB, GITHUB];
 ---
 
 <Layout title={t.title} description={t.description} lang={t.lang} dir={t.dir}>
+  <script type="application/ld+json" set:html={JSON.stringify(personLd)} is:inline />
+  <a class="skip-link" href="#icerik">{t.skipLink}</a>
   <div class="app">
     <!-- ════════ KENAR ÇUBUĞU ════════ -->
     <aside class="sidebar">
       <div class="profile-card">
         <div class="avatar-wrap">
-          <img src="/foto.jpg" alt={t.hero.photoAlt} class="avatar" />
-          <span class="status-dot"></span>
+          <Image src={foto} width={152} alt={t.hero.photoAlt} class="avatar" loading="eager" />
+          <span class="status-dot" aria-hidden="true"></span>
         </div>
         <div class="profile-name">{t.name}</div>
         <div class="profile-role">{t.role}</div>
@@ -54,10 +67,10 @@ const projectHrefs = [GITHUB, GITHUB, GITHUB, GITHUB];
 
       <nav class="nav-links">
         {navItems.map((n) => (
-          <a href={`#${n.id}`} class="nav-btn">
-            <span class="num">{n.num}</span>
+          <a href={`#${n.id}`} class="nav-btn" aria-current={n.id === "home" ? "page" : undefined}>
+            <span class="num" aria-hidden="true">{n.num}</span>
             <span class="lbl">{n.label}</span>
-            <span class="arrow">→</span>
+            <span class="arrow" aria-hidden="true">→</span>
           </a>
         ))}
       </nav>
@@ -65,7 +78,7 @@ const projectHrefs = [GITHUB, GITHUB, GITHUB, GITHUB];
       <div class="side-bottom">
         <div class="now-card">
           <div class="now-head">
-            <span class="now-dot"></span>
+            <span class="now-dot" aria-hidden="true"></span>
             <span class="now-label">{t.now.label}</span>
           </div>
           {t.now.items.map((it) => (
@@ -83,30 +96,38 @@ const projectHrefs = [GITHUB, GITHUB, GITHUB, GITHUB];
               target={s.href.startsWith("http") ? "_blank" : undefined}
               rel={s.href.startsWith("http") ? "noopener" : undefined}
               title={s.label}
+              aria-label={s.label}
             >{s.short}</a>
           ))}
         </div>
 
         <div class="side-label">{t.themeLabel}</div>
         <div class="mode-switch">
-          <button data-mode="light" title={t.modeLight}>☀</button>
-          <button data-mode="dark" title={t.modeDark}>☾</button>
+          <button data-mode="light" title={t.modeLight} aria-label={t.modeLight}>☀</button>
+          <button data-mode="dark" title={t.modeDark} aria-label={t.modeDark}>☾</button>
         </div>
 
         <div class="side-label">{t.langLabel}</div>
         <div class="lang-switch">
           {langs.map((l) => (
-            <a href={l.href} class={t.path === l.href ? "on" : ""}>{l.code}</a>
+            <a
+              href={l.href}
+              hreflang={l.lang}
+              lang={l.lang}
+              aria-label={l.name}
+              aria-current={t.path === l.href ? "true" : undefined}
+              class={t.path === l.href ? "on" : ""}
+            >{l.code}</a>
           ))}
         </div>
       </div>
     </aside>
 
     <!-- ════════ İÇERİK ════════ -->
-    <div class="content">
+    <main class="content" id="icerik" tabindex="-1">
       <!-- ── 01 ANA SAYFA ── -->
       <div class="tab-panel active" id="home">
-        <main class="page home">
+        <div class="page home">
           <div class="hero-left">
             <div class="hero-head">
               <div class="hello">{t.hero.hello}</div>
@@ -117,7 +138,7 @@ const projectHrefs = [GITHUB, GITHUB, GITHUB, GITHUB];
             </div>
             <p class="tagline">{t.hero.tagline}</p>
             <div class="cta-row">
-              <a href="#projects" class="btn btn-solid">{t.hero.cta} <span class="arr">→</span></a>
+              <a href="#projects" class="btn btn-solid">{t.hero.cta} <span class="arr" aria-hidden="true">→</span></a>
               <a href="#contact" class="btn btn-line">{t.nav.contact}</a>
             </div>
             <div class="stats-row">
@@ -135,16 +156,16 @@ const projectHrefs = [GITHUB, GITHUB, GITHUB, GITHUB];
             </div>
           </div>
           <div class="hero-photo reveal">
-            <div class="photo-backdrop"></div>
-            <img src="/foto.jpg" alt={t.hero.photoAlt} class="photo" />
+            <div class="photo-backdrop" aria-hidden="true"></div>
+            <Image src={foto} width={680} alt={t.hero.photoAlt} class="photo" loading="eager" fetchpriority="high" />
             <div class="photo-badge">{t.role}</div>
           </div>
-        </main>
+        </div>
       </div>
 
       <!-- ── 02 HAKKIMDA ── -->
       <div class="tab-panel" id="about">
-        <main class="page">
+        <div class="page">
           <div class="page-head">
             <span class="page-no">{t.about.no}</span>
             <h2 class="section-title">{t.about.title}</h2>
@@ -152,7 +173,7 @@ const projectHrefs = [GITHUB, GITHUB, GITHUB, GITHUB];
 
           <div class="about-grid">
             <div class="about-photo reveal">
-              <img src="/foto.jpg" alt={t.hero.photoAlt} />
+              <Image src={foto} width={600} alt={t.hero.photoAlt} />
               <div class="photo-badge">{t.about.year}</div>
             </div>
             <div class="about-body reveal d1">
@@ -165,33 +186,33 @@ const projectHrefs = [GITHUB, GITHUB, GITHUB, GITHUB];
             </div>
           </div>
 
-          <div class="side-label block-label reveal">{t.about.journeyLabel}</div>
+          <h3 class="side-label block-label reveal">{t.about.journeyLabel}</h3>
           <div class="timeline">
             {t.about.journey.map((j, i) => (
               <div class={`tl-item reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
                 <div class="tl-when">{j.when}</div>
-                <h3>{j.title}</h3>
+                <h4>{j.title}</h4>
                 <p>{j.desc}</p>
               </div>
             ))}
           </div>
 
-          <div class="side-label block-label reveal">{t.about.certsLabel}</div>
+          <h3 class="side-label block-label reveal">{t.about.certsLabel}</h3>
           <div class="cert-grid">
             {t.about.certs.map((c, i) => (
               <div class={`cert-card reveal ${i ? "d1" : ""}`}>
                 <span class="cert-org">{c.org}</span>
-                <h3>{c.name}</h3>
+                <h4>{c.name}</h4>
                 <p>{c.desc}</p>
               </div>
             ))}
           </div>
-        </main>
+        </div>
       </div>
 
       <!-- ── 03 PROJELER ── -->
       <div class="tab-panel" id="projects">
-        <main class="page">
+        <div class="page">
           <div class="page-head">
             <span class="page-no">{t.projects.no}</span>
             <h2 class="section-title">{t.projects.title}</h2>
@@ -204,22 +225,22 @@ const projectHrefs = [GITHUB, GITHUB, GITHUB, GITHUB];
                 rel="noopener"
                 class={`project-row reveal ${i ? `d${Math.min(i, 3)}` : ""}`}
               >
-                <span class="pr-num">{String(i + 1).padStart(2, "0")}</span>
+                <span class="pr-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
                 <span class="pr-body">
                   <span class="pr-title">{p.title}</span>
                   <span class="pr-desc">{p.desc}</span>
                   <span class="pr-tags">{p.tags}</span>
                 </span>
-                <span class="pr-arrow">↗</span>
+                <span class="pr-arrow" aria-hidden="true">↗</span>
               </a>
             ))}
           </div>
-        </main>
+        </div>
       </div>
 
       <!-- ── 04 İLETİŞİM ── -->
       <div class="tab-panel" id="contact">
-        <main class="page">
+        <div class="page">
           <div class="page-head">
             <span class="page-no">{t.contact.no}</span>
             <h2 class="section-title">{t.contact.title}</h2>
@@ -227,26 +248,29 @@ const projectHrefs = [GITHUB, GITHUB, GITHUB, GITHUB];
           <div class="contact-grid">
             <form class="contact-form reveal" id="contact-form" data-email={EMAIL} data-subject={t.contact.fSubject}>
               <p class="contact-sub">{t.contact.sub}</p>
-              <input type="text" name="name" placeholder={t.contact.fName} required />
-              <input type="email" name="email" placeholder={t.contact.fEmail} required />
-              <textarea name="msg" rows="5" placeholder={t.contact.fMsg} required></textarea>
-              <button type="submit" class="btn btn-solid">{t.contact.fSend} <span class="arr">→</span></button>
+              <label for="f-name" class="visually-hidden">{t.contact.fName}</label>
+              <input type="text" id="f-name" name="name" autocomplete="name" placeholder={t.contact.fName} required />
+              <label for="f-email" class="visually-hidden">{t.contact.fEmail}</label>
+              <input type="email" id="f-email" name="email" autocomplete="email" placeholder={t.contact.fEmail} required />
+              <label for="f-msg" class="visually-hidden">{t.contact.fMsg}</label>
+              <textarea id="f-msg" name="msg" rows="5" placeholder={t.contact.fMsg} required></textarea>
+              <button type="submit" class="btn btn-solid">{t.contact.fSend} <span class="arr" aria-hidden="true">→</span></button>
               <span class="form-hint">{t.contact.fHint}</span>
             </form>
             <div class="contact-side reveal d1">
               <div class="side-label">{t.contact.social}</div>
-              <a href={GITHUB} target="_blank" rel="noopener" class="social-link"><span>GitHub</span><span>↗</span></a>
-              <a href={LINKEDIN} target="_blank" rel="noopener" class="social-link"><span>LinkedIn</span><span>↗</span></a>
-              <a href={`mailto:${EMAIL}`} class="social-link"><span>{t.emailLabel}</span><span>↗</span></a>
+              <a href={GITHUB} target="_blank" rel="noopener" class="social-link"><span>GitHub</span><span aria-hidden="true">↗</span></a>
+              <a href={LINKEDIN} target="_blank" rel="noopener" class="social-link"><span>LinkedIn</span><span aria-hidden="true">↗</span></a>
+              <a href={`mailto:${EMAIL}`} class="social-link"><span>{t.emailLabel}</span><span aria-hidden="true">↗</span></a>
             </div>
           </div>
-        </main>
+        </div>
       </div>
 
       <footer>
         <span>© 2026 {t.name}</span>
         <span class="footer-motto">{t.footer}</span>
       </footer>
-    </div>
+    </main>
   </div>
 </Layout>
