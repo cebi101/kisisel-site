@@ -1,8 +1,10 @@
 ---
 // Tek sayfalık, yazdırılabilir özgeçmiş belgesi — site içeriğinden üretilir.
 // Kenar çubuğu/sekme YOK; her zaman açık (kâğıt) tema; A4 print CSS.
+import { Image } from "astro:assets";
 import type { Dict } from "../i18n/translations";
 import { SKILL_GROUPS } from "../i18n/translations";
+import foto from "../assets/foto.jpg";
 
 interface Props {
   t: Dict;
@@ -99,9 +101,21 @@ const pageTitle = `CV — ${fullName}`;
       }
 
       .cv-head {
+        display: flex;
+        align-items: center;
+        gap: 28px;
         border-bottom: 2px solid var(--accent);
         padding-bottom: 18px;
         margin-bottom: 22px;
+      }
+      .cv-head-text { flex: 1; min-width: 0; }
+      .cv-photo {
+        flex-shrink: 0;
+        width: 104px;
+        height: 124px;
+        object-fit: cover;
+        object-position: center 25%;
+        border-radius: 10px;
       }
       .cv-name {
         font-family: var(--font-display);
@@ -215,6 +229,12 @@ const pageTitle = `CV — ${fullName}`;
           box-shadow: none;
         }
         .cv-name { font-size: 26pt; }
+        .cv-photo {
+          width: 88px;
+          height: 104px;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
         section { margin-top: 14px; }
         .item, .skills-row { break-inside: avoid; }
         .cv-head { break-inside: avoid; }
@@ -235,14 +255,17 @@ const pageTitle = `CV — ${fullName}`;
 
     <main class="cv">
       <header class="cv-head">
-        <div class="cv-name">{fullName}</div>
-        <div class="cv-role">{t.role}</div>
-        <div class="cv-contact">
-          <span>◍ {t.location}</span>
-          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-          <a href={GITHUB} target="_blank" rel="noopener">github.com/cebi101</a>
-          <a href={LINKEDIN} target="_blank" rel="noopener">linkedin.com/in/seymanurcebi</a>
+        <div class="cv-head-text">
+          <div class="cv-name">{fullName}</div>
+          <div class="cv-role">{t.role}</div>
+          <div class="cv-contact">
+            <span>◍ {t.location}</span>
+            <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+            <a href={GITHUB} target="_blank" rel="noopener">github.com/cebi101</a>
+            <a href={LINKEDIN} target="_blank" rel="noopener">linkedin.com/in/seymanurcebi</a>
+          </div>
         </div>
+        <Image src={foto} width={240} alt={t.hero.photoAlt} class="cv-photo" />
       </header>
 
       <section>
