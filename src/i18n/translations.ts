@@ -20,6 +20,10 @@ export const tr = {
   location: "İstanbul, Türkiye",
   availability: "İş birliğine açık",
   cvLabel: "CV indir",
+  cvPath: "/cv",
+  cvProfile: "Profil",
+  cvBack: "← Siteye dön",
+  cvSave: "PDF olarak kaydet",
 
   nav: { home: "Ana Sayfa", about: "Hakkımda", projects: "Projeler", contact: "İletişim" },
 
@@ -162,6 +166,10 @@ export const en: Dict = {
   location: "Istanbul, Türkiye",
   availability: "Open to collaboration",
   cvLabel: "Download CV",
+  cvPath: "/en/cv",
+  cvProfile: "Profile",
+  cvBack: "← Back to site",
+  cvSave: "Save as PDF",
 
   nav: { home: "Home", about: "About", projects: "Projects", contact: "Contact" },
 
@@ -304,6 +312,10 @@ export const de: Dict = {
   location: "Istanbul, Türkei",
   availability: "Offen für Zusammenarbeit",
   cvLabel: "Lebenslauf",
+  cvPath: "/de/cv",
+  cvProfile: "Profil",
+  cvBack: "← Zur Website",
+  cvSave: "Als PDF speichern",
 
   nav: { home: "Start", about: "Über mich", projects: "Projekte", contact: "Kontakt" },
 
@@ -446,6 +458,10 @@ export const ru: Dict = {
   location: "Стамбул, Турция",
   availability: "Открыта к сотрудничеству",
   cvLabel: "Скачать CV",
+  cvPath: "/ru/cv",
+  cvProfile: "Профиль",
+  cvBack: "← На сайт",
+  cvSave: "Сохранить в PDF",
 
   nav: { home: "Главная", about: "Обо мне", projects: "Проекты", contact: "Контакты" },
 
@@ -588,6 +604,10 @@ export const ar: Dict = {
   location: "إسطنبول، تركيا",
   availability: "منفتحة على التعاون",
   cvLabel: "تحميل السيرة",
+  cvPath: "/ar/cv",
+  cvProfile: "نبذة",
+  cvBack: "← العودة إلى الموقع",
+  cvSave: "حفظ بصيغة PDF",
 
   nav: { home: "الرئيسية", about: "عنّي", projects: "المشاريع", contact: "تواصل" },
 
