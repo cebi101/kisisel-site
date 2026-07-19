@@ -42,9 +42,9 @@ const navItems = [
 ];
 
 const sideSocials = [
-  { short: "GH", label: "GitHub", href: GITHUB },
-  { short: "IN", label: "LinkedIn", href: LINKEDIN },
-  { short: "@", label: t.emailLabel, href: `mailto:${EMAIL}` },
+  { label: "GitHub", href: GITHUB },
+  { label: "LinkedIn", href: LINKEDIN },
+  { label: t.emailLabel, href: `mailto:${EMAIL}` },
 ];
 
 // sıra: VARIANT-GNN · Dil Ajanları · Biyobelirteç · YemekStes
@@ -71,6 +71,12 @@ const projectHrefs: (string | null)[] = [
         </div>
         <div class="profile-name">{t.name}</div>
         <div class="profile-role">{t.role}</div>
+        <div class="profile-loc">
+          <span aria-hidden="true">◍</span> {t.location}
+        </div>
+        <div class="profile-avail">
+          <span class="avail-dot" aria-hidden="true"></span> {t.availability}
+        </div>
       </div>
 
       <nav class="nav-links">
@@ -82,6 +88,11 @@ const projectHrefs: (string | null)[] = [
           </a>
         ))}
       </nav>
+
+      <a href="#" class="cv-btn" id="cv-btn">
+        <span>{t.cvLabel}</span>
+        <span aria-hidden="true">↓</span>
+      </a>
 
       <div class="side-bottom">
         <div class="now-card">
@@ -105,7 +116,7 @@ const projectHrefs: (string | null)[] = [
               rel={s.href.startsWith("http") ? "noopener" : undefined}
               title={s.label}
               aria-label={s.label}
-            >{s.short}</a>
+            >{s.label}</a>
           ))}
         </div>
 

@@ -17,6 +17,9 @@ export const tr = {
   role: "Yazılım Müh.",
   emailLabel: "E-posta",
   skipLink: "İçeriğe atla",
+  location: "İstanbul, Türkiye",
+  availability: "İş birliğine açık",
+  cvLabel: "CV indir",
 
   nav: { home: "Ana Sayfa", about: "Hakkımda", projects: "Projeler", contact: "İletişim" },
 
@@ -156,6 +159,9 @@ export const en: Dict = {
   role: "Software Eng.",
   emailLabel: "Email",
   skipLink: "Skip to content",
+  location: "Istanbul, Türkiye",
+  availability: "Open to collaboration",
+  cvLabel: "Download CV",
 
   nav: { home: "Home", about: "About", projects: "Projects", contact: "Contact" },
 
@@ -295,6 +301,9 @@ export const de: Dict = {
   role: "Software-Eng.",
   emailLabel: "E-Mail",
   skipLink: "Zum Inhalt springen",
+  location: "Istanbul, Türkei",
+  availability: "Offen für Zusammenarbeit",
+  cvLabel: "Lebenslauf",
 
   nav: { home: "Start", about: "Über mich", projects: "Projekte", contact: "Kontakt" },
 
@@ -434,6 +443,9 @@ export const ru: Dict = {
   role: "Программная инженерия",
   emailLabel: "Почта",
   skipLink: "Перейти к содержимому",
+  location: "Стамбул, Турция",
+  availability: "Открыта к сотрудничеству",
+  cvLabel: "Скачать CV",
 
   nav: { home: "Главная", about: "Обо мне", projects: "Проекты", contact: "Контакты" },
 
@@ -573,6 +585,9 @@ export const ar: Dict = {
   role: "هندسة البرمجيات",
   emailLabel: "البريد",
   skipLink: "تخطي إلى المحتوى",
+  location: "إسطنبول، تركيا",
+  availability: "منفتحة على التعاون",
+  cvLabel: "تحميل السيرة",
 
   nav: { home: "الرئيسية", about: "عنّي", projects: "المشاريع", contact: "تواصل" },
 
