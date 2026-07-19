@@ -5,7 +5,7 @@
 import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
 import type { Dict } from "../i18n/translations";
-import { SKILLS } from "../i18n/translations";
+import { SKILL_GROUPS } from "../i18n/translations";
 import foto from "../assets/foto.jpg";
 
 interface Props {
@@ -168,15 +168,43 @@ const projectHrefs = [GITHUB, GITHUB, GITHUB, "https://github.com/cebi101/YemekS
               <p class="about-p1">{t.about.p1}</p>
               <p class="about-p2">{t.about.p2}</p>
               <div class="side-label">{t.about.skillsLabel}</div>
-              <div class="chips">
-                {SKILLS.map((sk) => <span class="chip">{sk}</span>)}
-              </div>
+              {SKILL_GROUPS.map((g) => (
+                <div class="skill-group">
+                  <span class="skill-group-label">{t.about.skillGroups[g.key]}</span>
+                  <div class="chips">
+                    {g.items.map((sk) => <span class="chip">{sk}</span>)}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          <h3 class="side-label block-label reveal">{t.about.journeyLabel}</h3>
+          <h3 class="side-label block-label reveal">{t.about.eduLabel}</h3>
           <div class="timeline">
-            {t.about.journey.map((j, i) => (
+            {t.about.edu.map((j) => (
+              <div class="tl-item reveal">
+                <div class="tl-when">{j.when}</div>
+                <h4>{j.title}</h4>
+                <p>{j.desc}</p>
+                <span class="tl-badge">{j.badge}</span>
+              </div>
+            ))}
+          </div>
+
+          <h3 class="side-label block-label reveal">{t.about.expLabel}</h3>
+          <div class="timeline">
+            {t.about.exp.map((j, i) => (
+              <div class={`tl-item reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
+                <div class="tl-when">{j.when}</div>
+                <h4>{j.title}</h4>
+                <p>{j.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <h3 class="side-label block-label reveal">{t.about.compLabel}</h3>
+          <div class="timeline">
+            {t.about.comp.map((j, i) => (
               <div class={`tl-item reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
                 <div class="tl-when">{j.when}</div>
                 <h4>{j.title}</h4>

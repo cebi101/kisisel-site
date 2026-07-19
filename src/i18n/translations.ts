@@ -50,32 +50,40 @@ export const tr = {
     p1: "İstanbul Arel Üniversitesi'nde tam burslu Yazılım Mühendisliği öğrencisiyim — bölüme birincilikle girdim. Yapay zekâ, prompt engineering ve dil ajanlarına tutkuyla bağlıyım.",
     p2: "T3 Vakfı'nda hem eğitmen hem bursiyerim; bu yaz Microsoft ve T3'te eş zamanlı stajyerim. Hedefim: fark yaratan, temiz ve işe yarar yazılımlar.",
     skillsLabel: "YETENEKLER",
-    journeyLabel: "YOLCULUK",
-    journey: [
+    skillGroups: { langs: "Diller", ai: "Yapay Zekâ Araçları", tools: "Geliştirme Araçları" },
+    eduLabel: "EĞİTİM",
+    edu: [
       {
-        when: "2024 — Üniversite",
-        title: "Arel Üniversitesi — Yazılım Mühendisliği",
-        desc: "Bölüme birincilikle, tam burslu girdim (2024–2028). Bu derece bir sonuç değil; sorumluluğunu taşıdığım bir başlangıç.",
+        when: "2024 — 2028",
+        title: "İstanbul Arel Üniversitesi — Yazılım Mühendisliği",
+        desc: "Bölüme birincilikle, tam burslu girdim. Bu derece bir sonuç değil; sorumluluğunu taşıdığım bir başlangıç.",
+        badge: "GNO 3,62 / 4,00",
+      },
+    ],
+    expLabel: "DENEYİM",
+    exp: [
+      {
+        when: "Yaz 2026 — Devam",
+        title: "Microsoft & T3 — Eş Zamanlı Staj",
+        desc: "Microsoft Gönüllü Staj Programı'nda ve T3 Vakfı bünyesinde eş zamanlı stajyerim.",
       },
       {
-        when: "2024 — T3 Vakfı",
+        when: "2024 — Devam",
         title: "T3 Vakfı — Eğitmen & Bursiyer",
         desc: "Deneyap Teknoloji Atölyeleri'nde eğitmenim ve T3 bursiyeriyim; robotik kodlama ve algoritmik düşünme eğitimleri veriyorum.",
       },
+    ],
+    compLabel: "YARIŞMALAR",
+    comp: [
       {
-        when: "2024 → Devam",
+        when: "2024 — Devam",
         title: "TEKNOFEST — İki projede takım kaptanı",
         desc: "VARIANT-GNN (sağlıkta yapay zekâ, ÖDR: 93/100) ve Yapay Zekâ Dil Ajanları projelerinde takım kaptanıyım.",
       },
       {
-        when: "2026 — Yarışmalar",
-        title: "TÜSEB",
-        desc: "TÜSEB'de biyobelirteç analizi çalışması yürütüyorum.",
-      },
-      {
-        when: "Yaz 2026 — Şu An",
-        title: "Microsoft & T3 — Eş Zamanlı Staj",
-        desc: "Microsoft Gönüllü Staj Programı'nda ve T3 Vakfı bünyesinde eş zamanlı stajyerim.",
+        when: "2026",
+        title: "TÜSEB — Biyobelirteç Analizi",
+        desc: "Sağlık teknolojisi kategorisinde biyobelirteç analizi çalışması yürütüyorum.",
       },
     ],
     certsLabel: "SERTİFİKALAR",
@@ -181,32 +189,40 @@ export const en: Dict = {
     p1: "I'm a full-scholarship Software Engineering student at Istanbul Arel University — I entered the program ranked first. I'm passionate about AI, prompt engineering and language agents.",
     p2: "At the T3 Foundation I'm both an instructor and a scholar; this summer I'm interning at Microsoft and T3 simultaneously. My goal: clean, useful software that makes a difference.",
     skillsLabel: "SKILLS",
-    journeyLabel: "JOURNEY",
-    journey: [
+    skillGroups: { langs: "Languages", ai: "AI Tools", tools: "Dev Tools" },
+    eduLabel: "EDUCATION",
+    edu: [
       {
-        when: "2024 — University",
-        title: "Arel University — Software Engineering",
-        desc: "Entered ranked first, on a full scholarship (2024–2028). That rank isn't a result; it's a starting point I carry responsibility for.",
+        when: "2024 — 2028",
+        title: "Istanbul Arel University — Software Engineering",
+        desc: "Entered ranked first, on a full scholarship. That rank isn't a result; it's a starting point I carry responsibility for.",
+        badge: "GPA 3.62 / 4.00",
+      },
+    ],
+    expLabel: "EXPERIENCE",
+    exp: [
+      {
+        when: "Summer 2026 — Present",
+        title: "Microsoft & T3 — Concurrent Internships",
+        desc: "Interning simultaneously at the Microsoft Volunteer Internship Program and the T3 Foundation.",
       },
       {
-        when: "2024 — T3 Foundation",
+        when: "2024 — Present",
         title: "T3 Foundation — Instructor & Scholar",
         desc: "I teach robotics coding and algorithmic thinking at the Deneyap Technology Workshops, and I'm a T3 scholar.",
       },
+    ],
+    compLabel: "COMPETITIONS",
+    comp: [
       {
-        when: "2024 → Ongoing",
-        title: "TEKNOFEST — Captain of two teams",
+        when: "2024 — Present",
+        title: "TEKNOFEST — Captain of Two Teams",
         desc: "Team captain of VARIANT-GNN (AI in healthcare, PER: 93/100) and the AI Language Agents project.",
       },
       {
-        when: "2026 — Competitions",
-        title: "TÜSEB",
-        desc: "A biomarker analysis study at TÜSEB.",
-      },
-      {
-        when: "Summer 2026 — Now",
-        title: "Microsoft & T3 — Concurrent Internships",
-        desc: "Interning simultaneously at the Microsoft Volunteer Internship Program and the T3 Foundation.",
+        when: "2026",
+        title: "TÜSEB — Biomarker Analysis",
+        desc: "A biomarker analysis study in the health technology category.",
       },
     ],
     certsLabel: "CERTIFICATES",
@@ -312,32 +328,40 @@ export const de: Dict = {
     p1: "Ich studiere Software Engineering mit Vollstipendium an der Istanbul Arel Universität — aufgenommen als Jahrgangsbeste. Meine Leidenschaft: KI, Prompt Engineering und Sprachagenten.",
     p2: "Bei der T3-Stiftung bin ich Ausbilderin und Stipendiatin; diesen Sommer absolviere ich parallel Praktika bei Microsoft und T3. Mein Ziel: sauberer, nützlicher Code, der etwas bewirkt.",
     skillsLabel: "FÄHIGKEITEN",
-    journeyLabel: "WERDEGANG",
-    journey: [
+    skillGroups: { langs: "Programmiersprachen", ai: "KI-Werkzeuge", tools: "Entwicklungswerkzeuge" },
+    eduLabel: "AUSBILDUNG",
+    edu: [
       {
-        when: "2024 — Universität",
-        title: "Arel Universität — Software Engineering",
-        desc: "Aufnahme als Jahrgangsbeste mit Vollstipendium (2024–2028). Dieser Rang ist kein Ergebnis, sondern ein Anfang mit Verantwortung.",
+        when: "2024 – 2028",
+        title: "Istanbul Arel Universität — Software Engineering",
+        desc: "Aufnahme als Jahrgangsbeste mit Vollstipendium. Dieser Rang ist kein Ergebnis, sondern ein Anfang mit Verantwortung.",
+        badge: "Notenschnitt 3,62 / 4,00",
+      },
+    ],
+    expLabel: "ERFAHRUNG",
+    exp: [
+      {
+        when: "Sommer 2026 – laufend",
+        title: "Microsoft & T3 — Parallele Praktika",
+        desc: "Parallele Praktika im Microsoft Volunteer Internship Program und bei der T3-Stiftung.",
       },
       {
-        when: "2024 — T3-Stiftung",
+        when: "2024 – laufend",
         title: "T3-Stiftung — Ausbilderin & Stipendiatin",
         desc: "In den Deneyap-Werkstätten unterrichte ich Robotik-Programmierung und algorithmisches Denken.",
       },
+    ],
+    compLabel: "WETTBEWERBE",
+    comp: [
       {
-        when: "2024 → Laufend",
+        when: "2024 – laufend",
         title: "TEKNOFEST — Kapitänin zweier Teams",
         desc: "Teamkapitänin von VARIANT-GNN (KI im Gesundheitswesen, 93/100) und dem Projekt KI-Sprachagenten.",
       },
       {
-        when: "2026 — Wettbewerbe",
-        title: "TÜSEB",
-        desc: "Eine Biomarker-Analyse bei TÜSEB.",
-      },
-      {
-        when: "Sommer 2026 — Jetzt",
-        title: "Microsoft & T3 — Parallele Praktika",
-        desc: "Parallele Praktika im Microsoft Volunteer Internship Program und bei der T3-Stiftung.",
+        when: "2026",
+        title: "TÜSEB — Biomarker-Analyse",
+        desc: "Eine Biomarker-Analyse in der Kategorie Gesundheitstechnologie.",
       },
     ],
     certsLabel: "ZERTIFIKATE",
@@ -443,32 +467,40 @@ export const ru: Dict = {
     p1: "Я учусь на программной инженерии в Стамбульском университете Арел с полной стипендией — поступила на направление первой. Увлечена ИИ, промпт-инжинирингом и языковыми агентами.",
     p2: "В фонде T3 я преподавательница и стипендиатка; этим летом прохожу параллельные стажировки в Microsoft и T3. Моя цель — чистый и полезный софт, который меняет что-то к лучшему.",
     skillsLabel: "НАВЫКИ",
-    journeyLabel: "ПУТЬ",
-    journey: [
+    skillGroups: { langs: "Языки", ai: "ИИ-инструменты", tools: "Инструменты разработки" },
+    eduLabel: "ОБРАЗОВАНИЕ",
+    edu: [
       {
-        when: "2024 — Университет",
+        when: "2024 — 2028",
         title: "Университет Арел — программная инженерия",
-        desc: "Поступила первой, с полной стипендией (2024–2028). Для меня это не итог, а точка старта и ответственность.",
+        desc: "Поступила первой, с полной стипендией. Для меня это не итог, а точка старта и ответственность.",
+        badge: "Средний балл 3,62 / 4,00",
       },
-      {
-        when: "2024 — Фонд T3",
-        title: "Фонд T3 — преподавательница и стипендиатка",
-        desc: "Веду занятия по робототехнике и алгоритмическому мышлению в мастерских Deneyap.",
-      },
-      {
-        when: "2024 → сейчас",
-        title: "TEKNOFEST — капитан двух команд",
-        desc: "Капитан проектов VARIANT-GNN (ИИ в медицине, оценка 93/100) и «Языковые агенты ИИ».",
-      },
-      {
-        when: "2026 — Конкурсы",
-        title: "TÜSEB",
-        desc: "В TÜSEB веду анализ биомаркеров.",
-      },
+    ],
+    expLabel: "ОПЫТ",
+    exp: [
       {
         when: "Лето 2026 — сейчас",
         title: "Microsoft и T3 — параллельные стажировки",
         desc: "Одновременно стажируюсь в волонтёрской программе Microsoft и в фонде T3.",
+      },
+      {
+        when: "2024 — сейчас",
+        title: "Фонд T3 — преподавательница и стипендиатка",
+        desc: "Веду занятия по робототехнике и алгоритмическому мышлению в мастерских Deneyap.",
+      },
+    ],
+    compLabel: "КОНКУРСЫ",
+    comp: [
+      {
+        when: "2024 — сейчас",
+        title: "TEKNOFEST — капитан двух команд",
+        desc: "Капитан проектов VARIANT-GNN (ИИ в медицине, оценка 93/100) и «Языковые агенты ИИ».",
+      },
+      {
+        when: "2026",
+        title: "TÜSEB — анализ биомаркеров",
+        desc: "Исследование биомаркеров в категории медицинских технологий.",
       },
     ],
     certsLabel: "СЕРТИФИКАТЫ",
@@ -547,7 +579,7 @@ export const ar: Dict = {
   now: {
     label: "الآن",
     items: [
-      { k: "أتعلّم", v: "الذكاء الاصطناعي و LLM" },
+      { k: "أتعلّم", v: "الذكاء الاصطناعي وLLM" },
       { k: "أطوّر", v: "VARIANT-GNN ووكلاء اللغة بالذكاء الاصطناعي" },
     ],
   },
@@ -572,34 +604,42 @@ export const ar: Dict = {
     title: "عنّي",
     year: "السنة الثالثة",
     p1: "أدرس هندسة البرمجيات بمنحة كاملة في جامعة أريل بإسطنبول — التحقت بالقسم بالمرتبة الأولى. شغوفة بالذكاء الاصطناعي وهندسة الأوامر ووكلاء اللغة.",
-    p2: "في مؤسسة T3 أنا مدرّبة وحاصلة على منحة؛ وهذا الصيف أتدرّب بالتوازي في مايكروسوفت و T3. هدفي: برمجيات نظيفة ومفيدة تُحدث فرقاً.",
+    p2: "في مؤسسة T3 أنا مدرّبة وحاصلة على منحة؛ وهذا الصيف أتدرّب بالتوازي في مايكروسوفت وT3. هدفي: برمجيات نظيفة ومفيدة تُحدث فرقاً.",
     skillsLabel: "المهارات",
-    journeyLabel: "المسيرة",
-    journey: [
+    skillGroups: { langs: "اللغات", ai: "أدوات الذكاء الاصطناعي", tools: "أدوات التطوير" },
+    eduLabel: "التعليم",
+    edu: [
       {
-        when: "2024 — الجامعة",
-        title: "جامعة أريل — هندسة البرمجيات",
-        desc: "التحقت بالمرتبة الأولى وبمنحة كاملة (2024–2028). هذا الترتيب ليس نتيجة؛ بل بداية أحمل مسؤوليتها.",
+        when: "2024 — 2028",
+        title: "جامعة أريل بإسطنبول — هندسة البرمجيات",
+        desc: "التحقت بالقسم بالمرتبة الأولى وبمنحة كاملة. هذا الترتيب ليس نتيجة؛ بل بداية أحمل مسؤوليتها.",
+        badge: "المعدل التراكمي 3.62/4.00",
+      },
+    ],
+    expLabel: "الخبرة",
+    exp: [
+      {
+        when: "صيف 2026 — مستمر",
+        title: "مايكروسوفت وT3 — تدريبان متزامنان",
+        desc: "أتدرّب بالتوازي في برنامج مايكروسوفت التطوعي وفي مؤسسة T3.",
       },
       {
-        when: "2024 — مؤسسة T3",
+        when: "2024 — مستمر",
         title: "مؤسسة T3 — مدرّبة وحاصلة على منحة",
         desc: "أدرّس برمجة الروبوتات والتفكير الخوارزمي في ورش دنياب التقنية.",
       },
+    ],
+    compLabel: "المسابقات",
+    comp: [
       {
         when: "2024 — مستمر",
         title: "تكنوفيست — قائدة فريقين",
         desc: "أقود فريقي VARIANT-GNN (ذكاء اصطناعي في الصحة، تقييم 93/100) ومشروع وكلاء اللغة.",
       },
       {
-        when: "2026 — المسابقات",
-        title: "TÜSEB",
-        desc: "دراسة تحليل المؤشرات الحيوية في TÜSEB.",
-      },
-      {
-        when: "صيف 2026 — الآن",
-        title: "مايكروسوفت و T3 — تدريبان متزامنان",
-        desc: "أتدرّب بالتوازي في برنامج مايكروسوفت التطوعي وفي مؤسسة T3.",
+        when: "2026",
+        title: "TÜSEB — تحليل المؤشرات الحيوية",
+        desc: "دراسة تحليل المؤشرات الحيوية في فئة التقنيات الصحية.",
       },
     ],
     certsLabel: "الشهادات",
@@ -660,12 +700,12 @@ export const ar: Dict = {
   footer: "فكّر مختلفاً — برمج مختلفاً",
 };
 
-// Ortak: dilden bağımsız yetenek çipleri
-export const SKILLS = [
-  "Python", "Java", "JavaScript", "C", "C++",
-  "PyTorch", "Scikit-learn", "XGBoost",
-  "Git", "Docker", "Linux",
-  "OpenAI API", "Anthropic API",
-];
+// Ortak: dilden bağımsız yetenek çipleri — etiketleri her dilin
+// about.skillGroups sözlüğünden gelir
+export const SKILL_GROUPS = [
+  { key: "langs", items: ["Python", "Java", "JavaScript", "C", "C++"] },
+  { key: "ai", items: ["Claude Code", "Antigravity", "Prompt Engineering"] },
+  { key: "tools", items: ["Git", "Docker", "Linux"] },
+] as const;
 
 export const locales = { tr, en, de, ru, ar };

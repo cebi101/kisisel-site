@@ -217,7 +217,9 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 [dir="rtl"] .tl-when,
 [dir="rtl"] .cert-org,
 [dir="rtl"] .pr-tags,
-[dir="rtl"] .form-hint { letter-spacing: 0; }
+[dir="rtl"] .form-hint,
+[dir="rtl"] .skill-group-label,
+[dir="rtl"] .tl-badge { letter-spacing: 0; }
 
 /* Arapça bitişik yazıda negatif tracking harf bağlarını bozar */
 [dir="rtl"] .section-title,
@@ -480,8 +482,18 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 .about-p1 { font-size: 20px; line-height: 1.7; color: var(--body); text-wrap: pretty; }
 .about-p2 { font-size: 18px; line-height: 1.7; color: var(--muted2); text-wrap: pretty; }
 
+.skill-group { display: flex; flex-direction: column; gap: 8px; }
+.skill-group-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--faint);
+  text-transform: uppercase;
+}
 .chips { display: flex; gap: 10px; flex-wrap: wrap; }
 .chip {
+  /* çip içerikleri Latin teknoloji adları — RTL sayfada "C++" → "++C" olmasın */
+  direction: ltr;
   font-family: var(--font-mono);
   font-size: 13px;
   border: 1px solid var(--border);
@@ -495,7 +507,7 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 
 .block-label { display: block; margin: 44px 0 20px; }
 
-/* yolculuk zaman çizelgesi */
+/* zaman çizelgesi (eğitim / deneyim / yarışmalar) */
 .timeline {
   position: relative;
   padding-inline-start: 30px;
@@ -540,6 +552,18 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   text-wrap: balance;
 }
 .tl-item p { font-size: 14.5px; color: var(--muted2); line-height: 1.6; }
+.tl-badge {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--accent2);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  padding: 4px 12px;
+  border-radius: 100px;
+}
 
 /* sertifikalar */
 .cert-grid {
