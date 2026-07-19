@@ -12,21 +12,25 @@
 :root[data-mode="light"] {
   --bg: #f1eae8;
   --panel: #ece0dd;
-  --accent: #b98a82;      /* pudra gül */
-  --accentD: #9e6e66;
-  --accent2: #9fa98c;     /* adaçayı */
+  /* vurgular canlandırıldı: soluk mauve/adaçayı yerine daha doygun,
+     kontrastı geçen tonlar (eski: #b98a82 / #9e6e66 / #9fa98c) */
+  --accent: #a15c50;      /* derin gül */
+  --accentD: #854a3f;
+  --accent2: #6f7d55;     /* adaçayı */
   --peach: #e8cfc8;
   --ink: #3b332c;
   --body: #4a4038;
-  --muted: #6e6357;
-  /* soluk tonlar WCAG AA için koyulaştırıldı (eski: #7b7064/#a89e92/#c4b4a6) */
-  --muted2: #6a6054;
+  /* ikincil metin koyulaştırıldı ki başarılar öne çıksın (eski: #6e6357/#6a6054) */
+  --muted: #5c5348;
+  --muted2: #544c42;
   --faint: #6e6357;
-  --faint2: #918070;
+  --faint2: #8a7867;
   --border: #e4d8d4;
   --onaccent: #fbf7f1;
   --field: #fbf7f1;
-  --dot: #dccfc9;
+  --dot: #d7c8c1;
+  --shadow: 0 6px 20px -8px rgba(59, 51, 44, 0.18);
+  --shadow-sm: 0 2px 8px -3px rgba(59, 51, 44, 0.14);
 }
 
 /* ---------- GECE (dark) ---------- */
@@ -48,6 +52,8 @@
   --onaccent: #231917;
   --field: #241b19;
   --dot: #372b29;
+  --shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 2px 10px -3px rgba(0, 0, 0, 0.45);
 }
 
 :root {
@@ -145,6 +151,7 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   border: 1px solid var(--border);
   border-radius: 18px;
   padding: 20px 16px;
+  box-shadow: var(--shadow-sm);
 }
 .avatar-wrap { position: relative; margin-bottom: 6px; }
 .avatar {
@@ -268,6 +275,7 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   background: var(--accent);
   border-color: var(--accent);
   color: var(--onaccent);
+  box-shadow: var(--shadow-sm);
 }
 .nav-btn.active .num { background: var(--onaccent); color: var(--accent); }
 .nav-btn.active .arrow { opacity: 1; }
@@ -289,6 +297,7 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   display: flex;
   flex-direction: column;
   gap: 10px;
+  box-shadow: var(--shadow-sm);
 }
 .now-head { display: flex; align-items: center; gap: 7px; }
 .now-dot {
@@ -428,7 +437,7 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   font-family: var(--font-mono);
   font-size: 13px;
   letter-spacing: 2px;
-  color: var(--faint);
+  color: var(--accent);
 }
 .home h1 {
   font-family: var(--font-display);
@@ -473,10 +482,11 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 .hero-photo { position: relative; justify-self: center; }
 .photo-backdrop {
   position: absolute;
-  inset: -16px;
+  inset: -20px;
   background: var(--peach);
-  border-radius: 24px;
+  border-radius: 26px;
   transform: rotate(-4deg);
+  box-shadow: var(--shadow-sm);
   transition: background 0.35s ease;
 }
 .photo {
@@ -486,6 +496,7 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   object-fit: cover;
   object-position: center 25%;
   border-radius: 18px;
+  box-shadow: var(--shadow);
 }
 .photo-badge {
   position: absolute;
@@ -515,6 +526,7 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   object-fit: cover;
   object-position: center 25%;
   border-radius: 14px;
+  box-shadow: var(--shadow-sm);
 }
 .about-body { display: flex; flex-direction: column; gap: 18px; }
 .about-p1 { font-size: 20px; line-height: 1.7; color: var(--body); text-wrap: pretty; }
@@ -534,12 +546,12 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   direction: ltr;
   font-family: var(--font-mono);
   font-size: 13px;
-  border: 1px solid var(--border);
+  border: 1px solid transparent;
   padding: 7px 14px;
   border-radius: 100px;
-  color: var(--muted);
-  background: var(--panel);
-  transition: color 0.2s ease, border-color 0.2s ease;
+  color: var(--body);
+  background: var(--peach);
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
   cursor: default;
 }
 
@@ -615,7 +627,8 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   border-radius: 14px;
   padding: 20px 22px;
   background: var(--panel);
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 .cert-org {
   font-family: var(--font-mono);
@@ -634,25 +647,37 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 .cert-card p { font-size: 14px; color: var(--muted2); line-height: 1.55; }
 
 /* =============== 03 PROJELER =============== */
-.project-list { display: flex; flex-direction: column; }
+.project-list { display: flex; flex-direction: column; gap: 16px; }
 .project-row {
+  position: relative;
   display: grid;
-  grid-template-columns: 66px 1fr auto;
+  grid-template-columns: 60px 1fr auto;
   gap: 24px;
   align-items: center;
-  padding: 26px 14px;
-  border-top: 1px solid var(--border);
-  border-radius: 12px;
-  transition: background 0.2s ease;
+  padding: 26px 26px 26px 22px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
-.project-row:last-child { border-bottom: 1px solid var(--border); }
-/* herkese açık repo'su olmayan projeler: tıklanır gibi görünmesin */
+/* sol kenar vurgu şeridi: linkli projelerde gül, tıklanamazda adaçayı */
+.project-row::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 4px;
+  background: var(--accent);
+}
 .project-row.no-link { cursor: default; }
+.project-row.no-link::before { background: var(--accent2); }
 .pr-num {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 30px;
-  color: var(--faint2);
+  color: var(--accent2);
 }
 .pr-body { display: flex; flex-direction: column; gap: 6px; }
 .pr-title { font-weight: 600; font-size: 23px; color: var(--ink); text-wrap: balance; }
@@ -723,7 +748,11 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   .cv-btn:hover { background: var(--accent); color: var(--onaccent); }
   .tl-item:hover::before { transform: scale(1.35); }
   .cert-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-  .project-row:not(.no-link):hover { background: var(--panel); }
+  .project-row:not(.no-link):hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: var(--accent);
+  }
 }
 
 /* =============== FOOTER =============== */

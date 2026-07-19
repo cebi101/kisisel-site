@@ -75,6 +75,7 @@ const ogAlternates = Object.entries(OG_LOCALES)
       // ---------- Sekme sistemi ----------
       const panels = [...document.querySelectorAll<HTMLElement>(".tab-panel")];
       const navBtns = [...document.querySelectorAll<HTMLAnchorElement>(".nav-btn")];
+      let firstShow = true;
       const showTab = (id: string) => {
         const target = panels.find((p) => p.id === id) ?? panels[0];
         if (!target) return; // panelsiz sayfalar (ör. 404) script'in kalanını kırmasın
@@ -85,6 +86,14 @@ const ogAlternates = Object.entries(OG_LOCALES)
           if (on) a.setAttribute("aria-current", "page");
           else a.removeAttribute("aria-current");
         });
+        // sekme içeriği anında görünsün — gizli panelin reveal'ları observer'a
+        // takılıp "hayalet" (opacity:0) kalmasın. Yalnız ilk açılış HOME ise
+        // observer'ın giriş animasyonuna bırak; derin-link (ör. /#projects) dahil
+        // diğer tüm durumlarda anında görünür kıl.
+        if (!(firstShow && target.id === "home")) {
+          target.querySelectorAll(".reveal").forEach((el) => el.classList.add("visible"));
+        }
+        firstShow = false;
         scrollTo({ top: 0, behavior: "auto" });
       };
       document.addEventListener("click", (e) => {
