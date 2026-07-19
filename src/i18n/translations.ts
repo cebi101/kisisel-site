@@ -705,7 +705,7 @@ export const ar: Dict = {
 export const SKILL_GROUPS = [
   { key: "langs", items: ["Python", "Java", "JavaScript", "C", "C++"] },
   { key: "ai", items: ["Claude Code", "Antigravity", "Prompt Engineering"] },
-  { key: "tools", items: ["Git", "Docker", "Linux"] },
+  { key: "tools", items: ["Git", "VS Code", "Cursor"] },
 ] as const;
 
 export const locales = { tr, en, de, ru, ar };

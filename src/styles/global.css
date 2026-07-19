@@ -608,6 +608,8 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   transition: background 0.2s ease;
 }
 .project-row:last-child { border-bottom: 1px solid var(--border); }
+/* herkese açık repo'su olmayan projeler: tıklanır gibi görünmesin */
+.project-row.no-link { cursor: default; }
 .pr-num {
   font-family: var(--font-display);
   font-weight: 900;
@@ -682,7 +684,7 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   .lang-switch a:hover { border-color: var(--accent); }
   .tl-item:hover::before { transform: scale(1.35); }
   .cert-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-  .project-row:hover { background: var(--panel); }
+  .project-row:not(.no-link):hover { background: var(--panel); }
 }
 
 /* =============== FOOTER =============== */
