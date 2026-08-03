@@ -567,11 +567,14 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 
 /* =============== 01 ANA SAYFA =============== */
 .home {
-  min-height: calc(100vh - 62px);
+  /* tam ekran yüksekliği yerine içeriğe göre: altındaki yarışma bandı
+     kıvrımın hemen altında kalsın, arada ölü boşluk oluşmasın */
+  min-height: 520px;
   display: grid;
   grid-template-columns: 1fr 340px;
   gap: 56px;
   align-items: center;
+  padding-bottom: 40px;
 }
 .hero-left { display: flex; flex-direction: column; gap: 38px; }
 .hero-head { display: flex; flex-direction: column; gap: 10px; }
