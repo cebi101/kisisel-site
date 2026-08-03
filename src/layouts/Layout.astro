@@ -107,8 +107,8 @@ const ogAlternates = Object.entries(OG_LOCALES)
         addEventListener("resize", resize);
 
         // yıldız tonları temaya göre: kâğıt zeminde görünür kalsın, gecede parlasın
-        const TINTS_LIGHT = ["#f291ba", "#f7a8c9", "#ee85b2", "#ffb6d5", "#f9c2d8"];
-        const TINTS_DARK = ["#ffd4e6", "#f9c2d8", "#ffe4f0", "#f4aacb", "#ffffff"];
+        const TINTS_LIGHT = ["#f2adc9", "#f8c4dc", "#efb7d0", "#fbd0e3", "#f5bcd7"];
+        const TINTS_DARK = ["#ffdcec", "#fbcfe3", "#ffe9f3", "#f7c3dc", "#fff4f9"];
         const tints = () =>
           document.documentElement.dataset.mode === "dark" ? TINTS_DARK : TINTS_LIGHT;
         type P = { x: number; y: number; vx: number; vy: number; life: number; max: number; r: number; c: string; spin: number };
@@ -152,10 +152,10 @@ const ogAlternates = Object.entries(OG_LOCALES)
             p.vx *= 0.99;
             const alpha = k < 0.15 ? k / 0.15 : 1 - (k - 0.15) / 0.85; // belir → sön
             const size = p.r * (1 - k * 0.45);
-            ctx.globalAlpha = Math.max(alpha, 0);
+            ctx.globalAlpha = Math.max(alpha, 0) * 0.72; // yumuşak ton
             ctx.fillStyle = p.c;
             ctx.shadowColor = p.c;
-            ctx.shadowBlur = size * 5; // simli parıltı
+            ctx.shadowBlur = size * 3.5; // yumuşak hale
             // küçük beş uçlu yıldız
             ctx.save();
             ctx.translate(p.x, p.y);
