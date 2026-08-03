@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from "astro:transitions";
+import "../styles/fonts.css";
 import "../styles/global.css";
 import { tr } from "../i18n/translations";
 
@@ -43,14 +45,9 @@ const ogAlternates = Object.entries(OG_LOCALES)
     <meta name="twitter:description" content={description} />
     <title>{title}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <!-- Tipografi: Fraunces (900 display) + DM Mono + Sora -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Yalnızca kullanılan kesimler: Fraunces 900 (roman+italik), Sora 400/500/600, DM Mono 400 -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,900;1,9..144,900&family=DM+Mono&family=Sora:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Tipografi: kendi sunucumuzda barındırılıyor (dış istek yok) -->
+    <link rel="preload" href="/fonts/sora-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/fraunces-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
     <!-- Tema: boyamadan ÖNCE uygula (parlama olmasın) -->
     <script is:inline>
       document.documentElement.classList.add("js");
@@ -64,29 +61,31 @@ const ogAlternates = Object.entries(OG_LOCALES)
           saved === "light" || saved === "dark" ? saved : system;
       })();
     </script>
+    <ClientRouter />
   </head>
   <body>
     <slot />
 
     <script>
       // ---------- Okuma ilerleme çubuğu ----------
-      const bar = document.getElementById("scroll-progress");
-      if (bar) {
-        const setProgress = () => {
-          const max = document.documentElement.scrollHeight - innerHeight;
-          bar.style.width = max > 0 ? `${Math.min((scrollY / max) * 100, 100)}%` : "0%";
-        };
-        addEventListener("scroll", setProgress, { passive: true });
-        addEventListener("resize", setProgress);
-        setProgress();
-      }
+      // View Transitions ile gövde değiştiği için öğe her sayfada yeniden aranır
+      const setProgress = () => {
+        const bar = document.getElementById("scroll-progress");
+        if (!bar) return;
+        const max = document.documentElement.scrollHeight - innerHeight;
+        bar.style.width = max > 0 ? `${Math.min((scrollY / max) * 100, 100)}%` : "0%";
+      };
+      addEventListener("scroll", setProgress, { passive: true });
+      addEventListener("resize", setProgress);
 
       // ---------- İmleç ışıltısı (simli pembe iz) ----------
       // yalnızca gerçek imleçli cihazlarda ve hareket azaltma kapalıyken
       const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
       const lessMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let sparkleCanvas: HTMLCanvasElement | null = null;
       if (finePointer && !lessMotion) {
         const cvs = document.createElement("canvas");
+        sparkleCanvas = cvs;
         cvs.className = "sparkle-canvas";
         cvs.setAttribute("aria-hidden", "true");
         // kritik stiller doğrudan öğede: stil dosyası değişse de efekt bozulmasın
@@ -197,25 +196,26 @@ const ogAlternates = Object.entries(OG_LOCALES)
       }
 
       // ---------- Gündüz / Gece anahtarı ----------
-      const modeBtns = [...document.querySelectorAll<HTMLButtonElement>(".mode-switch button")];
       const syncMode = () => {
         const mode = document.documentElement.dataset.mode;
-        modeBtns.forEach((b) => {
+        document.querySelectorAll<HTMLButtonElement>(".mode-switch button").forEach((b) => {
           b.classList.toggle("on", b.dataset.mode === mode);
           b.setAttribute("aria-pressed", String(b.dataset.mode === mode));
         });
         const themeMeta = document.querySelector('meta[name="theme-color"]');
         themeMeta?.setAttribute("content", mode === "dark" ? "#211a19" : "#f1eae8");
       };
-      modeBtns.forEach((b) =>
-        b.addEventListener("click", () => {
-          const m = b.dataset.mode || "dark";
-          document.documentElement.dataset.mode = m;
-          try { localStorage.setItem("mode", m); } catch {}
-          syncMode();
-        })
-      );
-      syncMode();
+      const bindTheme = () => {
+        document.querySelectorAll<HTMLButtonElement>(".mode-switch button").forEach((b) =>
+          b.addEventListener("click", () => {
+            const m = b.dataset.mode || "dark";
+            document.documentElement.dataset.mode = m;
+            try { localStorage.setItem("mode", m); } catch {}
+            syncMode();
+          })
+        );
+        syncMode();
+      };
 
       // ---------- Scroll'da görünme ----------
       const observer = new IntersectionObserver(
@@ -229,11 +229,13 @@ const ogAlternates = Object.entries(OG_LOCALES)
         },
         { threshold: 0.1 }
       );
-      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+      const observeReveals = () =>
+        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 
       // ---------- İletişim formu → e-posta uygulaması ----------
-      const form = document.getElementById("contact-form") as HTMLFormElement | null;
-      form?.addEventListener("submit", (e) => {
+      const bindForm = () => {
+        const form = document.getElementById("contact-form") as HTMLFormElement | null;
+        form?.addEventListener("submit", (e) => {
         e.preventDefault();
         const fd = new FormData(form);
         const email = form.dataset.email || "";
@@ -243,7 +245,23 @@ const ogAlternates = Object.entries(OG_LOCALES)
         const subject = encodeURIComponent(`${form.dataset.subject || ""} — ${name}`);
         const body = encodeURIComponent(`${msg}\n\n— ${name} (${from})`);
         location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-      });
+        });
+      };
+
+      // ---------- Sayfa geçişlerinde yeniden bağlama ----------
+      // ClientRouter gövdeyi değiştirdiği için her yüklemede yeniden kur
+      const onPage = () => {
+        bindTheme();
+        observeReveals();
+        bindForm();
+        setProgress();
+        // ışıltı canvas'ı gövde değişince kopar → geri tak
+        if (typeof sparkleCanvas !== "undefined" && sparkleCanvas && !sparkleCanvas.isConnected) {
+          document.body.appendChild(sparkleCanvas);
+        }
+      };
+      onPage();
+      document.addEventListener("astro:page-load", onPage);
 
       // ---------- Konsol sürprizi ----------
       console.log(

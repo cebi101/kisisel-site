@@ -58,6 +58,8 @@ export const tr = {
       { k: "stajyerim", v: "Microsoft & T3 Vakfı" },
       { k: "başvurdum", v: "SSB Kuantum Algoritma" },
     ],
+    updated: "Son güncelleme · 4 Ağustos 2026",
+    note: "Bu kart gerçekten güncel tutuluyor.",
   },
 
   themeLabel: "GÖRÜNÜM",
@@ -267,6 +269,8 @@ export const en: Dict = {
       { k: "interning", v: "Microsoft & T3 Foundation" },
       { k: "applied", v: "SSB Quantum Algorithm" },
     ],
+    updated: "Updated · 4 August 2026",
+    note: "This card is kept genuinely up to date.",
   },
 
   themeLabel: "APPEARANCE",

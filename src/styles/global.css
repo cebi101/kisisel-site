@@ -299,6 +299,19 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   text-transform: uppercase;
 }
 .now-item { display: flex; flex-direction: column; gap: 1px; }
+.now-item {
+  padding-inline-start: 9px;
+  border-inline-start: 2px solid var(--peach);
+}
+.now-updated {
+  margin-top: 4px;
+  padding-top: 9px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.5px;
+  color: var(--faint);
+}
 .now-k { font-family: var(--font-mono); font-size: 10px; color: var(--faint); }
 .now-v { font-size: 13px; color: var(--body); line-height: 1.3; }
 
