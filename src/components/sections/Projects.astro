@@ -1,0 +1,38 @@
+---
+import type { Dict } from "../../i18n/translations";
+import { PROJECT_HREFS } from "../../data/site";
+
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+---
+
+<div class="page">
+  <div class="page-head">
+    <span class="page-no">{t.projects.no}</span>
+    <h1 class="section-title">{t.projects.title}</h1>
+  </div>
+  <div class="project-list">
+    {t.projects.items.map((p, i) => {
+      const href = PROJECT_HREFS[i];
+      const Tag = href ? "a" : "div";
+      return (
+        <Tag
+          href={href ?? undefined}
+          target={href ? "_blank" : undefined}
+          rel={href ? "noopener" : undefined}
+          class={`project-row reveal ${href ? "" : "no-link"} ${i ? `d${Math.min(i, 3)}` : ""}`}
+        >
+          <span class="pr-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+          <span class="pr-body">
+            <span class="pr-title">{p.title}</span>
+            <span class="pr-desc">{p.desc}</span>
+            <span class="pr-tags">{p.tags}</span>
+          </span>
+          {href && <span class="pr-arrow" aria-hidden="true">↗</span>}
+        </Tag>
+      );
+    })}
+  </div>
+</div>

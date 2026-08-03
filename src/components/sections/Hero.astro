@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+import type { Dict } from "../../i18n/translations";
+import foto from "../../assets/foto.jpg";
+
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+---
+
+<div class="page home">
+  <div class="hero-left">
+    <div class="hero-head">
+      <div class="hello">{t.hero.hello}</div>
+      <h1>
+        {t.hero.h1a}<br />
+        <em>{t.hero.h1b}</em>
+      </h1>
+    </div>
+    <p class="tagline">{t.hero.tagline}</p>
+    <div class="cta-row">
+      <a href={t.routes.projects} class="btn btn-solid">{t.hero.cta} <span class="arr" aria-hidden="true">→</span></a>
+      <a href={t.routes.contact} class="btn btn-line">{t.nav.contact}</a>
+    </div>
+  </div>
+  <div class="hero-photo reveal">
+    <div class="photo-backdrop" aria-hidden="true"></div>
+    <Image src={foto} width={680} alt={t.hero.photoAlt} class="photo" loading="eager" fetchpriority="high" />
+    <div class="photo-badge">{t.role}</div>
+  </div>
+</div>

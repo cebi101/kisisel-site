@@ -1,6 +1,13 @@
 ---
-import Site from "../../components/Site.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
+import Hero from "../../components/sections/Hero.astro";
+import Highlight from "../../components/sections/Highlight.astro";
 import { en } from "../../i18n/translations";
 ---
 
-<Site t={en} />
+<PageLayout t={en} current="home">
+  <Hero t={en} />
+  <div class="page page-tight">
+    <Highlight t={en} />
+  </div>
+</PageLayout>

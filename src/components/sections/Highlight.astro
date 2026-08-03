@@ -1,0 +1,22 @@
+---
+// Ana sayfa yarışma vitrini — gerçek TEKNOFEST verisi (ÖDR 93/100)
+import type { Dict } from "../../i18n/translations";
+
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+---
+
+<section class="highlight-band reveal" aria-label={t.highlight.label}>
+  <div class="hl-body">
+    <span class="hl-label">{t.highlight.label}</span>
+    <h2 class="hl-title">{t.highlight.title}</h2>
+    <p class="hl-desc">{t.highlight.desc}</p>
+    <a href={t.routes.projects} class="hl-link">{t.nav.projects} <span aria-hidden="true">→</span></a>
+  </div>
+  <div class="hl-score">
+    <span class="hl-score-num">{t.highlight.score}</span>
+    <span class="hl-score-label">{t.highlight.scoreLabel}</span>
+  </div>
+</section>

@@ -1,0 +1,9 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Contact from "../components/sections/Contact.astro";
+import { tr } from "../i18n/translations";
+---
+
+<PageLayout t={tr} current="contact" title={`${tr.contact.title} — ${tr.name}`}>
+  <Contact t={tr} />
+</PageLayout>

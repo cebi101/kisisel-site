@@ -1,0 +1,9 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Projects from "../../components/sections/Projects.astro";
+import { en } from "../../i18n/translations";
+---
+
+<PageLayout t={en} current="projects" title={`${en.projects.title} — ${en.name}`}>
+  <Projects t={en} />
+</PageLayout>

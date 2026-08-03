@@ -392,10 +392,9 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   min-height: 100vh;
 }
 
-.tab-panel { display: none; }
-.tab-panel.active {
-  display: block;
-  flex: 1;
+/* sayfa girişi — her rota yüklendiğinde içerik yumuşak belirir */
+.content > .page,
+.content > .highlight-band {
   animation: panelIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 @keyframes panelIn {
@@ -403,7 +402,151 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   to { opacity: 1; transform: none; }
 }
 
+/* =============== YARIŞMA VİTRİNİ (ana sayfa) =============== */
+.highlight-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin: 0 64px 76px;
+  max-width: 1320px;
+  padding: 30px 34px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--panel), var(--peach));
+  box-shadow: var(--shadow-sm);
+}
+.hl-body { flex: 1 1 340px; }
+.hl-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.hl-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 34px;
+  line-height: 1.1;
+  color: var(--ink);
+  margin: 6px 0 6px;
+}
+.hl-desc {
+  font-size: 15.5px;
+  color: var(--muted2);
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+.hl-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--accent);
+}
+.hl-score {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 18px 26px;
+  border-radius: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.hl-score-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 40px;
+  line-height: 1;
+  color: var(--accent2);
+}
+.hl-score-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--faint);
+  text-transform: uppercase;
+}
+
+/* okuma ilerleme çubuğu */
+.scroll-progress {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: 20;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.1s linear;
+}
+
 .page { padding: 76px 64px; max-width: 1320px; }
+/* hero'nun hemen altındaki blok — üstten boşluk tekrarlanmasın */
+.page-tight { padding-top: 0; padding-bottom: 56px; }
+
+/* =============== YARIŞMA VİTRİNİ (ana sayfa) =============== */
+.highlight-band {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 30px 34px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
+  max-width: 900px;
+}
+.hl-body { flex: 1 1 360px; display: flex; flex-direction: column; gap: 6px; }
+.hl-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  color: var(--accent);
+}
+.hl-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.hl-desc { font-size: 15px; color: var(--muted2); max-width: 56ch; text-wrap: pretty; }
+.hl-link {
+  align-self: flex-start;
+  margin-top: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--accent);
+}
+.hl-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 18px 26px;
+  border-radius: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.hl-score-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 38px;
+  line-height: 1;
+  color: var(--accent2);
+}
+.hl-score-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--faint);
+}
 
 /* sayfa başlığı: numara + Fraunces dev başlık */
 .page-head {
@@ -751,6 +894,7 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   }
   .lang-switch a:hover { border-color: var(--accent); }
   .cv-btn:hover { background: var(--accent); color: var(--onaccent); }
+  .hl-link:hover { color: var(--accentD); }
   .tl-item:hover::before { transform: scale(1.35); }
   .cert-card:hover { border-color: var(--accent); transform: translateY(-3px); }
   .project-row:not(.no-link):hover {
@@ -790,6 +934,7 @@ footer {
    bu aralıkta hero metnini eziyordu; ölçüler küçülür, yerleşim aynı kalır */
 @media (max-width: 1200px) and (min-width: 941px) {
   .page { padding: 56px 40px; }
+  .highlight-band { margin: 0 40px 56px; }
   .home { grid-template-columns: 1fr 280px; gap: 40px; }
   .photo { width: 280px; height: auto; aspect-ratio: 34 / 44; }
   .about-grid { grid-template-columns: 260px 1fr; gap: 40px; }
@@ -816,6 +961,8 @@ footer {
   .nav-btn .arrow { display: none; }
 
   .page { padding: 44px 22px; }
+  .highlight-band { margin: 0 22px 44px; padding: 22px; }
+  .hl-title { font-size: 27px; }
   .home {
     grid-template-columns: 1fr;
     gap: 60px;
@@ -845,8 +992,10 @@ footer {
 /* =============== HAREKET AZALTMA =============== */
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
-  .tab-panel.active { animation: none; }
+  .content > .page,
+  .content > .highlight-band { animation: none; }
   .now-dot { animation: none; }
+  .scroll-progress { display: none; }
 }
 
 /* =============== YAZDIRMA =============== */
@@ -860,11 +1009,11 @@ footer {
     --dot: transparent;
   }
   body { background-image: none; }
-  .sidebar, .cta-row, .contact-form, .skip-link { display: none; }
+  .sidebar, .cta-row, .contact-form, .skip-link, .cv-btn { display: none; }
   .app { grid-template-columns: 1fr; }
-  .tab-panel { display: block; }
-  .tab-panel + .tab-panel { break-before: page; }
-  .tab-panel.active { animation: none; }
+  .content > .page,
+  .content > .highlight-band { animation: none; }
+  .scroll-progress { display: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .home { min-height: auto; }
   .page { padding: 24px 0; }

@@ -1,0 +1,191 @@
+---
+// Akademik gelişim — gerçek transkript verisi.
+// Grafik tek serilik: sitenin gül+adaçayı ikilisi renk körlüğünde ayırt
+// edilemediği için iki renkli seri KULLANILMADI; kümülatif ortalama sayı
+// kartında ve tabloda veriliyor. Tablo aynı zamanda erişilebilir veri görünümü.
+import type { Dict } from "../../i18n/translations";
+import { SEMESTERS, TOTAL_ECTS, CURRENT_GPA } from "../../data/site";
+
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+const a = t.about.academic;
+
+const fmt = (v: number, d = 2) =>
+  t.lang === "tr" ? v.toFixed(d).replace(".", ",") : v.toFixed(d);
+
+// --- grafik geometrisi (viewBox 560×180) ---
+const X0 = 44, X1 = 540, YTOP = 22, YBOT = 138;
+const LO = 3.0, HI = 4.0; // eksen bilinçli olarak 3,0'dan başlar (çizgi grafik)
+const band = (X1 - X0) / SEMESTERS.length;
+const xAt = (i: number) => X0 + band * i + band / 2;
+const yAt = (v: number) => YBOT - ((v - LO) / (HI - LO)) * (YBOT - YTOP);
+
+const pts = SEMESTERS.map((s, i) => ({ ...s, x: xAt(i), y: yAt(s.gpa) }));
+const line = pts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+const gridVals = [3.0, 3.5, 4.0];
+---
+
+<section class="academic reveal" aria-labelledby="ac-heading">
+  <h2 class="side-label block-label" id="ac-heading">{a.label}</h2>
+
+  <div class="ac-card">
+    <div class="ac-stats">
+      <div class="ac-stat">
+        <span class="ac-num">{fmt(CURRENT_GPA)} <span class="ac-den">/ {fmt(4, 2)}</span></span>
+        <span class="ac-stat-label">{a.gpaLabel}</span>
+      </div>
+      <div class="ac-stat">
+        <span class="ac-num">{TOTAL_ECTS}</span>
+        <span class="ac-stat-label">{a.ectsLabel}</span>
+      </div>
+      <div class="ac-stat">
+        <span class="ac-num">{SEMESTERS.length}</span>
+        <span class="ac-stat-label">{a.termCountLabel}</span>
+      </div>
+    </div>
+
+    <figure class="ac-figure">
+      <figcaption class="ac-figcap">{a.chartTitle}</figcaption>
+      <svg viewBox="0 0 560 180" class="ac-chart" role="img" aria-labelledby="ac-t ac-d">
+        <title id="ac-t">{a.chartTitle}</title>
+        <desc id="ac-d">{a.chartDesc}</desc>
+
+        {gridVals.map((v) => (
+          <g>
+            <line x1={X0} x2={X1} y1={yAt(v)} y2={yAt(v)} class="ac-grid" />
+            <text x={X0 - 10} y={yAt(v) + 4} class="ac-ylabel" text-anchor="end">{fmt(v, 1)}</text>
+          </g>
+        ))}
+
+        <polyline points={line} class="ac-line" fill="none" />
+
+        {pts.map((p, i) => (
+          <g>
+            <circle cx={p.x} cy={p.y} r="5" class="ac-dot" />
+            <text x={p.x} y={p.y - 14} class="ac-value" text-anchor="middle">{fmt(p.gpa)}</text>
+            <text x={p.x} y={166} class="ac-xlabel" text-anchor="middle">{a.termsShort[i]}</text>
+          </g>
+        ))}
+      </svg>
+    </figure>
+
+    <table class="ac-table">
+      <thead>
+        <tr>
+          <th scope="col">{a.thTerm}</th>
+          <th scope="col">{a.thEcts}</th>
+          <th scope="col">{a.thGpa}</th>
+          <th scope="col">{a.thCum}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {SEMESTERS.map((s, i) => (
+          <tr>
+            <th scope="row">{a.terms[i]}</th>
+            <td>{s.ects}</td>
+            <td>{fmt(s.gpa)}</td>
+            <td>{fmt(s.cum)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  .academic { margin-bottom: 8px; }
+  .ac-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--panel);
+    box-shadow: var(--shadow-sm);
+    padding: 22px 24px;
+    max-width: 640px;
+  }
+
+  /* sayı kartları */
+  .ac-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ac-stat { display: flex; flex-direction: column; gap: 3px; }
+  .ac-num {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .ac-den { font-size: 16px; color: var(--muted); font-weight: 400; }
+  .ac-stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--faint);
+  }
+
+  /* grafik */
+  .ac-figure { margin: 16px 0 4px; }
+  .ac-figcap {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--faint);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .ac-chart { width: 100%; height: auto; display: block; overflow: visible; }
+  .ac-grid { stroke: var(--border); stroke-width: 1; }
+  .ac-line { stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .ac-dot { fill: var(--accent); stroke: var(--panel); stroke-width: 2; }
+  .ac-value {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    fill: var(--body);
+  }
+  .ac-ylabel, .ac-xlabel {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    fill: var(--faint);
+  }
+
+  /* tablo — erişilebilir veri görünümü */
+  .ac-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+    font-size: 13px;
+  }
+  .ac-table th, .ac-table td {
+    text-align: end;
+    padding: 7px 6px;
+    border-top: 1px solid var(--border);
+  }
+  .ac-table thead th {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--faint);
+    border-top: none;
+    font-weight: 400;
+  }
+  .ac-table tbody th {
+    text-align: start;
+    font-weight: 500;
+    color: var(--body);
+  }
+  .ac-table td { font-family: var(--font-mono); color: var(--muted2); }
+  .ac-table thead th:first-child { text-align: start; }
+
+  @media (max-width: 560px) {
+    .ac-stats { gap: 18px; }
+    .ac-num { font-size: 24px; }
+    .ac-card { padding: 18px 16px; }
+  }
+</style>

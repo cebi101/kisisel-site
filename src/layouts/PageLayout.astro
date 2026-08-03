@@ -1,0 +1,43 @@
+---
+// Her içerik sayfasının ortak iskeleti: Layout (head/JS) + kalıcı kenar çubuğu + içerik.
+import Layout from "./Layout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import type { Dict } from "../i18n/translations";
+import { GITHUB, LINKEDIN, EMAIL } from "../data/site";
+
+type PageKey = "home" | "about" | "projects" | "contact";
+
+interface Props {
+  t: Dict;
+  current: PageKey;
+  title?: string;
+}
+const { t, current, title } = Astro.props;
+
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Şeyma Nur Çebi",
+  jobTitle: t.title.split("—")[1]?.trim(),
+  email: `mailto:${EMAIL}`,
+  sameAs: [GITHUB, LINKEDIN],
+};
+---
+
+<Layout title={title ?? t.title} description={t.description} lang={t.lang} dir={t.dir}>
+  <script type="application/ld+json" set:html={JSON.stringify(personLd)} is:inline />
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#icerik">{t.skipLink}</a>
+  <div class="app">
+    <Sidebar t={t} current={current} />
+
+    <main class="content" id="icerik" tabindex="-1">
+      <slot />
+
+      <footer>
+        <span>© 2026 {t.name}</span>
+        <span class="footer-motto">{t.footer}</span>
+      </footer>
+    </main>
+  </div>
+</Layout>

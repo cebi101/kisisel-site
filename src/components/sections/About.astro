@@ -1,0 +1,86 @@
+---
+import { Image } from "astro:assets";
+import type { Dict } from "../../i18n/translations";
+import { SKILL_GROUPS } from "../../i18n/translations";
+import foto from "../../assets/foto.jpg";
+import Academic from "./Academic.astro";
+
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+---
+
+<div class="page">
+  <div class="page-head">
+    <span class="page-no">{t.about.no}</span>
+    <h1 class="section-title">{t.about.title}</h1>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-photo reveal">
+      <Image src={foto} width={600} alt={t.hero.photoAlt} />
+      <div class="photo-badge">{t.about.year}</div>
+    </div>
+    <div class="about-body reveal d1">
+      <p class="about-p1">{t.about.p1}</p>
+      <p class="about-p2">{t.about.p2}</p>
+      <div class="side-label">{t.about.skillsLabel}</div>
+      {SKILL_GROUPS.map((g) => (
+        <div class="skill-group">
+          <span class="skill-group-label">{t.about.skillGroups[g.key]}</span>
+          <div class="chips">
+            {g.items.map((sk) => <span class="chip">{sk}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <h2 class="side-label block-label reveal">{t.about.eduLabel}</h2>
+  <div class="timeline">
+    {t.about.edu.map((j) => (
+      <div class="tl-item reveal">
+        <div class="tl-when">{j.when}</div>
+        <h3>{j.title}</h3>
+        <p>{j.desc}</p>
+        <span class="tl-badge">{j.badge}</span>
+      </div>
+    ))}
+  </div>
+
+  <Academic t={t} />
+
+  <h2 class="side-label block-label reveal">{t.about.expLabel}</h2>
+  <div class="timeline">
+    {t.about.exp.map((j, i) => (
+      <div class={`tl-item reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
+        <div class="tl-when">{j.when}</div>
+        <h3>{j.title}</h3>
+        <p>{j.desc}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2 class="side-label block-label reveal">{t.about.compLabel}</h2>
+  <div class="timeline">
+    {t.about.comp.map((j, i) => (
+      <div class={`tl-item reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
+        <div class="tl-when">{j.when}</div>
+        <h3>{j.title}</h3>
+        <p>{j.desc}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2 class="side-label block-label reveal">{t.about.certsLabel}</h2>
+  <div class="cert-grid">
+    {t.about.certs.map((c, i) => (
+      <div class={`cert-card reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
+        <span class="cert-org">{c.org}</span>
+        <h3>{c.name}</h3>
+        <p>{c.desc}</p>
+      </div>
+    ))}
+  </div>
+</div>

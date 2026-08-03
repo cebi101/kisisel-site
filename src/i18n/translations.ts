@@ -27,6 +27,22 @@ export const tr = {
 
   nav: { home: "Ana Sayfa", about: "Hakkımda", projects: "Projeler", contact: "İletişim" },
 
+  // Ana sayfa yarışma vitrini — mevcut gerçek verilerden
+  highlight: {
+    label: "TEKNOFEST 2026 · SAĞLIKTA YAPAY ZEKÂ",
+    title: "VARIANT-GNN",
+    desc: "Genetik varyantları GNN + Ensemble mimarisiyle sınıflandıran, kararlarını XAI (LIME) ile şeffaflaştıran model. Takım kaptanıyım.",
+    score: "93/100",
+    scoreLabel: "ÖDR PUANI",
+  },
+  routes: {
+    home: "/",
+    about: "/hakkimda",
+    projects: "/projeler",
+    contact: "/iletisim",
+    cv: "/cv",
+  },
+
   now: {
     label: "ŞU AN",
     items: [
@@ -93,6 +109,21 @@ export const tr = {
         desc: "Sağlık teknolojisi kategorisinde biyobelirteç analizi çalışması yürütüyorum.",
       },
     ],
+    academic: {
+      label: "AKADEMİK GELİŞİM",
+      terms: ["2024–25 Güz", "2024–25 Bahar", "2025–26 Güz", "2025–26 Bahar"],
+      termsShort: ["24/25 G", "24/25 B", "25/26 G", "25/26 B"],
+      gpaLabel: "GENEL ORTALAMA",
+      ectsLabel: "TAMAMLANAN AKTS",
+      termCountLabel: "DÖNEM",
+      chartTitle: "Dönem ortalamaları",
+      chartDesc:
+        "Dönem bazında genel not ortalaması: 3,60 · 3,60 · 3,40 · 3,65. Genel ortalama 3,62 / 4,00.",
+      thTerm: "Dönem",
+      thEcts: "AKTS",
+      thGpa: "Dönem",
+      thCum: "Genel",
+    },
     certsLabel: "SERTİFİKALAR",
     certs: [
       {
@@ -178,6 +209,21 @@ export const en: Dict = {
 
   nav: { home: "Home", about: "About", projects: "Projects", contact: "Contact" },
 
+  highlight: {
+    label: "TEKNOFEST 2026 · AI IN HEALTHCARE",
+    title: "VARIANT-GNN",
+    desc: "A model classifying genetic variants with a GNN + Ensemble architecture, made transparent with XAI (LIME). I'm the team captain.",
+    score: "93/100",
+    scoreLabel: "PER SCORE",
+  },
+  routes: {
+    home: "/en/",
+    about: "/en/about",
+    projects: "/en/projects",
+    contact: "/en/contact",
+    cv: "/en/cv",
+  },
+
   now: {
     label: "NOW",
     items: [
@@ -244,6 +290,21 @@ export const en: Dict = {
         desc: "A biomarker analysis study in the health technology category.",
       },
     ],
+    academic: {
+      label: "ACADEMIC PROGRESS",
+      terms: ["2024–25 Fall", "2024–25 Spring", "2025–26 Fall", "2025–26 Spring"],
+      termsShort: ["24/25 F", "24/25 S", "25/26 F", "25/26 S"],
+      gpaLabel: "CUMULATIVE GPA",
+      ectsLabel: "ECTS COMPLETED",
+      termCountLabel: "SEMESTERS",
+      chartTitle: "Semester GPA",
+      chartDesc:
+        "GPA by semester: 3.60 · 3.60 · 3.40 · 3.65. Cumulative GPA 3.62 / 4.00.",
+      thTerm: "Semester",
+      thEcts: "ECTS",
+      thGpa: "Term",
+      thCum: "Cumulative",
+    },
     certsLabel: "CERTIFICATES",
     certs: [
       {

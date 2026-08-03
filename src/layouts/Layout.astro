@@ -63,67 +63,22 @@ const ogAlternates = Object.entries(OG_LOCALES)
           saved === "light" || saved === "dark" ? saved : system;
       })();
     </script>
-    <noscript><style>.tab-panel { display: block; }</style></noscript>
   </head>
   <body>
     <slot />
 
     <script>
-      // ---------- Sekme sistemi ----------
-      const panels = [...document.querySelectorAll<HTMLElement>(".tab-panel")];
-      const navBtns = [...document.querySelectorAll<HTMLAnchorElement>(".nav-btn")];
-      let firstShow = true;
-      const showTab = (id: string) => {
-        const target = panels.find((p) => p.id === id) ?? panels[0];
-        if (!target) return; // panelsiz sayfalar (ör. 404) script'in kalanını kırmasın
-        panels.forEach((p) => p.classList.toggle("active", p === target));
-        navBtns.forEach((a) => {
-          const on = a.hash === `#${target.id}`;
-          a.classList.toggle("active", on);
-          if (on) a.setAttribute("aria-current", "page");
-          else a.removeAttribute("aria-current");
-        });
-        // sekme içeriği anında görünsün — gizli panelin reveal'ları observer'a
-        // takılıp "hayalet" (opacity:0) kalmasın. Yalnız ilk açılış HOME ise
-        // observer'ın giriş animasyonuna bırak; derin-link (ör. /#projects) dahil
-        // diğer tüm durumlarda anında görünür kıl.
-        if (!(firstShow && target.id === "home")) {
-          target.querySelectorAll(".reveal").forEach((el) => el.classList.add("visible"));
-        }
-        firstShow = false;
-        scrollTo({ top: 0, behavior: "auto" });
-      };
-      document.addEventListener("click", (e) => {
-        const el = e.target as HTMLElement;
-        // dil değiştirirken aktif sekme hash ile taşınsın (koşulsuz: bayat hash de temizlensin;
-        // değiştirici kontrolünden ÖNCE ki Cmd+tık da doğru hash'le açılsın)
-        const lng = el.closest?.(".lang-switch a") as HTMLAnchorElement | null;
-        if (lng) {
-          lng.hash = location.hash;
-          return;
-        }
-        // Cmd/Ctrl+tık gibi değiştiricili tıklamalar tarayıcıya kalsın
-        if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-        // skip-link sekme sistemini tetiklemesin: odağı doğrudan içeriğe taşı
-        if (el.closest?.(".skip-link")) {
-          e.preventDefault();
-          document.getElementById("icerik")?.focus();
-          return;
-        }
-        const a = el.closest?.("a[href^='#']") as HTMLAnchorElement | null;
-        if (!a) return;
-        const id = a.hash.slice(1);
-        if (!panels.some((p) => p.id === id)) return;
-        e.preventDefault();
-        if (location.hash !== `#${id}`) history.pushState(null, "", `#${id}`);
-        showTab(id);
-      });
-      addEventListener("popstate", () => showTab(location.hash.slice(1) || "home"));
-      const initialTab = location.hash.slice(1);
-      if (initialTab && panels.length && !panels.some((p) => p.id === initialTab)) {
-        history.replaceState(null, "", location.pathname + location.search); // çöp hash'i temizle
+      // ---------- Okuma ilerleme çubuğu ----------
+      const bar = document.getElementById("scroll-progress");
+      if (bar) {
+        const setProgress = () => {
+          const max = document.documentElement.scrollHeight - innerHeight;
+          bar.style.width = max > 0 ? `${Math.min((scrollY / max) * 100, 100)}%` : "0%";
+        };
+        addEventListener("scroll", setProgress, { passive: true });
+        addEventListener("resize", setProgress);
+        setProgress();
       }
-      showTab(initialTab || "home");
 
       // ---------- Gündüz / Gece anahtarı ----------
       const modeBtns = [...document.querySelectorAll<HTMLButtonElement>(".mode-switch button")];
@@ -176,7 +131,7 @@ const ogAlternates = Object.entries(OG_LOCALES)
 
       // ---------- Konsol sürprizi ----------
       console.log(
-        "%c </> kod & merak %c\n\nBu siteyi hazır şablonla değil, satır satır kendim yazdım.\nAstro + TypeScript + saf CSS · TR/EN/DE/RU/AR\ngithub.com/cebi101 · seymanurcebi6@gmail.com\n\n— Şeyma Nur Çebi",
+        "%c </> kod & merak %c\n\nBu siteyi hazır şablonla değil, satır satır kendim yazdım.\nAstro + TypeScript + saf CSS · TR/EN\ngithub.com/cebi101 · seymanurcebi6@gmail.com\n\n— Şeyma Nur Çebi",
         "font-size:14px; font-weight:bold; background:#B98A82; color:#FBF7F1; padding:6px 12px; border-radius:6px;",
         "font-size:12px; color:#9FA98C;"
       );
