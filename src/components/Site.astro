@@ -234,7 +234,7 @@ const projectHrefs: (string | null)[] = [
           <h3 class="side-label block-label reveal">{t.about.certsLabel}</h3>
           <div class="cert-grid">
             {t.about.certs.map((c, i) => (
-              <div class={`cert-card reveal ${i ? "d1" : ""}`}>
+              <div class={`cert-card reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
                 <span class="cert-org">{c.org}</span>
                 <h4>{c.name}</h4>
                 <p>{c.desc}</p>

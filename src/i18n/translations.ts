@@ -97,13 +97,18 @@ export const tr = {
     certs: [
       {
         org: "SHGM",
-        name: "IHA-1 Drone Pilot Lisansı",
+        name: "İHA-1 Drone Pilot Lisansı",
         desc: "İnsansız hava aracı pilotaj yetkisi — süresiz.",
       },
       {
         org: "SSB",
         name: "Milli Yetkinlik Hamlesi",
         desc: "Savunma sanayii kariyer programı katılım belgesi.",
+      },
+      {
+        org: "T3 Vakfı",
+        name: "Yapay Zekâ Temelli Teknoloji Eğitimi",
+        desc: "Eğitmen katılım belgesi — elektronik, programlama ve 3D tasarım eğitimleri.",
       },
     ],
   },
@@ -251,6 +256,11 @@ export const en: Dict = {
         name: "National Competence Initiative",
         desc: "Defence industry career program certificate.",
       },
+      {
+        org: "T3 Foundation",
+        name: "AI-Based Technology Education",
+        desc: "Instructor certificate — electronics, programming and 3D design classes.",
+      },
     ],
   },
 
@@ -396,6 +406,11 @@ export const de: Dict = {
         org: "SSB",
         name: "Nationale Kompetenzinitiative",
         desc: "Zertifikat des Karriereprogramms der Verteidigungsindustrie.",
+      },
+      {
+        org: "T3-Stiftung",
+        name: "KI-basierte Technologieausbildung",
+        desc: "Teilnahmebescheinigung als Ausbilderin — Elektronik, Programmierung, 3D-Design.",
       },
     ],
   },
@@ -543,6 +558,11 @@ export const ru: Dict = {
         name: "Национальная инициатива компетенций",
         desc: "Сертификат карьерной программы оборонной промышленности.",
       },
+      {
+        org: "Фонд T3",
+        name: "Технологическое обучение на базе ИИ",
+        desc: "Сертификат об участии в качестве преподавательницы — электроника, программирование, 3D-дизайн.",
+      },
     ],
   },
 
@@ -688,6 +708,11 @@ export const ar: Dict = {
         org: "SSB",
         name: "مبادرة الكفاءة الوطنية",
         desc: "شهادة برنامج المسار المهني للصناعات الدفاعية.",
+      },
+      {
+        org: "مؤسسة T3",
+        name: "تعليم تقني قائم على الذكاء الاصطناعي",
+        desc: "شهادة مشاركة بصفة مدرّبة — إلكترونيات وبرمجة وتصميم ثلاثي الأبعاد.",
       },
     ],
   },

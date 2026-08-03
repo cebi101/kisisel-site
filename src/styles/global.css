@@ -637,6 +637,11 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   color: var(--accent);
   text-transform: uppercase;
 }
+/* mono fontlar Arap harflerini kapsamıyor: RTL'de gövde fontu ve okunur boyut */
+[dir="rtl"] .cert-org {
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+}
 .cert-card h4 {
   font-weight: 600;
   font-size: 16.5px;
