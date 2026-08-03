@@ -182,6 +182,11 @@ export const tr = {
         tags: "LLM · Ajanlar · TEKNOFEST 2026",
       },
       {
+        title: "Yerel RAG Asistanı — Microsoft Foundry Local",
+        desc: "Belgelerden kaynak göstererek cevap üreten, tamamen çevrimdışı çalışan soru-cevap asistanı. Türkçe morfolojiye duyarlı arama (noktalı/noktasız I, kesme işaretli ekler, ünlü uyumlu ek ayıklama), anlamsal + kelime tabanlı hibrit retrieval, SQLite'ta vektör depolama. Cevabı belgede yoksa uydurmuyor; ürettiği cevabı denetleyip dayanaksız cümleleri işaretliyor. Yanında 4–6 haftalık yaz okulu müfredatı.",
+        tags: "Python · RAG · Foundry Local · SQLite · Çevrimdışı YZ",
+      },
+      {
         title: "Biyobelirteç Analizi",
         desc: "TÜSEB sağlık teknolojisi kategorisinde biyobelirteç analizi çalışması.",
         tags: "Sağlık Teknolojisi · TÜSEB 2026",
@@ -384,6 +389,11 @@ export const en: Dict = {
         title: "AI Language Agents",
         desc: "LLM-based agent project submitted to the TEKNOFEST Language Agents category — I'm the team captain.",
         tags: "LLM · Agents · TEKNOFEST 2026",
+      },
+      {
+        title: "Local RAG Assistant — Microsoft Foundry Local",
+        desc: "A fully offline question-answering assistant that answers from your own documents with citations. Turkish morphology-aware search (dotted/dotless I, apostrophe suffixes, vowel-harmony stemming), hybrid semantic + keyword retrieval, vector storage in SQLite. It refuses to invent answers that aren't in the documents and audits its own output, flagging unsupported sentences. Ships with a 4–6 week summer-school curriculum.",
+        tags: "Python · RAG · Foundry Local · SQLite · Offline AI",
       },
       {
         title: "Biomarker Analysis",

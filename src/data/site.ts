@@ -8,6 +8,7 @@ export const EMAIL = "seymanurcebi6@gmail.com";
 export const PROJECT_HREFS: (string | null)[] = [
   null,
   "https://github.com/msgxr/teknofest-2026-kamu-evrak-akilli-ajan",
+  "https://github.com/cebi101/foundry-local-rag",
   null,
   "https://github.com/cebi101/YemekStes",
 ];
