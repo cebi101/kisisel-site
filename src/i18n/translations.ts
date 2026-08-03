@@ -104,26 +104,21 @@ export const tr = {
         desc: "VARIANT-GNN (sağlıkta yapay zekâ, ÖDR: 93/100) ve Yapay Zekâ Dil Ajanları projelerinde takım kaptanıyım.",
       },
       {
+        when: "2026 — Devam",
+        title: "Dijital Kâşifler — Takım Danışmanı",
+        desc: "T3 Vakfı bünyesinde bir ilkokul takımına danışmanlık yapıyorum. Takım ilk aşamayı başarıyla geçti; şu an ikinci aşamada çalışıyoruz.",
+      },
+      {
         when: "2026",
         title: "TÜSEB — Biyobelirteç Analizi",
         desc: "Sağlık teknolojisi kategorisinde biyobelirteç analizi çalışması yürütüyorum.",
       },
+      {
+        when: "2026",
+        title: "SSB — Kuantum Algoritma Yarışması",
+        desc: "Savunma Sanayii Başkanlığı'nın kuantum algoritma yarışmasına başvurduk; çalışmalar başlıyor.",
+      },
     ],
-    academic: {
-      label: "AKADEMİK GELİŞİM",
-      terms: ["2024–25 Güz", "2024–25 Bahar", "2025–26 Güz", "2025–26 Bahar"],
-      termsShort: ["24/25 G", "24/25 B", "25/26 G", "25/26 B"],
-      gpaLabel: "GENEL ORTALAMA",
-      ectsLabel: "TAMAMLANAN AKTS",
-      termCountLabel: "DÖNEM",
-      chartTitle: "Dönem ortalamaları",
-      chartDesc:
-        "Dönem bazında genel not ortalaması: 3,60 · 3,60 · 3,40 · 3,65. Genel ortalama 3,62 / 4,00.",
-      thTerm: "Dönem",
-      thEcts: "AKTS",
-      thGpa: "Dönem",
-      thCum: "Genel",
-    },
     certsLabel: "SERTİFİKALAR",
     certs: [
       {
@@ -285,26 +280,21 @@ export const en: Dict = {
         desc: "Team captain of VARIANT-GNN (AI in healthcare, PER: 93/100) and the AI Language Agents project.",
       },
       {
+        when: "2026 — Present",
+        title: "Dijital Kâşifler — Team Mentor",
+        desc: "I mentor a primary-school team at the T3 Foundation. The team cleared the first stage; we're now working through the second.",
+      },
+      {
         when: "2026",
         title: "TÜSEB — Biomarker Analysis",
         desc: "A biomarker analysis study in the health technology category.",
       },
+      {
+        when: "2026",
+        title: "SSB — Quantum Algorithm Competition",
+        desc: "We applied to the Presidency of Defence Industries' quantum algorithm competition; work is starting.",
+      },
     ],
-    academic: {
-      label: "ACADEMIC PROGRESS",
-      terms: ["2024–25 Fall", "2024–25 Spring", "2025–26 Fall", "2025–26 Spring"],
-      termsShort: ["24/25 F", "24/25 S", "25/26 F", "25/26 S"],
-      gpaLabel: "CUMULATIVE GPA",
-      ectsLabel: "ECTS COMPLETED",
-      termCountLabel: "SEMESTERS",
-      chartTitle: "Semester GPA",
-      chartDesc:
-        "GPA by semester: 3.60 · 3.60 · 3.40 · 3.65. Cumulative GPA 3.62 / 4.00.",
-      thTerm: "Semester",
-      thEcts: "ECTS",
-      thGpa: "Term",
-      thCum: "Cumulative",
-    },
     certsLabel: "CERTIFICATES",
     certs: [
       {
