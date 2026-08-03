@@ -221,7 +221,6 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   font-size: 14px;
   transition: background 0.2s ease, color 0.2s ease;
 }
-[dir="rtl"] .cv-btn span:last-child { transform: scaleX(-1); }
 
 /* numaralı menü */
 .nav-links { display: flex; flex-direction: column; gap: 6px; }
@@ -254,22 +253,8 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 }
 .nav-btn .lbl { flex: 1; }
 .nav-btn .arrow { font-size: 15px; opacity: 0.35; }
-[dir="rtl"] .nav-btn .arrow { transform: scaleX(-1); }
-[dir="rtl"] .btn .arr { display: inline-block; transform: scaleX(-1); }
-[dir="rtl"] .profile-role,
-[dir="rtl"] .now-label,
-[dir="rtl"] .side-label,
-[dir="rtl"] .hello,
-[dir="rtl"] .tl-when,
-[dir="rtl"] .cert-org,
-[dir="rtl"] .pr-tags,
-[dir="rtl"] .form-hint,
-[dir="rtl"] .skill-group-label,
-[dir="rtl"] .tl-badge { letter-spacing: 0; }
 
 /* Arapça bitişik yazıda negatif tracking harf bağlarını bozar */
-[dir="rtl"] .section-title,
-[dir="rtl"] .home h1 { letter-spacing: 0; }
 
 .nav-btn.active {
   background: var(--accent);
@@ -393,8 +378,7 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 }
 
 /* sayfa girişi — her rota yüklendiğinde içerik yumuşak belirir */
-.content > .page,
-.content > .highlight-band {
+.content > .page {
   animation: panelIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 @keyframes panelIn {
@@ -402,102 +386,27 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   to { opacity: 1; transform: none; }
 }
 
-/* =============== YARIŞMA VİTRİNİ (ana sayfa) =============== */
-.highlight-band {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
-  margin: 0 64px 76px;
-  max-width: 1320px;
-  padding: 30px 34px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: linear-gradient(135deg, var(--panel), var(--peach));
-  box-shadow: var(--shadow-sm);
-}
-.hl-body { flex: 1 1 340px; }
-.hl-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--accent);
-  text-transform: uppercase;
-}
-.hl-title {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 34px;
-  line-height: 1.1;
-  color: var(--ink);
-  margin: 6px 0 6px;
-}
-.hl-desc {
-  font-size: 15.5px;
-  color: var(--muted2);
-  max-width: 60ch;
-  text-wrap: pretty;
-}
-.hl-link {
-  display: inline-block;
-  margin-top: 12px;
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--accent);
-}
-.hl-score {
-  flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 18px 26px;
-  border-radius: 14px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-}
-.hl-score-num {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 40px;
-  line-height: 1;
-  color: var(--accent2);
-}
-.hl-score-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  color: var(--faint);
-  text-transform: uppercase;
-}
-
-/* imleç ışıltısı — tıklamayı engellemez, yazdırmada çıkmaz */
+/* imleç ışıltısı — kritik konumlandırma Layout.astro içinde de var,
+   böylece bu kural silinse bile efekt doğru yerde kalır */
 .sparkle-canvas {
   position: fixed;
   inset: 0;
   z-index: 30;
   pointer-events: none;
 }
-@media print { .sparkle-canvas { display: none; } }
 
 /* okuma ilerleme çubuğu */
 .scroll-progress {
   position: fixed;
   inset-block-start: 0;
   inset-inline-start: 0;
-  z-index: 20;
+  z-index: 40;
   height: 2px;
   width: 0;
   background: var(--accent);
   transition: width 0.1s linear;
 }
 
-.page { padding: 76px 64px; max-width: 1320px; }
-/* hero'nun hemen altındaki blok — üstten boşluk tekrarlanmasın */
-.page-tight { padding-top: 0; padding-bottom: 56px; }
-
-/* =============== YARIŞMA VİTRİNİ (ana sayfa) =============== */
 .highlight-band {
   display: flex;
   flex-wrap: wrap;
@@ -749,7 +658,7 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   text-transform: uppercase;
   margin-bottom: 4px;
 }
-.tl-item h4 {
+.tl-item h3 {
   font-weight: 600;
   font-size: 18px;
   color: var(--ink);
@@ -792,12 +701,7 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   color: var(--accent);
   text-transform: uppercase;
 }
-/* mono fontlar Arap harflerini kapsamıyor: RTL'de gövde fontu ve okunur boyut */
-[dir="rtl"] .cert-org {
-  font-family: var(--font-sans);
-  font-size: 12.5px;
-}
-.cert-card h4 {
+.cert-card h3 {
   font-weight: 600;
   font-size: 16.5px;
   color: var(--ink);
@@ -850,7 +754,6 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   margin-top: 2px;
 }
 .pr-arrow { font-size: 22px; color: var(--faint2); }
-[dir="rtl"] .pr-arrow { transform: scaleX(-1); }
 
 /* =============== 04 İLETİŞİM =============== */
 .contact-grid {
@@ -892,12 +795,10 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   background: var(--panel);
   transition: color 0.2s ease, border-color 0.2s ease;
 }
-[dir="rtl"] .social-link span:last-child { transform: scaleX(-1); }
 
 /* hover etkileri yalnız gerçek imleçli cihazlarda — dokunmatikte "yapışma" olmasın */
 @media (hover: hover) {
   .nav-btn:hover { transform: translateX(4px); }
-  [dir="rtl"] .nav-btn:hover { transform: translateX(-4px); }
   .btn:hover { transform: translateY(-2px); }
   .btn-solid:hover { background: var(--accentD); }
   .btn-line:hover, .chip:hover, .social-row a:hover, .social-link:hover {
@@ -917,7 +818,11 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 }
 
 /* =============== FOOTER =============== */
+.app > footer {
+  grid-column: 2;
+}
 footer {
+  margin-top: auto;
   border-top: 1px solid var(--border);
   padding: 20px 64px;
   display: flex;
@@ -931,15 +836,16 @@ footer {
 }
 
 /* =============== GÖRÜNME ANİMASYONU =============== */
-.reveal {
+/* yalnızca JS etkinken gizle: script yüklenmezse/gecikirse içerik görünür kalır */
+.js .reveal {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
-.reveal.visible { opacity: 1; transform: none; }
-.reveal.d1 { transition-delay: 0.08s; }
-.reveal.d2 { transition-delay: 0.16s; }
-.reveal.d3 { transition-delay: 0.24s; }
+.js .reveal.visible { opacity: 1; transform: none; }
+.js .reveal.d1 { transition-delay: 0.08s; }
+.js .reveal.d2 { transition-delay: 0.16s; }
+.js .reveal.d3 { transition-delay: 0.24s; }
 
 /* =============== ARA KIRILIM (941–1200px) =============== */
 /* sabit genişlikler (sidebar 264 + padding 128 + foto 340 + gap 56)
@@ -972,6 +878,7 @@ footer {
   .nav-btn { flex: 1 0 auto; padding: 10px 12px; font-size: 13px; }
   .nav-btn .arrow { display: none; }
 
+  .app > footer { grid-column: 1; }
   .page { padding: 44px 22px; }
   .highlight-band { margin: 0 22px 44px; padding: 22px; }
   .hl-title { font-size: 27px; }
@@ -1003,9 +910,8 @@ footer {
 
 /* =============== HAREKET AZALTMA =============== */
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .content > .page,
-  .content > .highlight-band { animation: none; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .content > .page { animation: none; }
   .now-dot { animation: none; }
   .scroll-progress { display: none; }
 }
@@ -1023,10 +929,9 @@ footer {
   body { background-image: none; }
   .sidebar, .cta-row, .contact-form, .skip-link, .cv-btn { display: none; }
   .app { grid-template-columns: 1fr; }
-  .content > .page,
-  .content > .highlight-band { animation: none; }
+  .content > .page { animation: none; }
   .scroll-progress { display: none; }
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
   .home { min-height: auto; }
   .page { padding: 24px 0; }
   .photo-badge { background: none; color: var(--body); border: 1px solid var(--border); }

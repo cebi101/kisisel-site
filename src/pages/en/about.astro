@@ -4,6 +4,6 @@ import About from "../../components/sections/About.astro";
 import { en } from "../../i18n/translations";
 ---
 
-<PageLayout t={en} current="about" title={`${en.about.title} — ${en.name}`}>
+<PageLayout t={en} current="about" title={`${en.about.title} — ${en.displayName}`} description={en.pageDesc.about}>
   <About t={en} />
 </PageLayout>

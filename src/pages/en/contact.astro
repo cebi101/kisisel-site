@@ -4,6 +4,6 @@ import Contact from "../../components/sections/Contact.astro";
 import { en } from "../../i18n/translations";
 ---
 
-<PageLayout t={en} current="contact" title={`${en.contact.title} — ${en.name}`}>
+<PageLayout t={en} current="contact" title={`${en.contact.title} — ${en.displayName}`} description={en.pageDesc.contact}>
   <Contact t={en} />
 </PageLayout>

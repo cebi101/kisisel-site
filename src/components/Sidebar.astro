@@ -50,7 +50,7 @@ const langs = [
     </div>
   </div>
 
-  <nav class="nav-links" aria-label={t.nav.home}>
+  <nav class="nav-links" aria-label={t.navLabel}>
     {navItems.map((n) => (
       <a
         href={t.routes[n.id]}
@@ -108,10 +108,9 @@ const langs = [
           href={l.href}
           hreflang={l.lang}
           lang={l.lang}
-          aria-label={l.name}
           aria-current={t.lang === l.lang ? "true" : undefined}
           class={t.lang === l.lang ? "on" : ""}
-        >{l.code}</a>
+        >{l.code}<span class="visually-hidden"> — {l.name}</span></a>
       ))}
     </div>
   </div>

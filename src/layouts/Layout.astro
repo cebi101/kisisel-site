@@ -53,6 +53,7 @@ const ogAlternates = Object.entries(OG_LOCALES)
     />
     <!-- Tema: boyamadan ÖNCE uygula (parlama olmasın) -->
     <script is:inline>
+      document.documentElement.classList.add("js");
       (() => {
         // localStorage engelliyken (Safari kilitli mod vb.) SecurityError fırlatır
         let saved = null;
@@ -88,6 +89,9 @@ const ogAlternates = Object.entries(OG_LOCALES)
         const cvs = document.createElement("canvas");
         cvs.className = "sparkle-canvas";
         cvs.setAttribute("aria-hidden", "true");
+        // kritik stiller doğrudan öğede: stil dosyası değişse de efekt bozulmasın
+        cvs.style.cssText =
+          "position:fixed;inset:0;z-index:30;pointer-events:none;";
         document.body.appendChild(cvs);
         const ctx = cvs.getContext("2d")!;
         let dpr = 1;
@@ -233,7 +237,9 @@ const ogAlternates = Object.entries(OG_LOCALES)
 
       // ---------- Konsol sürprizi ----------
       console.log(
-        "%c </> kod & merak %c\n\nBu siteyi hazır şablonla değil, satır satır kendim yazdım.\nAstro + TypeScript + saf CSS · TR/EN\ngithub.com/cebi101 · seymanurcebi6@gmail.com\n\n— Şeyma Nur Çebi",
+        document.documentElement.lang === "en"
+          ? "%c </> code & curiosity %c\n\nHand-written, line by line — no template.\nAstro + TypeScript + plain CSS · TR/EN\ngithub.com/cebi101 · seymanurcebi6@gmail.com\n\n— Şeyma Nur Çebi"
+          : "%c </> kod & merak %c\n\nBu siteyi hazır şablonla değil, satır satır kendim yazdım.\nAstro + TypeScript + saf CSS · TR/EN\ngithub.com/cebi101 · seymanurcebi6@gmail.com\n\n— Şeyma Nur Çebi",
         "font-size:14px; font-weight:bold; background:#B98A82; color:#FBF7F1; padding:6px 12px; border-radius:6px;",
         "font-size:12px; color:#9FA98C;"
       );

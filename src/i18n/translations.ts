@@ -20,12 +20,19 @@ export const tr = {
   location: "İstanbul, Türkiye",
   availability: "İş birliğine açık",
   cvLabel: "CV indir",
-  cvPath: "/cv",
   cvProfile: "Profil",
   cvBack: "← Siteye dön",
   cvSave: "PDF olarak kaydet",
 
+  navLabel: "Site gezintisi",
+  displayName: "Şeyma Nur Çebi",
+  cvTitle: "Özgeçmiş",
   nav: { home: "Ana Sayfa", about: "Hakkımda", projects: "Projeler", contact: "İletişim" },
+  pageDesc: {
+    about: "Eğitim, deneyim, yarışmalar ve sertifikalar — İstanbul Arel Üniversitesi Yazılım Mühendisliği öğrencisi Şeyma Nur Çebi.",
+    projects: "VARIANT-GNN, yapay zekâ dil ajanları, biyobelirteç analizi ve YemekStes — Şeyma Nur Çebi'nin projeleri.",
+    contact: "Şeyma Nur Çebi ile iletişime geçin — e-posta, GitHub ve LinkedIn.",
+  },
 
   // Ana sayfa yarışma vitrini — mevcut gerçek verilerden
   highlight: {
@@ -71,7 +78,7 @@ export const tr = {
   about: {
     no: "01",
     title: "Hakkımda",
-    year: "3'ncü Sınıf",
+    year: "3. Sınıf",
     p1: "İstanbul Arel Üniversitesi Yazılım Mühendisliği'nde tam burslu, bölüme birincilikle girmiş bir 3. sınıf öğrencisiyim; genel ortalamam 3,62. İlgimi çeken şey yapay zekânın teoride kaldığı yer değil, bir işe yaradığı yer: graf sinir ağlarıyla sağlık verisini modellemek, LLM tabanlı ajanlara gerçek bir görev yaptırmak, bir modelin neden o kararı verdiğini açıklayabilmek.",
     p2: "TEKNOFEST'te iki projede takım kaptanıyım. VARIANT-GNN'de genetik varyantları GNN + Ensemble mimarisiyle sınıflandırıyor, kararları XAI (LIME) ile şeffaflaştırıyoruz — ön değerlendirme raporumuz 93/100 aldı. Dil Ajanları projesinde ise LLM tabanlı bir ajan sistemi geliştiriyoruz. Bunların yanında TÜSEB'de biyobelirteç analizi çalışıyor, SSB'nin kuantum algoritma yarışmasına başvurmuş bulunuyorum.",
     p3: "Öğrendiğimi öğretmeyi seviyorum: T3 Vakfı'nda eğitmenim — Deneyap atölyelerinde robotik kodlama ve algoritmik düşünme anlatıyor, yapay zekâ temelli teknoloji eğitiminde elektronik, programlama ve 3D tasarım derslerinde görev alıyorum. Ayrıca ilkokul öğrencilerinden oluşan Dijital Kâşifler takımının danışmanıyım; ilk aşamayı geçtik, şimdi ikincisindeyiz. Bu yaz Microsoft Gönüllü Staj Programı ile T3 Vakfı'nda eş zamanlı stajyerim.",
@@ -218,19 +225,26 @@ export const en: Dict = {
   location: "Istanbul, Türkiye",
   availability: "Open to collaboration",
   cvLabel: "Download CV",
-  cvPath: "/en/cv",
   cvProfile: "Profile",
   cvBack: "← Back to site",
   cvSave: "Save as PDF",
 
+  navLabel: "Site navigation",
+  displayName: "Şeyma Nur Çebi",
+  cvTitle: "Résumé",
   nav: { home: "Home", about: "About", projects: "Projects", contact: "Contact" },
+  pageDesc: {
+    about: "Education, experience, competitions and certificates — Şeyma Nur Çebi, software engineering student at Istanbul Arel University.",
+    projects: "VARIANT-GNN, AI language agents, biomarker analysis and YemekStes — projects by Şeyma Nur Çebi.",
+    contact: "Get in touch with Şeyma Nur Çebi — email, GitHub and LinkedIn.",
+  },
 
   highlight: {
     label: "TEKNOFEST 2026 · AI IN HEALTHCARE",
     title: "VARIANT-GNN",
     desc: "A model classifying genetic variants with a GNN + Ensemble architecture, made transparent with XAI (LIME). I'm the team captain.",
     score: "93/100",
-    scoreLabel: "PER SCORE",
+    scoreLabel: "PRELIMINARY REPORT SCORE",
   },
   routes: {
     home: "/en/",

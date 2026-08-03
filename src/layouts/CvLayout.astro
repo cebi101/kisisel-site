@@ -3,6 +3,7 @@
 // Kenar çubuğu/sekme YOK; her zaman açık (kâğıt) tema; A4 print CSS.
 import { Image } from "astro:assets";
 import type { Dict } from "../i18n/translations";
+import { locales } from "../i18n/translations";
 import { SKILL_GROUPS } from "../i18n/translations";
 import foto from "../assets/foto.jpg";
 
@@ -16,7 +17,8 @@ const LINKEDIN = "https://www.linkedin.com/in/seymanurcebi";
 const EMAIL = "seymanurcebi6@gmail.com";
 
 const fullName = `${t.hero.h1a} ${t.hero.h1b}`.replace(/\.$/, "");
-const pageTitle = `CV — ${fullName}`;
+const pageTitle = `${t.cvTitle} — ${fullName}`;
+const other = t.lang === "tr" ? locales.en : locales.tr;
 ---
 
 <!doctype html>
@@ -71,6 +73,7 @@ const pageTitle = `CV — ${fullName}`;
         margin: 0 auto;
         padding: 16px 20px;
       }
+      .bar { gap: 12px; }
       .bar a {
         font-family: var(--font-mono);
         font-size: 13px;
@@ -249,7 +252,8 @@ const pageTitle = `CV — ${fullName}`;
   </head>
   <body>
     <div class="bar no-print">
-      <a href={t.path}>{t.cvBack}</a>
+      <a href={t.routes.home}>{t.cvBack}</a>
+      <a href={other.routes.cv} hreflang={other.lang} lang={other.lang} class="cv-lang">{other.lang.toUpperCase()}</a>
       <button id="cv-print">{t.cvSave}</button>
     </div>
 

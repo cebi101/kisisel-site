@@ -10,11 +10,11 @@ const { t } = Astro.props;
 
 <div class="page">
   <div class="page-head">
-    <span class="page-no">{t.contact.no}</span>
-    <h1 class="section-title">{t.contact.title}</h1>
+    <span class="page-no" aria-hidden="true">{t.contact.no}</span>
+    <h1 class="section-title" id="contact-title">{t.contact.title}</h1>
   </div>
   <div class="contact-grid">
-    <form class="contact-form reveal" id="contact-form" data-email={EMAIL} data-subject={t.contact.fSubject}>
+    <form class="contact-form reveal" id="contact-form" aria-labelledby="contact-title" aria-describedby="form-hint" data-email={EMAIL} data-subject={t.contact.fSubject}>
       <p class="contact-sub">{t.contact.sub}</p>
       <label for="f-name" class="visually-hidden">{t.contact.fName}</label>
       <input type="text" id="f-name" name="name" autocomplete="name" placeholder={t.contact.fName} required />
@@ -23,10 +23,10 @@ const { t } = Astro.props;
       <label for="f-msg" class="visually-hidden">{t.contact.fMsg}</label>
       <textarea id="f-msg" name="msg" rows="5" placeholder={t.contact.fMsg} required></textarea>
       <button type="submit" class="btn btn-solid">{t.contact.fSend} <span class="arr" aria-hidden="true">→</span></button>
-      <span class="form-hint">{t.contact.fHint}</span>
+      <span class="form-hint" id="form-hint">{t.contact.fHint}</span>
     </form>
     <div class="contact-side reveal d1">
-      <div class="side-label">{t.contact.social}</div>
+      <h2 class="side-label">{t.contact.social}</h2>
       <a href={GITHUB} target="_blank" rel="noopener" class="social-link"><span>GitHub</span><span aria-hidden="true">↗</span></a>
       <a href={LINKEDIN} target="_blank" rel="noopener" class="social-link"><span>LinkedIn</span><span aria-hidden="true">↗</span></a>
       <a href={`mailto:${EMAIL}`} class="social-link"><span>{t.emailLabel}</span><span aria-hidden="true">↗</span></a>

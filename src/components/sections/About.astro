@@ -13,7 +13,7 @@ const { t } = Astro.props;
 
 <div class="page">
   <div class="page-head">
-    <span class="page-no">{t.about.no}</span>
+    <span class="page-no" aria-hidden="true">{t.about.no}</span>
     <h1 class="section-title">{t.about.title}</h1>
   </div>
 
@@ -26,7 +26,7 @@ const { t } = Astro.props;
       <p class="about-p1">{t.about.p1}</p>
       <p class="about-p2">{t.about.p2}</p>
       <p class="about-p2">{t.about.p3}</p>
-      <div class="side-label">{t.about.skillsLabel}</div>
+      <h2 class="side-label">{t.about.skillsLabel}</h2>
       {SKILL_GROUPS.map((g) => (
         <div class="skill-group">
           <span class="skill-group-label">{t.about.skillGroups[g.key]}</span>

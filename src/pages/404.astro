@@ -5,10 +5,12 @@ import Layout from "../layouts/Layout.astro";
 <Layout title="404 — Şeyma Nur Çebi" description="Sayfa bulunamadı. / Page not found.">
   <main class="page" style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; gap: 14px;">
     <span class="page-no">404</span>
-    <h1 class="section-title">Sayfa bulunamadı.</h1>
-    <p class="tagline">Aradığın sayfa yok ya da taşınmış. / Page not found.</p>
+    <h1 class="section-title" lang="tr">Sayfa bulunamadı.</h1>
+    <p class="tagline" lang="en">Page not found.</p>
+    <p class="tagline" lang="tr">Aradığın sayfa yok ya da taşınmış.</p>
     <div class="cta-row">
-      <a href="/" class="btn btn-solid">Ana Sayfa <span class="arr" aria-hidden="true">→</span></a>
+      <a href="/" class="btn btn-solid" lang="tr">Ana Sayfa <span class="arr" aria-hidden="true">→</span></a>
+      <a href="/en/" class="btn btn-line" lang="en" hreflang="en">Home</a>
     </div>
   </main>
 </Layout>

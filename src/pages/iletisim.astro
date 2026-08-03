@@ -4,6 +4,6 @@ import Contact from "../components/sections/Contact.astro";
 import { tr } from "../i18n/translations";
 ---
 
-<PageLayout t={tr} current="contact" title={`${tr.contact.title} — ${tr.name}`}>
+<PageLayout t={tr} current="contact" title={`${tr.contact.title} — ${tr.displayName}`} description={tr.pageDesc.contact}>
   <Contact t={tr} />
 </PageLayout>
