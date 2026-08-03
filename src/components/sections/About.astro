@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import type { Dict } from "../../i18n/translations";
 import { SKILL_GROUPS } from "../../i18n/translations";
+import Academic from "./Academic.astro";
 import foto from "../../assets/foto.jpg";
 
 interface Props {
@@ -47,6 +48,8 @@ const { t } = Astro.props;
       </div>
     ))}
   </div>
+
+  <Academic t={t} />
 
 
   <h2 class="side-label block-label reveal">{t.about.expLabel}</h2>

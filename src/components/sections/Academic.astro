@@ -1,0 +1,206 @@
+---
+// Akademik gelişim — resmî transkript verisi (src/data/site.ts > SEMESTERS)
+// Üç künye kutusu + dönem ortalaması çubukları + tam tablo
+import type { Dict } from "../../i18n/translations";
+import { SEMESTERS, TOTAL_ECTS, TOTAL_COURSES, CURRENT_GPA } from "../../data/site";
+
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+const a = t.about.academic;
+
+// çubuk ölçeği: 3,00–4,00 (fark görünür olsun diye; taban etiketle açıkça belirtiliyor)
+const MIN = 3;
+const MAX = 4;
+const pct = (g: number) => Math.round(((g - MIN) / (MAX - MIN)) * 100);
+const num = (n: number, d = 2) =>
+  t.lang === "tr" ? n.toFixed(d).replace(".", ",") : n.toFixed(d);
+---
+
+<section class="academic reveal" aria-labelledby="ac-heading">
+  <h2 class="side-label block-label" id="ac-heading">{a.label}</h2>
+
+  <div class="ac-kpis">
+    <div class="ac-kpi">
+      <span class="ac-kpi-num">{num(CURRENT_GPA)}<span class="ac-kpi-max"> / 4,00</span></span>
+      <span class="ac-kpi-label">{a.gpaLabel}</span>
+    </div>
+    <div class="ac-kpi">
+      <span class="ac-kpi-num">{TOTAL_ECTS}</span>
+      <span class="ac-kpi-label">{a.ectsLabel}</span>
+    </div>
+    <div class="ac-kpi">
+      <span class="ac-kpi-num">{TOTAL_COURSES}</span>
+      <span class="ac-kpi-label">{a.courseLabel}</span>
+    </div>
+  </div>
+
+  <figure class="ac-chart">
+    <figcaption class="ac-chart-title">
+      {a.chartTitle}
+      <span class="ac-scale">{a.scaleNote}</span>
+    </figcaption>
+    <div class="ac-bars" role="img" aria-label={a.chartDesc}>
+      {SEMESTERS.map((s, i) => (
+        <div class="ac-bar-row">
+          <span class="ac-bar-term">{a.termsShort[i]}</span>
+          <span class="ac-bar-track">
+            <span class="ac-bar-fill" style={`width:${pct(s.gpa)}%`}></span>
+          </span>
+          <span class="ac-bar-val">{num(s.gpa)}</span>
+        </div>
+      ))}
+    </div>
+  </figure>
+
+  <div class="ac-table-wrap">
+    <table class="ac-table">
+      <thead>
+        <tr>
+          <th scope="col">{a.thTerm}</th>
+          <th scope="col">{a.thCourses}</th>
+          <th scope="col">{a.thCredits}</th>
+          <th scope="col">{a.thEcts}</th>
+          <th scope="col">{a.thGpa}</th>
+          <th scope="col">{a.thCum}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {SEMESTERS.map((s, i) => (
+          <tr>
+            <th scope="row">{a.terms[i]}</th>
+            <td>{s.courses}</td>
+            <td>{s.credits}</td>
+            <td>{s.ects}</td>
+            <td>{num(s.gpa)}</td>
+            <td class="ac-cum">{num(s.cum)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  .academic { margin-top: 8px; }
+
+  .ac-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 14px;
+    max-width: 760px;
+    margin-bottom: 26px;
+  }
+  .ac-kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--panel);
+    box-shadow: var(--shadow-sm);
+  }
+  .ac-kpi-num {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--accent2);
+  }
+  .ac-kpi-max {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--faint);
+  }
+  .ac-kpi-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  .ac-chart { max-width: 760px; margin-bottom: 26px; }
+  .ac-chart-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .ac-scale { color: var(--faint); letter-spacing: 0.5px; }
+  .ac-bars { display: flex; flex-direction: column; gap: 9px; }
+  .ac-bar-row {
+    display: grid;
+    grid-template-columns: 96px 1fr 44px;
+    align-items: center;
+    gap: 12px;
+  }
+  .ac-bar-term {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .ac-bar-track {
+    height: 10px;
+    border-radius: 100px;
+    background: var(--peach);
+    overflow: hidden;
+  }
+  .ac-bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: 100px;
+    background: var(--accent2);
+  }
+  .ac-bar-val {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink);
+    text-align: end;
+  }
+
+  .ac-table-wrap { max-width: 760px; overflow-x: auto; }
+  .ac-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .ac-table th,
+  .ac-table td {
+    padding: 10px 12px;
+    text-align: end;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .ac-table thead th {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--faint);
+    font-weight: 400;
+  }
+  .ac-table tbody th {
+    text-align: start;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .ac-table thead th:first-child { text-align: start; }
+  .ac-table td { color: var(--muted2); font-family: var(--font-mono); font-size: 13px; }
+  .ac-table .ac-cum { color: var(--accent2); }
+  .ac-table tbody tr:last-child th,
+  .ac-table tbody tr:last-child td { border-bottom: none; }
+
+  @media (max-width: 640px) {
+    .ac-bar-row { grid-template-columns: 78px 1fr 40px; gap: 8px; }
+  }
+</style>

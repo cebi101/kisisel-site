@@ -119,6 +119,24 @@ export const tr = {
         desc: "Savunma Sanayii Başkanlığı'nın kuantum algoritma yarışmasına başvurduk; çalışmalar başlıyor.",
       },
     ],
+    academic: {
+      label: "AKADEMİK GELİŞİM",
+      terms: ["2024–2025 Güz", "2024–2025 Bahar", "2025–2026 Güz", "2025–2026 Bahar"],
+      termsShort: ["24/25 Güz", "24/25 Bahar", "25/26 Güz", "25/26 Bahar"],
+      gpaLabel: "GENEL ORTALAMA",
+      ectsLabel: "TAMAMLANAN AKTS",
+      courseLabel: "TAMAMLANAN DERS",
+      chartTitle: "Dönem ortalamaları",
+      chartDesc:
+        "Dönem ortalamaları sırasıyla 3,60 · 3,60 · 3,40 · 3,65; genel ortalama 3,62 / 4,00.",
+      scaleNote: "Ölçek 3,00 – 4,00",
+      thTerm: "Dönem",
+      thCourses: "Ders",
+      thCredits: "Kredi",
+      thEcts: "AKTS",
+      thGpa: "Dönem GNO",
+      thCum: "Genel GNO",
+    },
     certsLabel: "SERTİFİKALAR",
     certs: [
       {
@@ -295,6 +313,24 @@ export const en: Dict = {
         desc: "We applied to the Presidency of Defence Industries' quantum algorithm competition; work is starting.",
       },
     ],
+    academic: {
+      label: "ACADEMIC PROGRESS",
+      terms: ["2024–2025 Fall", "2024–2025 Spring", "2025–2026 Fall", "2025–2026 Spring"],
+      termsShort: ["24/25 Fall", "24/25 Spr", "25/26 Fall", "25/26 Spr"],
+      gpaLabel: "CUMULATIVE GPA",
+      ectsLabel: "ECTS COMPLETED",
+      courseLabel: "COURSES COMPLETED",
+      chartTitle: "GPA by semester",
+      chartDesc:
+        "Semester GPAs are 3.60 · 3.60 · 3.40 · 3.65; cumulative GPA 3.62 / 4.00.",
+      scaleNote: "Scale 3.00 – 4.00",
+      thTerm: "Semester",
+      thCourses: "Courses",
+      thCredits: "Credits",
+      thEcts: "ECTS",
+      thGpa: "Term GPA",
+      thCum: "Cumulative",
+    },
     certsLabel: "CERTIFICATES",
     certs: [
       {
