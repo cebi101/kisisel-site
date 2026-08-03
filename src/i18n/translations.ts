@@ -46,8 +46,10 @@ export const tr = {
   now: {
     label: "ŞU AN",
     items: [
-      { k: "öğreniyorum", v: "Yapay zekâ & LLM" },
-      { k: "geliştiriyorum", v: "VARIANT-GNN & Yapay Zekâ Dil Ajanları" },
+      { k: "geliştiriyorum", v: "VARIANT-GNN & Dil Ajanları" },
+      { k: "danışmanlık", v: "Dijital Kâşifler — 2. aşama" },
+      { k: "stajyerim", v: "Microsoft & T3 Vakfı" },
+      { k: "başvurdum", v: "SSB Kuantum Algoritma" },
     ],
   },
 
@@ -70,8 +72,9 @@ export const tr = {
     no: "01",
     title: "Hakkımda",
     year: "3'ncü Sınıf",
-    p1: "İstanbul Arel Üniversitesi'nde tam burslu Yazılım Mühendisliği öğrencisiyim — bölüme birincilikle girdim. Yapay zekâ, prompt engineering ve dil ajanlarına tutkuyla bağlıyım.",
-    p2: "T3 Vakfı'nda hem eğitmen hem bursiyerim; bu yaz Microsoft ve T3'te eş zamanlı stajyerim. Hedefim: fark yaratan, temiz ve işe yarar yazılımlar.",
+    p1: "İstanbul Arel Üniversitesi Yazılım Mühendisliği'nde tam burslu, bölüme birincilikle girmiş bir 3. sınıf öğrencisiyim; genel ortalamam 3,62. İlgimi çeken şey yapay zekânın teoride kaldığı yer değil, bir işe yaradığı yer: graf sinir ağlarıyla sağlık verisini modellemek, LLM tabanlı ajanlara gerçek bir görev yaptırmak, bir modelin neden o kararı verdiğini açıklayabilmek.",
+    p2: "TEKNOFEST'te iki projede takım kaptanıyım. VARIANT-GNN'de genetik varyantları GNN + Ensemble mimarisiyle sınıflandırıyor, kararları XAI (LIME) ile şeffaflaştırıyoruz — ön değerlendirme raporumuz 93/100 aldı. Dil Ajanları projesinde ise LLM tabanlı bir ajan sistemi geliştiriyoruz. Bunların yanında TÜSEB'de biyobelirteç analizi çalışıyor, SSB'nin kuantum algoritma yarışmasına başvurmuş bulunuyorum.",
+    p3: "Öğrendiğimi öğretmeyi seviyorum: T3 Vakfı'nda eğitmenim — Deneyap atölyelerinde robotik kodlama ve algoritmik düşünme anlatıyor, yapay zekâ temelli teknoloji eğitiminde elektronik, programlama ve 3D tasarım derslerinde görev alıyorum. Ayrıca ilkokul öğrencilerinden oluşan Dijital Kâşifler takımının danışmanıyım; ilk aşamayı geçtik, şimdi ikincisindeyiz. Bu yaz Microsoft Gönüllü Staj Programı ile T3 Vakfı'nda eş zamanlı stajyerim.",
     skillsLabel: "YETENEKLER",
     skillGroups: { langs: "Diller", ai: "Yapay Zekâ Araçları", tools: "Geliştirme Araçları" },
     eduLabel: "EĞİTİM",
@@ -88,12 +91,12 @@ export const tr = {
       {
         when: "Yaz 2026 — Devam",
         title: "Microsoft & T3 — Eş Zamanlı Staj",
-        desc: "Microsoft Gönüllü Staj Programı'nda ve T3 Vakfı bünyesinde eş zamanlı stajyerim.",
+        desc: "İki kurumda aynı anda stajyerim: Microsoft Gönüllü Staj Programı ve T3 Vakfı. Yapay zekâ araçlarını günlük geliştirme akışının içinde kullanmayı, ekip içinde iş çıkarmayı öğreniyorum.",
       },
       {
         when: "2024 — Devam",
         title: "T3 Vakfı — Eğitmen & Bursiyer",
-        desc: "Deneyap Teknoloji Atölyeleri'nde eğitmenim ve T3 bursiyeriyim; robotik kodlama ve algoritmik düşünme eğitimleri veriyorum.",
+        desc: "Deneyap Teknoloji Atölyeleri'nde robotik kodlama ve algoritmik düşünme eğitimleri veriyorum; aynı zamanda T3 bursiyeriyim. Yapay zekâ temelli teknoloji eğitiminde elektronik, programlama ve 3D tasarımı yapay zekâ desteğiyle anlattım; öğrencilere Antigravity gibi ajanlarla hızlı proje geliştirmede ve 3D tasarımdan robot kola uzanan üretim süreçlerinde rehberlik ettim.",
       },
     ],
     compLabel: "YARIŞMALAR",
@@ -101,17 +104,17 @@ export const tr = {
       {
         when: "2024 — Devam",
         title: "TEKNOFEST — İki projede takım kaptanı",
-        desc: "VARIANT-GNN (sağlıkta yapay zekâ, ÖDR: 93/100) ve Yapay Zekâ Dil Ajanları projelerinde takım kaptanıyım.",
+        desc: "VARIANT-GNN'de genetik varyant sınıflandırması yapan GNN + Ensemble modelini ve XAI (LIME) açıklanabilirlik katmanını geliştiriyoruz; ön değerlendirme raporu 93/100. Dil Ajanları'nda LLM tabanlı ajan sistemi üzerinde çalışıyoruz. Her iki takımda da kaptanlık, teknik yön ve rapor sorumluluğu bende.",
       },
       {
         when: "2026 — Devam",
         title: "Dijital Kâşifler — Takım Danışmanı",
-        desc: "T3 Vakfı bünyesinde bir ilkokul takımına danışmanlık yapıyorum. Takım ilk aşamayı başarıyla geçti; şu an ikinci aşamada çalışıyoruz.",
+        desc: "T3 Vakfı bünyesindeki ilkokul takımı Dijital Kâşifler'in danışmanıyım. Çocuklara fikirlerini projeye dönüştürmede rehberlik ediyorum; takım ilk aşamayı başarıyla geçti ve şu an ikinci aşamada çalışıyoruz.",
       },
       {
         when: "2026",
         title: "TÜSEB — Biyobelirteç Analizi",
-        desc: "Sağlık teknolojisi kategorisinde biyobelirteç analizi çalışması yürütüyorum.",
+        desc: "Sağlık teknolojisi kategorisinde biyobelirteç analizi üzerine çalışıyorum; hedef, biyolojik göstergelerden anlamlı ve doğrulanabilir sinyaller çıkarmak.",
       },
       {
         when: "2026",
@@ -240,8 +243,10 @@ export const en: Dict = {
   now: {
     label: "NOW",
     items: [
-      { k: "learning", v: "AI & LLMs" },
-      { k: "building", v: "VARIANT-GNN & AI Language Agents" },
+      { k: "building", v: "VARIANT-GNN & Language Agents" },
+      { k: "mentoring", v: "Dijital Kâşifler — stage 2" },
+      { k: "interning", v: "Microsoft & T3 Foundation" },
+      { k: "applied", v: "SSB Quantum Algorithm" },
     ],
   },
 
@@ -264,8 +269,9 @@ export const en: Dict = {
     no: "01",
     title: "About Me",
     year: "3rd Year",
-    p1: "I'm a full-scholarship Software Engineering student at Istanbul Arel University — I entered the program ranked first. I'm passionate about AI, prompt engineering and language agents.",
-    p2: "At the T3 Foundation I'm both an instructor and a scholar; this summer I'm interning at Microsoft and T3 simultaneously. My goal: clean, useful software that makes a difference.",
+    p1: "I'm a third-year Software Engineering student at Istanbul Arel University on a full scholarship, admitted ranked first, with a 3.62 GPA. What draws me isn't AI in theory but AI where it does something: modelling health data with graph neural networks, giving LLM-based agents a real job to do, and being able to explain why a model decided what it decided.",
+    p2: "I'm the team captain of two TEKNOFEST projects. In VARIANT-GNN we classify genetic variants with a GNN + Ensemble architecture and make the decisions transparent with XAI (LIME) — our preliminary evaluation report scored 93/100. In the Language Agents project we're building an LLM-based agent system. Alongside these I work on biomarker analysis at TÜSEB and have applied to the Presidency of Defence Industries' quantum algorithm competition.",
+    p3: "I like teaching what I learn: I'm an instructor at the T3 Foundation — teaching robotics coding and algorithmic thinking at Deneyap workshops, and covering electronics, programming and 3D design in the AI-based technology education program. I also mentor Dijital Kâşifler, a primary-school team; we cleared the first stage and are now in the second. This summer I'm interning at the Microsoft Volunteer Internship Program and the T3 Foundation simultaneously.",
     skillsLabel: "SKILLS",
     skillGroups: { langs: "Languages", ai: "AI Tools", tools: "Dev Tools" },
     eduLabel: "EDUCATION",
@@ -282,12 +288,12 @@ export const en: Dict = {
       {
         when: "Summer 2026 — Present",
         title: "Microsoft & T3 — Concurrent Internships",
-        desc: "Interning simultaneously at the Microsoft Volunteer Internship Program and the T3 Foundation.",
+        desc: "Interning at two places at once: the Microsoft Volunteer Internship Program and the T3 Foundation — learning to use AI tools inside a real development workflow and to ship work as part of a team.",
       },
       {
         when: "2024 — Present",
         title: "T3 Foundation — Instructor & Scholar",
-        desc: "I teach robotics coding and algorithmic thinking at the Deneyap Technology Workshops, and I'm a T3 scholar.",
+        desc: "I teach robotics coding and algorithmic thinking at the Deneyap Technology Workshops and hold a T3 scholarship. In the AI-based technology education program I taught electronics, programming and 3D design with AI support, guiding students through rapid prototyping with agents like Antigravity and through builds ranging from 3D design to a robotic arm.",
       },
     ],
     compLabel: "COMPETITIONS",
@@ -295,17 +301,17 @@ export const en: Dict = {
       {
         when: "2024 — Present",
         title: "TEKNOFEST — Captain of Two Teams",
-        desc: "Team captain of VARIANT-GNN (AI in healthcare, PER: 93/100) and the AI Language Agents project.",
+        desc: "In VARIANT-GNN we build the GNN + Ensemble model that classifies genetic variants plus an XAI (LIME) explainability layer; the preliminary evaluation report scored 93/100. In Language Agents we work on an LLM-based agent system. I captain both teams, owning technical direction and reporting.",
       },
       {
         when: "2026 — Present",
         title: "Dijital Kâşifler — Team Mentor",
-        desc: "I mentor a primary-school team at the T3 Foundation. The team cleared the first stage; we're now working through the second.",
+        desc: "I mentor Dijital Kâşifler, a primary-school team at the T3 Foundation, helping the kids turn their ideas into a working project. The team cleared the first stage and we're now working through the second.",
       },
       {
         when: "2026",
         title: "TÜSEB — Biomarker Analysis",
-        desc: "A biomarker analysis study in the health technology category.",
+        desc: "A biomarker analysis study in the health technology category — the goal is extracting meaningful, verifiable signals from biological markers.",
       },
       {
         when: "2026",

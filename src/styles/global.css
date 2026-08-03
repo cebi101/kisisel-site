@@ -472,6 +472,15 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
   text-transform: uppercase;
 }
 
+/* imleç ışıltısı — tıklamayı engellemez, yazdırmada çıkmaz */
+.sparkle-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+@media print { .sparkle-canvas { display: none; } }
+
 /* okuma ilerleme çubuğu */
 .scroll-progress {
   position: fixed;
