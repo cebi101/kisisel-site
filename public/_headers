@@ -1,0 +1,15 @@
+# Cloudflare Pages başlıkları
+
+# İçeriği hash'li dosyalar sonsuza dek önbelleklenebilir
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Tüm sayfalar için temel güvenlik başlıkları
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()

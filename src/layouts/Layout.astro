@@ -25,6 +25,17 @@ const OG_LOCALES: Record<string, string> = {
 const ogAlternates = Object.entries(OG_LOCALES)
   .filter(([k]) => k !== lang)
   .map(([, v]) => v);
+
+// Mutlak URL'ler — sitemap/canonical/paylaşım kartı için (astro.config > site)
+const canonical = new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, "") || Astro.site!.href;
+const ogImage = new URL("/og.png", Astro.site).href;
+// TR ↔ EN eşleştirmesi: /hakkimda ↔ /en/about
+const PAIRS: Record<string, string> = {
+  "/": "/en", "/hakkimda": "/en/about", "/projeler": "/en/projects", "/iletisim": "/en/contact",
+};
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const trPath = lang === "tr" ? path : Object.entries(PAIRS).find(([, en]) => en === path)?.[0] ?? "/";
+const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
 ---
 
 <!doctype html>
@@ -40,7 +51,16 @@ const ogAlternates = Object.entries(OG_LOCALES)
     <meta property="og:site_name" content="Şeyma Nur Çebi" />
     <meta property="og:locale" content={OG_LOCALES[lang] ?? "tr_TR"} />
     {ogAlternates.map((l) => <meta property="og:locale:alternate" content={l} />)}
-    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="tr" href={new URL(trPath, Astro.site).href} />
+    <link rel="alternate" hreflang="en" href={new URL(enPath, Astro.site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(trPath, Astro.site).href} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <title>{title}</title>
