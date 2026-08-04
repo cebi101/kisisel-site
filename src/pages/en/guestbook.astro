@@ -1,0 +1,9 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Guestbook from "../../components/sections/Guestbook.astro";
+import { en } from "../../i18n/translations";
+---
+
+<PageLayout t={en} current="guestbook" title={`${en.guestbook.title} — ${en.name}`}>
+  <Guestbook t={en} />
+</PageLayout>

@@ -6,7 +6,7 @@ import { locales } from "../i18n/translations";
 import foto from "../assets/foto.jpg";
 import { GITHUB, LINKEDIN, EMAIL } from "../data/site";
 
-type PageKey = "home" | "about" | "projects" | "contact";
+type PageKey = "home" | "about" | "projects" | "contact" | "guestbook";
 
 interface Props {
   t: Dict;
@@ -19,6 +19,7 @@ const navItems: { id: PageKey; num: string; label: string }[] = [
   { id: "about", num: "02", label: t.nav.about },
   { id: "projects", num: "03", label: t.nav.projects },
   { id: "contact", num: "04", label: t.nav.contact },
+  { id: "guestbook", num: "05", label: t.nav.guestbook },
 ];
 
 const sideSocials = [

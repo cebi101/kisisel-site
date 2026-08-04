@@ -268,6 +268,28 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
         });
       };
 
+      // ---------- Ziyaretçi sayacı ----------
+      // Oturumda yalnızca bir kez artırılır. Sunucu/veritabanı yoksa
+      // hiçbir şey görünmez — site normal çalışmaya devam eder.
+      const showViews = (n: unknown) => {
+        const el = document.getElementById("site-views") as HTMLElement | null;
+        if (!el || typeof n !== "number") return;
+        const loc = document.documentElement.lang === "en" ? "en-GB" : "tr-TR";
+        el.textContent = `${n.toLocaleString(loc)} ${el.dataset.label ?? ""}`.trim();
+        el.hidden = false;
+      };
+      const countVisit = () => {
+        let counted = "";
+        try { counted = sessionStorage.getItem("visit-counted") ?? ""; } catch {}
+        fetch("/api/views", { method: counted ? "GET" : "POST" })
+          .then((r) => r.json())
+          .then((d) => {
+            showViews(d.views);
+            if (!counted) { try { sessionStorage.setItem("visit-counted", "1"); } catch {} }
+          })
+          .catch(() => {});
+      };
+
       // ---------- Sayfa geçişlerinde yeniden bağlama ----------
       // ClientRouter gövdeyi değiştirdiği için her yüklemede yeniden kur
       const onPage = () => {
@@ -275,6 +297,7 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
         observeReveals();
         bindForm();
         setProgress();
+        countVisit();
         // ışıltı canvas'ı gövde değişince kopar → geri tak
         if (typeof sparkleCanvas !== "undefined" && sparkleCanvas && !sparkleCanvas.isConnected) {
           document.body.appendChild(sparkleCanvas);

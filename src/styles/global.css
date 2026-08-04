@@ -831,6 +831,11 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 }
 
 /* =============== FOOTER =============== */
+.footer-views {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--accent2);
+}
 .app > footer {
   grid-column: 2;
 }

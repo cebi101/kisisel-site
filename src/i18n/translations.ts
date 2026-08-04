@@ -27,7 +27,7 @@ export const tr = {
   navLabel: "Site gezintisi",
   displayName: "Şeyma Nur Çebi",
   cvTitle: "Özgeçmiş",
-  nav: { home: "Ana Sayfa", about: "Hakkımda", projects: "Projeler", contact: "İletişim" },
+  nav: { home: "Ana Sayfa", about: "Hakkımda", projects: "Projeler", contact: "İletişim", guestbook: "Defter" },
   pageDesc: {
     about: "Eğitim, deneyim, yarışmalar ve sertifikalar — İstanbul Arel Üniversitesi Yazılım Mühendisliği öğrencisi Şeyma Nur Çebi.",
     projects: "VARIANT-GNN, yapay zekâ dil ajanları, biyobelirteç analizi ve YemekStes — Şeyma Nur Çebi'nin projeleri.",
@@ -47,6 +47,7 @@ export const tr = {
     about: "/hakkimda",
     projects: "/projeler",
     contact: "/iletisim",
+    guestbook: "/defter",
     cv: "/cv",
   },
 
@@ -201,6 +202,23 @@ export const tr = {
     ],
   },
 
+  guestbook: {
+    no: "04",
+    title: "Ziyaretçi Defteri",
+    sub: "Uğradığını buraya yazabilirsin — notlar ben onayladıktan sonra yayımlanır.",
+    fName: "Adın",
+    fMsg: "Notun",
+    fSend: "Bırak",
+    pending: "Teşekkürler! Notun onaya düştü, kısa sürede yayımlanacak.",
+    errorShort: "Adın en az 2, notun en az 3 karakter olmalı.",
+    errorRate: "Bugünlük bu kadar yeter :) Biraz sonra tekrar dene.",
+    errorGeneric: "Not kaydedilemedi. Biraz sonra tekrar dener misin?",
+    empty: "Henüz not yok — ilk yazan sen ol.",
+    loading: "Notlar yükleniyor…",
+    privacy: "Yalnızca yazdığın ad ve not saklanır. Spam önlemek için IP adresinin geri döndürülemez bir özeti tutulur; ham IP kaydedilmez.",
+    viewsLabel: "ziyaret",
+  },
+
   contact: {
     no: "03",
     title: "İletişim",
@@ -239,7 +257,7 @@ export const en: Dict = {
   navLabel: "Site navigation",
   displayName: "Şeyma Nur Çebi",
   cvTitle: "Résumé",
-  nav: { home: "Home", about: "About", projects: "Projects", contact: "Contact" },
+  nav: { home: "Home", about: "About", projects: "Projects", contact: "Contact", guestbook: "Guestbook" },
   pageDesc: {
     about: "Education, experience, competitions and certificates — Şeyma Nur Çebi, software engineering student at Istanbul Arel University.",
     projects: "VARIANT-GNN, AI language agents, biomarker analysis and YemekStes — projects by Şeyma Nur Çebi.",
@@ -258,6 +276,7 @@ export const en: Dict = {
     about: "/en/about",
     projects: "/en/projects",
     contact: "/en/contact",
+    guestbook: "/en/guestbook",
     cv: "/en/cv",
   },
 
@@ -410,6 +429,23 @@ export const en: Dict = {
         tags: "Java · OOP · JUnit 5 · Maven",
       },
     ],
+  },
+
+  guestbook: {
+    no: "04",
+    title: "Guestbook",
+    sub: "Leave a note to say you stopped by — notes appear after I approve them.",
+    fName: "Your name",
+    fMsg: "Your note",
+    fSend: "Leave note",
+    pending: "Thank you! Your note is awaiting approval and will appear shortly.",
+    errorShort: "Name needs 2+ characters, note needs 3+.",
+    errorRate: "That's enough for now :) Please try again a bit later.",
+    errorGeneric: "Could not save the note. Please try again shortly.",
+    empty: "No notes yet — be the first.",
+    loading: "Loading notes…",
+    privacy: "Only the name and note you type are stored. To prevent spam an irreversible hash of your IP is kept; the raw IP is never saved.",
+    viewsLabel: "visits",
   },
 
   contact: {

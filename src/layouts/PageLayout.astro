@@ -5,7 +5,7 @@ import Sidebar from "../components/Sidebar.astro";
 import type { Dict } from "../i18n/translations";
 import { GITHUB, LINKEDIN, EMAIL } from "../data/site";
 
-type PageKey = "home" | "about" | "projects" | "contact";
+type PageKey = "home" | "about" | "projects" | "contact" | "guestbook";
 
 interface Props {
   t: Dict;
@@ -38,6 +38,7 @@ const personLd = {
 
     <footer>
       <span>© 2026 {t.displayName}</span>
+      <span class="footer-views" id="site-views" data-label={t.guestbook.viewsLabel} hidden></span>
       <span class="footer-motto">{t.footer}</span>
     </footer>
   </div>

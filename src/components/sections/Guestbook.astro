@@ -1,0 +1,193 @@
+---
+// Ziyaretçi defteri — notlar /api/guestbook üzerinden tarayıcıda yüklenir.
+// Sunucu tarafı statik kalır; yalnızca API çağrıları dinamiktir.
+import type { Dict } from "../../i18n/translations";
+
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+const g = t.guestbook;
+---
+
+<div class="page">
+  <div class="page-head">
+    <span class="page-no">{g.no}</span>
+    <h1 class="section-title">{g.title}</h1>
+  </div>
+
+  <div class="gb-grid">
+    <form class="gb-form reveal" id="gb-form" data-strings={JSON.stringify({
+      pending: g.pending, short: g.errorShort, rate: g.errorRate, generic: g.errorGeneric,
+    })}>
+      <p class="contact-sub">{g.sub}</p>
+
+      <label for="gb-name" class="visually-hidden">{g.fName}</label>
+      <input type="text" id="gb-name" name="name" maxlength="40" autocomplete="name"
+        placeholder={g.fName} required />
+
+      <label for="gb-msg" class="visually-hidden">{g.fMsg}</label>
+      <textarea id="gb-msg" name="message" rows="4" maxlength="280"
+        placeholder={g.fMsg} required></textarea>
+
+      {/* bal küpü: ekranda görünmez, yalnızca botlar doldurur */}
+      <div class="gb-hp" aria-hidden="true">
+        <label for="gb-website">Website</label>
+        <input type="text" id="gb-website" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <button type="submit" class="btn btn-solid">
+        {g.fSend} <span class="arr" aria-hidden="true">→</span>
+      </button>
+      <p class="gb-status" id="gb-status" role="status" aria-live="polite"></p>
+      <p class="form-hint gb-privacy">{g.privacy}</p>
+    </form>
+
+    <div class="gb-list reveal d1" id="gb-list" data-empty={g.empty} data-loading={g.loading}>
+      <p class="gb-muted">{g.loading}</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .gb-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .gb-form { display: flex; flex-direction: column; gap: 14px; }
+  .gb-form input,
+  .gb-form textarea {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    padding: 14px 15px;
+    border: 1px solid var(--faint2);
+    background: var(--field);
+    color: var(--body);
+    border-radius: 10px;
+    width: 100%;
+    resize: vertical;
+  }
+  .gb-form input:focus,
+  .gb-form textarea:focus { border-color: var(--accent); }
+  .gb-form .btn { align-self: flex-start; }
+  .gb-hp {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .gb-status { font-size: 14px; color: var(--accent2); min-height: 1.2em; }
+  .gb-status[data-error] { color: var(--accentD); }
+  .gb-privacy { line-height: 1.5; }
+
+  .gb-list { display: flex; flex-direction: column; gap: 12px; }
+  .gb-muted { font-size: 14px; color: var(--faint); }
+  .gb-entry {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--panel);
+    box-shadow: var(--shadow-sm);
+    padding: 16px 18px;
+  }
+  .gb-entry-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .gb-name { font-weight: 600; color: var(--ink); }
+  .gb-date { font-family: var(--font-mono); font-size: 11px; color: var(--faint); }
+  .gb-msg { font-size: 14.5px; color: var(--muted2); line-height: 1.55; }
+
+  @media (max-width: 940px) {
+    .gb-grid { grid-template-columns: 1fr; gap: 36px; }
+  }
+</style>
+
+<script>
+  const initGuestbook = () => {
+    const form = document.getElementById("gb-form") as HTMLFormElement | null;
+    const list = document.getElementById("gb-list");
+    const statusEl = document.getElementById("gb-status");
+    if (!form || !list) return;
+
+    const strings = JSON.parse(form.dataset.strings || "{}");
+    const locale = document.documentElement.lang === "en" ? "en-GB" : "tr-TR";
+
+    const render = (entries: any[]) => {
+      list.textContent = "";
+      if (!entries.length) {
+        const p = document.createElement("p");
+        p.className = "gb-muted";
+        p.textContent = list.dataset.empty || "";
+        list.append(p);
+        return;
+      }
+      for (const e of entries) {
+        const card = document.createElement("div");
+        card.className = "gb-entry";
+        const top = document.createElement("div");
+        top.className = "gb-entry-top";
+        const name = document.createElement("span");
+        name.className = "gb-name";
+        name.textContent = e.name; // textContent → HTML enjeksiyonu imkânsız
+        const date = document.createElement("span");
+        date.className = "gb-date";
+        date.textContent = new Date(e.created_at).toLocaleDateString(locale, {
+          day: "2-digit", month: "short", year: "numeric",
+        });
+        top.append(name, date);
+        const msg = document.createElement("p");
+        msg.className = "gb-msg";
+        msg.textContent = e.message;
+        card.append(top, msg);
+        list.append(card);
+      }
+    };
+
+    fetch("/api/guestbook")
+      .then((r) => r.json())
+      .then((d) => render(d.entries || []))
+      .catch(() => render([]));
+
+    form.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      if (!statusEl) return;
+      statusEl.removeAttribute("data-error");
+      const fd = new FormData(form);
+      const payload = {
+        name: String(fd.get("name") || ""),
+        message: String(fd.get("message") || ""),
+        website: String(fd.get("website") || ""),
+      };
+      try {
+        const res = await fetch("/api/guestbook", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+          statusEl.textContent = strings.pending;
+          form.reset();
+        } else {
+          statusEl.setAttribute("data-error", "");
+          statusEl.textContent =
+            data.error === "too_short" ? strings.short
+            : data.error === "rate_limited" ? strings.rate
+            : strings.generic;
+        }
+      } catch {
+        statusEl.setAttribute("data-error", "");
+        statusEl.textContent = strings.generic;
+      }
+    });
+  };
+
+  initGuestbook();
+  document.addEventListener("astro:page-load", initGuestbook);
+</script>
