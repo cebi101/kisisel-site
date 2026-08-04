@@ -215,7 +215,7 @@ export const tr = {
     errorGeneric: "Not kaydedilemedi. Biraz sonra tekrar dener misin?",
     empty: "Henüz not yok — ilk yazan sen ol.",
     loading: "Notlar yükleniyor…",
-    privacy: "Yalnızca yazdığın ad ve not saklanır. Spam önlemek için IP adresinin geri döndürülemez bir özeti tutulur; ham IP kaydedilmez.",
+    privacy: "Yalnızca yazdığın ad ve not saklanır. Spam önlemek için IP adresinin gizli bir anahtarla tuzlanmış özeti en fazla 1 saat tutulur, sonra silinir; ham IP hiç kaydedilmez.",
     viewsLabel: "ziyaret",
   },
 
@@ -444,7 +444,7 @@ export const en: Dict = {
     errorGeneric: "Could not save the note. Please try again shortly.",
     empty: "No notes yet — be the first.",
     loading: "Loading notes…",
-    privacy: "Only the name and note you type are stored. To prevent spam an irreversible hash of your IP is kept; the raw IP is never saved.",
+    privacy: "Only the name and note you type are stored. To prevent spam a salted hash of your IP is kept for at most 1 hour, then deleted; the raw IP is never saved.",
     viewsLabel: "visits",
   },
 

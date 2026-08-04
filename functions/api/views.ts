@@ -1,45 +1,67 @@
 // Ziyaretçi (görüntülenme) sayacı — Cloudflare Pages Function + D1
 // GET  /api/views  → mevcut sayıyı döndürür (artırmaz)
-// POST /api/views  → bir artırır ve yeni sayıyı döndürür
+// POST /api/views  → aynı ziyaretçi için GÜNDE BİR kez artırır
 //
-// Kişisel veri saklanmaz: yalnızca tek bir tam sayı tutulur.
+// Tekilleştirme sunucuda yapılır: istemcinin sessionStorage'ı yalnızca
+// gereksiz istek atmamak içindir, sayının doğruluğunu o belirlemez.
+// Kişisel veri saklanmaz: ham IP değil, gizli tuzla özetlenmiş değeri
+// ve yalnızca 2 gün tutulur.
 
-interface Env {
-  DB: D1Database;
+import { json, hashIp, sameOrigin, type BaseEnv } from "./_shared";
+
+type Env = BaseEnv;
+
+async function currentViews(env: Env): Promise<number | null> {
+  const row = await env.DB.prepare("SELECT n FROM counters WHERE key = 'views'").first<{
+    n: number;
+  }>();
+  return row?.n ?? 0;
 }
-
-const json = (data: unknown, status = 200) =>
-  new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store",
-    },
-  });
 
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   try {
-    const row = await env.DB.prepare("SELECT n FROM counters WHERE key = 'views'").first<{
-      n: number;
-    }>();
-    return json({ views: row?.n ?? 0 });
+    return json({ views: await currentViews(env) });
   } catch {
-    // Veritabanı henüz bağlanmadıysa site çalışmaya devam etsin
-    return json({ views: null }, 200);
+    // Veritabanı bağlı değilse site çalışmaya devam etsin, sayaç gizlensin
+    return json({ views: null });
   }
 };
 
-export const onRequestPost: PagesFunction<Env> = async ({ env }) => {
+export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   try {
-    await env.DB.prepare(
-      `INSERT INTO counters (key, n) VALUES ('views', 1)
-       ON CONFLICT(key) DO UPDATE SET n = n + 1`
-    ).run();
-    const row = await env.DB.prepare("SELECT n FROM counters WHERE key = 'views'").first<{
-      n: number;
-    }>();
-    return json({ views: row?.n ?? 0 });
+    // Başka sitelerden tetiklenen tarayıcı isteklerini sayma
+    if (!sameOrigin(request)) return json({ views: await currentViews(env) });
+
+    const ip = request.headers.get("cf-connecting-ip") ?? "";
+    const ipHash = await hashIp(ip, env.IP_SALT);
+
+    // IP_SALT ayarlanmamışsa tekilleştirme yapılamaz → artırmadan mevcut değeri dön.
+    // (Zayıf/sabit bir tuza düşmek gizlilik vaadini bozacağı için tercih edilmez.)
+    if (!ipHash) return json({ views: await currentViews(env) });
+
+    const day = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+
+    // Aynı ziyaretçi + aynı gün → yalnızca ilk kayıt eklenir
+    const hit = await env.DB.prepare(
+      "INSERT OR IGNORE INTO view_hits (ip_hash, day) VALUES (?, ?)"
+    )
+      .bind(ipHash, day)
+      .run();
+
+    const isNew = (hit.meta?.changes ?? 0) === 1;
+    if (isNew) {
+      await env.DB.prepare(
+        `INSERT INTO counters (key, n) VALUES ('views', 1)
+         ON CONFLICT(key) DO UPDATE SET n = n + 1`
+      ).run();
+
+      // Eski tekilleştirme kayıtlarını temizle (tablo şişmesin, veri birikmesin)
+      const cutoff = new Date(Date.now() - 2 * 86400_000).toISOString().slice(0, 10);
+      await env.DB.prepare("DELETE FROM view_hits WHERE day < ?").bind(cutoff).run();
+    }
+
+    return json({ views: await currentViews(env) });
   } catch {
-    return json({ views: null }, 200);
+    return json({ views: null });
   }
 };

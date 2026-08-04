@@ -70,7 +70,9 @@ tekrar sayılmaz (oturum başına bir kez). Hiçbir kişisel veri tutulmaz.
 - Ad 40, not 280 karakterle sınırlı
 - Kontrol karakterleri temizlenir
 - Notlar `textContent` ile basılır → HTML/script enjeksiyonu imkânsız
-- Ham IP **saklanmaz**; yalnızca tuzlanmış SHA-256 özeti (geri döndürülemez)
+- Ham IP **saklanmaz**; yalnızca `IP_SALT` ile tuzlanmış SHA-256 özeti tutulur ve
+  hız sınırı penceresi (1 saat) dolunca otomatik silinir
+- `IP_SALT` ayarlanmadan defter **kapalı** kalır (503) — sessizce zayıf tuza düşmez
 
 ---
 

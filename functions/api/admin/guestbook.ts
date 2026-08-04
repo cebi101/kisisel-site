@@ -5,16 +5,12 @@
 // GET    /api/admin/guestbook            → onay bekleyenleri listeler
 // POST   /api/admin/guestbook  {id, action:"approve"|"delete"}
 
+import { json, asObject } from "../_shared";
+
 interface Env {
   DB: D1Database;
   ADMIN_TOKEN?: string;
 }
-
-const json = (data: unknown, status = 200) =>
-  new Response(JSON.stringify(data), {
-    status,
-    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
-  });
 
 /** Sabit süreli karşılaştırma — token'ı harf harf sızdırmamak için */
 function safeEqual(a: string, b: string): boolean {
@@ -34,35 +30,39 @@ function authorized(request: Request, env: Env): boolean {
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   if (!authorized(request, env)) return json({ error: "unauthorized" }, 401);
-  const { results } = await env.DB.prepare(
-    `SELECT id, name, message, created_at, approved
-       FROM guestbook
-      ORDER BY approved ASC, created_at DESC
-      LIMIT 200`
-  ).all();
-  return json({ entries: results ?? [] });
+  try {
+    const { results } = await env.DB.prepare(
+      `SELECT id, name, message, created_at, approved
+         FROM guestbook
+        ORDER BY approved ASC, created_at DESC
+        LIMIT 200`
+    ).all();
+    return json({ entries: results ?? [] });
+  } catch {
+    return json({ error: "unavailable" }, 503);
+  }
 };
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   if (!authorized(request, env)) return json({ error: "unauthorized" }, 401);
 
-  let body: { id?: number; action?: string };
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: "bad_request" }, 400);
-  }
+  const body = asObject(await request.json().catch(() => null));
+  if (!body) return json({ error: "bad_request" }, 400);
 
   const id = Number(body.id);
   if (!Number.isInteger(id) || id <= 0) return json({ error: "bad_id" }, 400);
 
-  if (body.action === "approve") {
-    await env.DB.prepare("UPDATE guestbook SET approved = 1 WHERE id = ?").bind(id).run();
-    return json({ ok: true, id, approved: true });
+  try {
+    if (body.action === "approve") {
+      await env.DB.prepare("UPDATE guestbook SET approved = 1 WHERE id = ?").bind(id).run();
+      return json({ ok: true, id, approved: true });
+    }
+    if (body.action === "delete") {
+      await env.DB.prepare("DELETE FROM guestbook WHERE id = ?").bind(id).run();
+      return json({ ok: true, id, deleted: true });
+    }
+    return json({ error: "bad_action" }, 400);
+  } catch {
+    return json({ error: "unavailable" }, 503);
   }
-  if (body.action === "delete") {
-    await env.DB.prepare("DELETE FROM guestbook WHERE id = ?").bind(id).run();
-    return json({ ok: true, id, deleted: true });
-  }
-  return json({ error: "bad_action" }, 400);
 };

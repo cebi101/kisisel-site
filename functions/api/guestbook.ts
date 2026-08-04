@@ -2,42 +2,28 @@
 // GET  /api/guestbook  → yalnızca ONAYLANMIŞ notları döndürür
 // POST /api/guestbook  → yeni not bırakır; onay bekleyen olarak kaydedilir
 //
-// Gizlilik: ham IP adresi SAKLANMAZ. Yalnızca hız sınırı için
-// tuzlanmış SHA-256 özeti tutulur (geri döndürülemez).
+// Gizlilik: ham IP adresi saklanmaz. Hız sınırı için gizli IP_SALT ile
+// tuzlanmış SHA-256 özeti tutulur ve bu özet 1 saat sonra silinir (NULL).
+// IP_SALT ayarlı değilse özet hiç üretilmez (sabit tuza düşülmez).
 
-interface Env {
-  DB: D1Database;
-  IP_SALT?: string; // Cloudflare panelinden ayarlanır (rastgele uzun bir metin)
-}
+import { json, asObject, hashIp, sameOrigin, type BaseEnv } from "./_shared";
+
+type Env = BaseEnv;
 
 const MAX_NAME = 40;
 const MAX_MESSAGE = 280;
+const MAX_BODY_BYTES = 4096;
 const RATE_LIMIT = 3; // aynı ziyaretçiden saatte en fazla
 const LIST_LIMIT = 50;
 
-const json = (data: unknown, status = 200) =>
-  new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store",
-    },
-  });
-
-/** Görünmez kontrol karakterlerini temizler, boşlukları sadeleştirir */
+/** Kontrol karakterlerini temizler, boşlukları sadeleştirir, kırpar */
 const clean = (s: unknown, max: number): string =>
   String(s ?? "")
-    // eslint-disable-next-line no-control-regex
+    .slice(0, max * 4) // regex'ler dev metinlerde çalışmasın
     .replace(/[\u0000-\u001f\u007f]/g, " ")
     .replace(/\s+/g, " ")
     .trim()
     .slice(0, max);
-
-async function hashIp(ip: string, salt: string): Promise<string> {
-  const data = new TextEncoder().encode(`${salt}:${ip}`);
-  const digest = await crypto.subtle.digest("SHA-256", data);
-  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
-}
 
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   try {
@@ -57,12 +43,14 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
 };
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
-  let body: Record<string, unknown>;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ ok: false, error: "bad_request" }, 400);
-  }
+  if (!sameOrigin(request)) return json({ ok: false, error: "bad_request" }, 403);
+
+  // Dev gövdeleri ayrıştırmadan reddet
+  const declared = Number(request.headers.get("content-length") ?? 0);
+  if (declared > MAX_BODY_BYTES) return json({ ok: false, error: "too_long" }, 413);
+
+  const body = asObject(await request.json().catch(() => null));
+  if (!body) return json({ ok: false, error: "bad_request" }, 400);
 
   // Bal küpü: gerçek kullanıcı bu gizli alanı doldurmaz, botlar doldurur
   if (clean(body.website, 10) !== "") {
@@ -77,26 +65,36 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   try {
-    const ip = request.headers.get("cf-connecting-ip") ?? "0.0.0.0";
-    const ipHash = await hashIp(ip, env.IP_SALT ?? "kisisel-site");
+    const ip = request.headers.get("cf-connecting-ip") ?? "";
+    const ipHash = await hashIp(ip, env.IP_SALT);
 
-    // Hız sınırı: son 1 saatte kaç kayıt bırakılmış
-    const since = new Date(Date.now() - 3600_000).toISOString();
-    const recent = await env.DB.prepare(
-      "SELECT COUNT(*) AS c FROM guestbook WHERE ip_hash = ? AND created_at > ?"
+    // Gizli tuz yoksa hız sınırı uygulanamaz → defteri açık bırakmak yerine kapat.
+    // (Kurulum eksikse burada fark edilir; sessizce zayıf tuza düşülmez.)
+    if (!ipHash) return json({ ok: false, error: "unavailable" }, 503);
+
+    const now = new Date();
+    const since = new Date(now.getTime() - 3600_000).toISOString();
+
+    // Sayma ve ekleme TEK ifadede: eşzamanlı isteklerde sınır aşılamaz
+    const inserted = await env.DB.prepare(
+      `INSERT INTO guestbook (name, message, created_at, approved, ip_hash)
+       SELECT ?, ?, ?, 0, ?
+        WHERE (SELECT COUNT(*) FROM guestbook
+                WHERE ip_hash = ? AND created_at > ?) < ?`
     )
-      .bind(ipHash, since)
-      .first<{ c: number }>();
+      .bind(name, message, now.toISOString(), ipHash, ipHash, since, RATE_LIMIT)
+      .run();
 
-    if ((recent?.c ?? 0) >= RATE_LIMIT) {
+    if ((inserted.meta?.changes ?? 0) === 0) {
       return json({ ok: false, error: "rate_limited" }, 429);
     }
 
+    // Süresi dolan özetleri sil: hız sınırı penceresi geçtikten sonra
+    // ip_hash'in saklanması için hiçbir gerekçe kalmaz
     await env.DB.prepare(
-      `INSERT INTO guestbook (name, message, created_at, approved, ip_hash)
-       VALUES (?, ?, ?, 0, ?)`
+      "UPDATE guestbook SET ip_hash = NULL WHERE ip_hash IS NOT NULL AND created_at <= ?"
     )
-      .bind(name, message, new Date().toISOString(), ipHash)
+      .bind(since)
       .run();
 
     // approved = 0 → Şeyma onaylayana kadar sitede görünmez

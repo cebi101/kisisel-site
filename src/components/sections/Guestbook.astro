@@ -114,6 +114,8 @@ const g = t.guestbook;
     const list = document.getElementById("gb-list");
     const statusEl = document.getElementById("gb-status");
     if (!form || !list) return;
+    if (form.dataset.bound) return; // çift dinleyici → çift gönderim olmasın
+    form.dataset.bound = "1";
 
     const strings = JSON.parse(form.dataset.strings || "{}");
     const locale = document.documentElement.lang === "en" ? "en-GB" : "tr-TR";
@@ -149,14 +151,25 @@ const g = t.guestbook;
       }
     };
 
+    const showUnavailable = () => {
+      list.textContent = "";
+      const p = document.createElement("p");
+      p.className = "gb-muted";
+      p.textContent = strings.generic;
+      list.append(p);
+    };
+
     fetch("/api/guestbook")
-      .then((r) => r.json())
-      .then((d) => render(d.entries || []))
-      .catch(() => render([]));
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => (d.unavailable ? showUnavailable() : render(d.entries || [])))
+      .catch(showUnavailable);
 
     form.addEventListener("submit", async (ev) => {
       ev.preventDefault();
       if (!statusEl) return;
+      const btn = form.querySelector("button[type=submit]") as HTMLButtonElement | null;
+      if (btn?.disabled) return; // uçuşta istek varken ikinci gönderim yok
+      if (btn) btn.disabled = true;
       statusEl.removeAttribute("data-error");
       const fd = new FormData(form);
       const payload = {
@@ -184,10 +197,12 @@ const g = t.guestbook;
       } catch {
         statusEl.setAttribute("data-error", "");
         statusEl.textContent = strings.generic;
+      } finally {
+        if (btn) btn.disabled = false;
       }
     });
   };
 
-  initGuestbook();
+  // ClientRouter astro:page-load'ı ilk yüklemede de tetikler
   document.addEventListener("astro:page-load", initGuestbook);
 </script>

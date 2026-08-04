@@ -226,14 +226,16 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
         themeMeta?.setAttribute("content", mode === "dark" ? "#211a19" : "#f1eae8");
       };
       const bindTheme = () => {
-        document.querySelectorAll<HTMLButtonElement>(".mode-switch button").forEach((b) =>
+        document.querySelectorAll<HTMLButtonElement>(".mode-switch button").forEach((b) => {
+          if (b.dataset.bound) return;
+          b.dataset.bound = "1";
           b.addEventListener("click", () => {
             const m = b.dataset.mode || "dark";
             document.documentElement.dataset.mode = m;
             try { localStorage.setItem("mode", m); } catch {}
             syncMode();
-          })
-        );
+          });
+        });
         syncMode();
       };
 
@@ -255,7 +257,9 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
       // ---------- İletişim formu → e-posta uygulaması ----------
       const bindForm = () => {
         const form = document.getElementById("contact-form") as HTMLFormElement | null;
-        form?.addEventListener("submit", (e) => {
+        if (!form || form.dataset.bound) return;
+        form.dataset.bound = "1";
+        form.addEventListener("submit", (e) => {
         e.preventDefault();
         const fd = new FormData(form);
         const email = form.dataset.email || "";
@@ -278,16 +282,24 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
         el.textContent = `${n.toLocaleString(loc)} ${el.dataset.label ?? ""}`.trim();
         el.hidden = false;
       };
+      // Modül durumu gezinmeler boyunca yaşar; sessionStorage engelliyse bile
+      // sayfa başına tek istek atılır ve sayaç şişmez.
+      let visitCounted = false;
+      let visitInFlight = false;
       const countVisit = () => {
-        let counted = "";
-        try { counted = sessionStorage.getItem("visit-counted") ?? ""; } catch {}
-        fetch("/api/views", { method: counted ? "GET" : "POST" })
+        if (visitInFlight) return;
+        let stored = "";
+        try { stored = sessionStorage.getItem("visit-counted") ?? ""; } catch {}
+        const alreadyCounted = visitCounted || stored !== "";
+        // Bayrağı istekten ÖNCE yaz: yarış durumunda ikinci artış olmasın
+        visitCounted = true;
+        if (!alreadyCounted) { try { sessionStorage.setItem("visit-counted", "1"); } catch {} }
+        visitInFlight = true;
+        fetch("/api/views", { method: alreadyCounted ? "GET" : "POST" })
           .then((r) => r.json())
-          .then((d) => {
-            showViews(d.views);
-            if (!counted) { try { sessionStorage.setItem("visit-counted", "1"); } catch {} }
-          })
-          .catch(() => {});
+          .then((d) => showViews(d.views))
+          .catch(() => {})
+          .finally(() => { visitInFlight = false; });
       };
 
       // ---------- Sayfa geçişlerinde yeniden bağlama ----------
@@ -303,7 +315,8 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
           document.body.appendChild(sparkleCanvas);
         }
       };
-      onPage();
+      // ClientRouter astro:page-load'ı İLK yüklemede de tetikler; doğrudan
+      // çağırmak dinleyicileri ve sayaç isteğini ikiye katlardı.
       document.addEventListener("astro:page-load", onPage);
 
       // ---------- Konsol sürprizi ----------
