@@ -205,7 +205,7 @@ export const tr = {
   guestbook: {
     no: "04",
     title: "Ziyaretçi Defteri",
-    sub: "Uğradığını buraya yazabilirsin — notlar ben onayladıktan sonra yayımlanır.",
+    sub: "Bir selam, bir soru ya da aklına takılan bir fikir — buraya not bırakabilirsin. Notlar ben okuyup onayladıktan sonra yayımlanır.",
     fName: "Adın",
     fMsg: "Notun",
     fSend: "Bırak",
@@ -434,7 +434,7 @@ export const en: Dict = {
   guestbook: {
     no: "04",
     title: "Guestbook",
-    sub: "Leave a note to say you stopped by — notes appear after I approve them.",
+    sub: "A hello, a question or an idea you had — leave a note here. Notes are published after I read and approve them.",
     fName: "Your name",
     fMsg: "Your note",
     fSend: "Leave note",
@@ -467,9 +467,24 @@ export const en: Dict = {
 // Ortak: dilden bağımsız yetenek çipleri — etiketleri her dilin
 // about.skillGroups sözlüğünden gelir
 export const SKILL_GROUPS = [
-  { key: "langs", items: ["Python", "Java", "JavaScript", "C", "C++"] },
-  { key: "ai", items: ["Claude Code", "Antigravity", "Prompt Engineering"] },
-  { key: "tools", items: ["Git", "VS Code", "Cursor"] },
+  // Yalnızca gerçekten kullanılanlar. Her kalem bir repoya, projeye ya da
+  // belgeye dayanır: foundry-local-rag (RAG, embedding, SQLite, Foundry Local),
+  // YemekStes (Java, OOP, JUnit 5, Maven), TEKNOFEST dil ajanları (LLM ajanları),
+  // T3 eğitmenliği (3D tasarım) ve bu sitenin kendisi (HTML/CSS, Git).
+  { key: "langs", items: ["Python", "Java", "JavaScript", "C", "C++", "SQL", "HTML & CSS"] },
+  {
+    key: "ai",
+    items: [
+      "Claude Code",
+      "Antigravity",
+      "Prompt Engineering",
+      "RAG",
+      "Embedding & Vektör Arama",
+      "LLM Ajanları",
+      "Microsoft Foundry Local",
+    ],
+  },
+  { key: "tools", items: ["Git", "GitHub", "VS Code", "Cursor", "SQLite", "JUnit 5", "Maven"] },
 ] as const;
 
 export const locales = { tr, en };
