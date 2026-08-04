@@ -216,9 +216,10 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
       }
 
       /* ---- YAZDIRMA / PDF ---- */
+      /* ---- YAZDIRMA / PDF: TEK SAYFAYA SIĞAR ---- */
       @media print {
-        @page { size: A4; margin: 14mm 14mm; }
-        body { background: #fff; font-size: 10.8pt; }
+        @page { size: A4; margin: 9mm 10mm; }
+        body { background: #fff; font-size: 8.2pt; line-height: 1.26; }
         .no-print { display: none !important; }
         .cv {
           max-width: none;
@@ -227,16 +228,40 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
           border-radius: 0;
           box-shadow: none;
         }
-        .cv-name { font-size: 26pt; }
+
+        /* başlık */
+        .cv-head { gap: 14px; padding-bottom: 6px; margin-bottom: 7px; break-inside: avoid; }
+        .cv-name { font-size: 19pt; letter-spacing: -0.5px; }
+        .cv-role { font-size: 7.4pt; letter-spacing: 1.4px; margin-top: 2px; }
+        .cv-contact { gap: 2px 10px; margin-top: 5px; font-size: 7.6pt; }
         .cv-photo {
-          width: 88px;
-          height: 104px;
-          -webkit-print-color-adjust: exact;
-          print-color-adjust: exact;
+          width: 68px; height: 82px; border-radius: 7px;
+          -webkit-print-color-adjust: exact; print-color-adjust: exact;
         }
-        section { margin-top: 14px; }
-        .item, .skills-row { break-inside: avoid; }
-        .cv-head { break-inside: avoid; }
+
+        /* bölümler */
+        section { margin-top: 5px; }
+        .sec-title { font-size: 7.2pt; letter-spacing: 1.2px; padding-bottom: 2px; margin-bottom: 3px; }
+        .summary p + p { margin-top: 2px; }
+
+        .item { margin-bottom: 3px; break-inside: avoid; }
+        .item-title { font-size: 8.6pt; }
+        .item-when { font-size: 7.4pt; }
+        .item-desc { font-size: 7.9pt; margin-top: 0; }
+        .item-badge { margin-top: 2px; padding: 1px 7px; font-size: 7.2pt; }
+        .item-tags { font-size: 7.4pt; margin-top: 1px; }
+
+        /* projeler ve sertifikalar iki sütunda — yatay alanı kullan */
+        .cv-cols { columns: 2; column-gap: 16px; }
+        .cv-cols-3 { columns: 3; column-gap: 14px; }
+        .cv-cols-3 .item { break-inside: avoid; }
+        .cv-cols .item { break-inside: avoid; }
+
+        /* yetenekler tek satıra yakın */
+        .skills-row { gap: 6px; margin-bottom: 2px; break-inside: avoid; }
+        .skills-label { min-width: 104px; font-size: 7.2pt; letter-spacing: 0.6px; }
+        .skills-items { gap: 3px; }
+        .skill { font-size: 7.4pt; padding: 1px 7px; }
       }
 
       @media (max-width: 640px) {
@@ -318,6 +343,7 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
 
       <section>
         <div class="sec-title">{t.projects.title}</div>
+        <div class="cv-cols">
         {t.projects.items.map((p) => (
           <div class="item">
             <div class="item-title">{p.title}</div>
@@ -325,16 +351,19 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
             <div class="item-tags">{p.tags}</div>
           </div>
         ))}
+        </div>
       </section>
 
       <section>
         <div class="sec-title">{t.about.certsLabel}</div>
+        <div class="cv-cols cv-cols-3">
         {t.about.certs.map((c) => (
           <div class="item">
             <div class="item-title">{c.name} · {c.org}</div>
             <div class="item-desc">{c.desc}</div>
           </div>
         ))}
+        </div>
       </section>
 
       <section>
