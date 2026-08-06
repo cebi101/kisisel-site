@@ -66,6 +66,13 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
     <title>{title}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <!-- Tipografi: kendi sunucumuzda barındırılıyor (dış istek yok) -->
+    <!-- Kritik renkler: dış CSS inmeden ilk kare bile doğru boyansın (beyaz parlama olmasın) -->
+    <style is:inline>
+      html { background: #f7f6ef; color: #3a3d30; }
+      html[data-mode="dark"] { background: #1a1c16; color: #dfe1d4; }
+      body { margin: 0; background: inherit; color: inherit; }
+      a { color: inherit; text-decoration: none; }
+    </style>
     <link rel="preload" href="/fonts/sora-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/fraunces-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
     <!-- Tema: boyamadan ÖNCE uygula (parlama olmasın) -->
