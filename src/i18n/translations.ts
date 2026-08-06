@@ -232,7 +232,7 @@ export const tr = {
     retry: "Tekrar dene",
     loading: "Notlar yükleniyor…",
     privacy:
-      "Yalnızca yazdığın ad ve not saklanır. Spam önlemek için IP adresinin gizli bir anahtarla tuzlanmış özeti en fazla 1 saat tutulur, sonra silinir; ham IP hiç kaydedilmez. Onaylanmayan notlar 30 gün sonra otomatik silinir.",
+      "Yalnızca yazdığın ad ve not saklanır. Spam önlemek için IP adresinin gizli bir anahtarla tuzlanmış özeti en fazla 1 saat tutulur, sonra silinir; ham IP hiç kaydedilmez. Onaylanmayan notlar 7 gün sonra otomatik silinir.",
     viewsLabel: "ziyaret",
   },
 
@@ -245,6 +245,10 @@ export const tr = {
     fSend: "Gönder",
     fHint: "Gönder'e basınca e-posta uygulaman açılır.",
     fSubject: "Web sitesi — iletişim",
+    sending: "Gönderiliyor…",
+    sent: "Mesajın ulaştı, teşekkürler! En kısa sürede dönüş yapacağım.",
+    failed: "Gönderilemedi — e-posta uygulaman açılıyor.",
+    rateLimited: "Bugünlük bu kadar yeter :) Biraz sonra tekrar dene.",
     social: "SOSYAL MEDYA",
   },
 
@@ -476,7 +480,7 @@ export const en: Dict = {
     retry: "Try again",
     loading: "Loading notes…",
     privacy:
-      "Only the name and note you type are stored. To prevent spam a salted hash of your IP is kept for at most 1 hour, then deleted; the raw IP is never saved. Notes that are not approved are deleted automatically after 30 days.",
+      "Only the name and note you type are stored. To prevent spam a salted hash of your IP is kept for at most 1 hour, then deleted; the raw IP is never saved. Notes that are not approved are deleted automatically after 7 days.",
     viewsLabel: "visits",
   },
 
@@ -489,6 +493,10 @@ export const en: Dict = {
     fSend: "Send",
     fHint: "Pressing Send opens your email app.",
     fSubject: "Website contact",
+    sending: "Sending…",
+    sent: "Your message is on its way — thank you! I'll get back to you shortly.",
+    failed: "Couldn't send — opening your email app instead.",
+    rateLimited: "That's enough for now :) Please try again a bit later.",
     social: "SOCIAL MEDIA",
   },
 

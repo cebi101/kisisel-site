@@ -24,10 +24,10 @@ export interface ProjectMeta {
 }
 
 export const PROJECTS: ProjectMeta[] = [
-  { href: null, state: "private" },
+  { href: null, state: "wip" },
   { href: "https://github.com/msgxr/teknofest-2026-kamu-evrak-akilli-ajan", state: "public" },
   { href: "https://github.com/cebi101/foundry-local-rag", state: "public" },
-  { href: null, state: "private" },
+  { href: null, state: "wip" },
   { href: "https://github.com/cebi101/YemekStes", state: "public" },
 ];
 

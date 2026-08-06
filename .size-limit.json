@@ -13,14 +13,17 @@
   },
   {
     "name": "CV sayfası CSS (yalnız /cv)",
-    "path": ["dist/_astro/CvLayout*.css", "dist/_astro/translations*.css"],
+    "path": [
+      "dist/_astro/CvLayout*.css",
+      "dist/_astro/translations*.css"
+    ],
     "limit": "3.5 kB",
     "gzip": true
   },
   {
     "name": "her sayfada yüklenen JS (ClientRouter hariç)",
     "path": "dist/_astro/Layout*.js",
-    "limit": "2.4 kB",
+    "limit": "2.7 kB",
     "gzip": true
   },
   {

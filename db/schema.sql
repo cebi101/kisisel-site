@@ -29,3 +29,13 @@ CREATE INDEX IF NOT EXISTS idx_guestbook_public
   ON guestbook (approved, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_guestbook_rate
   ON guestbook (ip_hash, created_at);
+
+-- İletişim formu hız sınırı sayacı.
+-- MESAJ İÇERİĞİ BURAYA YAZILMAZ; yalnızca tuzlanmış IP özeti ve zaman.
+-- 1 saatten eski satırlar API tarafından otomatik silinir.
+CREATE TABLE IF NOT EXISTS contact_hits (
+  ip_hash    TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_contact_rate
+  ON contact_hits (ip_hash, created_at);

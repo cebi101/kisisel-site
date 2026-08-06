@@ -22,6 +22,12 @@ const { t } = Astro.props;
       aria-describedby="form-hint"
       data-email={EMAIL}
       data-subject={t.contact.fSubject}
+      data-strings={JSON.stringify({
+        sending: t.contact.sending,
+        sent: t.contact.sent,
+        failed: t.contact.failed,
+        rate: t.contact.rateLimited,
+      })}
     >
       <p class="contact-sub">{t.contact.sub}</p>
       <label for="f-name" class="visually-hidden">{t.contact.fName}</label>
@@ -42,12 +48,18 @@ const { t } = Astro.props;
         placeholder={t.contact.fEmail}
         required
       />
+      {/* Bot tuzağı: gerçek kullanıcı görmez, ekran okuyucu atlar */}
+      <label class="hp-alan" aria-hidden="true">
+        Bu alanı boş bırak
+        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </label>
       <label for="f-msg" class="visually-hidden">{t.contact.fMsg}</label>
       <textarea id="f-msg" name="msg" rows="5" placeholder={t.contact.fMsg} required></textarea>
       <button type="submit" class="btn btn-solid"
         >{t.contact.fSend} <span class="arr" aria-hidden="true">→</span></button
       >
       <span class="form-hint" id="form-hint">{t.contact.fHint}</span>
+      <p class="form-durum" id="form-durum" role="status" hidden></p>
     </form>
     <div class="contact-side reveal d1">
       <h2 class="side-label">{t.contact.social}</h2>

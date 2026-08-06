@@ -1,12 +1,21 @@
 # Cloudflare Pages yapılandırması
 # Bağlamalar burada tanımlanır; her dağıtımda otomatik uygulanır.
-# Gizli değerler (IP_SALT, ADMIN_TOKEN) BURAYA YAZILMAZ — panelde/secret olarak tutulur.
+# Gizli değerler (IP_SALT, ADMIN_TOKEN, RESEND_API_KEY) BURAYA YAZILMAZ —
+# panelde secret olarak tutulur.
 
 name = "kisisel-site"
 compatibility_date = "2026-08-04"
 pages_build_output_dir = "dist"
 
-[[d1_databases]]
+# ÜRETİM — gerçek ziyaretçi notları ve sayaç
+[[env.production.d1_databases]]
 binding = "DB"
 database_name = "kisisel-site"
 database_id = "abfc1fc2-bf9e-4c49-a4e8-f81da1bb88ea"
+
+# ÖNİZLEME — dal dağıtımları buraya yazar.
+# Böylece bir dalda defteri denemek GERÇEK notları ve sayacı kirletmez.
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "kisisel-site-preview"
+database_id = "79139fcf-8482-4b32-9ab5-3e8e438f8bc2"

@@ -216,16 +216,58 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
         const form = document.getElementById("contact-form") as HTMLFormElement | null;
         if (!form || form.dataset.bound) return;
         form.dataset.bound = "1";
-        form.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const fd = new FormData(form);
+        const durumEl = document.getElementById("form-durum");
+        const metin = JSON.parse(form.dataset.strings || "{}");
+        const yaz = (m: string) => {
+          if (!durumEl) return;
+          durumEl.textContent = m;
+          durumEl.hidden = !m;
+        };
+        /** Sunucu ucu yoksa/başarısızsa eski davranış: e-posta uygulamasını aç. */
+        const mailtoyaDus = (name: string, from: string, msg: string) => {
           const email = form.dataset.email || "";
-          const name = String(fd.get("name") || "").trim();
-          const from = String(fd.get("email") || "").trim();
-          const msg = String(fd.get("msg") || "").trim();
           const subject = encodeURIComponent(`${form.dataset.subject || ""} — ${name}`);
           const body = encodeURIComponent(`${msg}\n\n— ${name} (${from})`);
           location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        };
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const btn = form.querySelector("button[type=submit]") as HTMLButtonElement | null;
+          if (btn?.disabled) return;
+          const fd = new FormData(form);
+          const name = String(fd.get("name") || "").trim();
+          const from = String(fd.get("email") || "").trim();
+          const msg = String(fd.get("msg") || "").trim();
+          if (btn) btn.disabled = true;
+          yaz(metin.sending || "");
+          try {
+            const r = await fetch("/api/contact", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({
+                name,
+                email: from,
+                message: msg,
+                website: String(fd.get("website") || ""),
+              }),
+            });
+            const d = await r.json().catch(() => ({}));
+            if (r.ok && d.ok) {
+              yaz(metin.sent || "");
+              form.reset();
+            } else if (r.status === 429) {
+              yaz(metin.rate || "");
+            } else {
+              // 503 = e-posta sağlayıcısı tanımlı değil → eski davranışa dön
+              yaz(metin.failed || "");
+              mailtoyaDus(name, from, msg);
+            }
+          } catch {
+            yaz(metin.failed || "");
+            mailtoyaDus(name, from, msg);
+          } finally {
+            if (btn) btn.disabled = false;
+          }
         });
       };
 
