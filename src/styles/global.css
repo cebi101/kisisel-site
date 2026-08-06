@@ -260,10 +260,9 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 /* Arapça bitişik yazıda negatif tracking harf bağlarını bozar */
 
 .nav-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: transparent;
+  border-color: transparent;
   color: var(--onaccent);
-  box-shadow: var(--shadow-sm);
 }
 .nav-btn.active .num { background: var(--onaccent); color: var(--accent); }
 .nav-btn.active .arrow { opacity: 1; }
@@ -996,4 +995,52 @@ footer {
 /* çip üstüne gelince limon */
 @media (hover: hover) {
   .chip:hover { background: var(--highlight); color: var(--onhighlight); border-color: transparent; }
+}
+
+/* =============== MENÜ: KAYAN GÖSTERGE =============== */
+/* Aktif sayfa vurgusu, sayfa değişince eski konumundan yenisine KAYAR.
+   (View Transitions'ın adlandırılmış grubu sayesinde tarayıcı morflar.) */
+.nav-btn { position: relative; overflow: hidden; }
+.nav-btn > span:not(.nav-pill) { position: relative; z-index: 1; }
+
+.nav-pill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 12px;
+  background: var(--accent);
+  box-shadow: var(--shadow-sm);
+  view-transition-name: nav-pill;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-group(nav-pill) {
+    animation-duration: 0.42s;
+    animation-timing-function: cubic-bezier(0.34, 1.3, 0.44, 1);
+  }
+  /* gösterge kayarken içi sabit kalsın, kırpılıp esnemesin */
+  ::view-transition-old(nav-pill),
+  ::view-transition-new(nav-pill) { animation: none; mix-blend-mode: normal; height: 100%; }
+}
+
+/* menüde hareket: numara kutusu ve ok canlansın */
+.nav-btn .num,
+.nav-btn .arrow {
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
+}
+.nav-btn.active .num {
+  background: var(--onaccent);
+  color: var(--accent);
+  transform: rotate(-6deg) scale(1.06);
+}
+.nav-btn.active .arrow { opacity: 1; transform: translateX(2px); }
+
+@media (hover: hover) {
+  .nav-btn:not(.active):hover .num {
+    background: var(--highlight);
+    color: var(--onhighlight);
+    transform: rotate(-6deg);
+  }
+  .nav-btn:not(.active):hover .arrow { opacity: 0.8; transform: translateX(4px); }
+  [dir="rtl"] .nav-btn:not(.active):hover .arrow { transform: translateX(-4px); }
 }

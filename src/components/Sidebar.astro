@@ -58,6 +58,7 @@ const langs = [
         class={`nav-btn ${n.id === current ? "active" : ""}`}
         aria-current={n.id === current ? "page" : undefined}
       >
+        {n.id === current && <span class="nav-pill" aria-hidden="true"></span>}
         <span class="num" aria-hidden="true">{n.num}</span>
         <span class="lbl">{n.label}</span>
         <span class="arrow" aria-hidden="true">→</span>
