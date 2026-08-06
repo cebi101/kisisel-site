@@ -36,6 +36,11 @@ import "../styles/global.css";
   </head>
   <body>
     <main class="yon">
+      <nav class="yon-ust">
+        <a href="/" class="yon-geri"><span aria-hidden="true">←</span> Siteye dön</a>
+        <a href="/defter" class="yon-geri">Defteri gör <span aria-hidden="true">↗</span></a>
+      </nav>
+
       <header class="yon-head">
         <h1>Ziyaretçi Defteri</h1>
         <p class="yon-sub">Onay bekleyen notlar</p>
@@ -66,6 +71,30 @@ import "../styles/global.css";
         width: 100%;
         margin-inline: auto;
         padding: clamp(24px, 5vw, 56px) clamp(18px, 4vw, 32px);
+      }
+      .yon-ust {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 18px;
+        margin-bottom: 22px;
+      }
+      .yon-geri {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 44px;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--muted);
+        text-decoration: none;
+      }
+      .yon-geri:hover {
+        color: var(--accent);
+      }
+      .yon-geri:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 8px;
       }
       .yon-head h1 {
         font-family: var(--font-display);
