@@ -33,4 +33,16 @@ export interface GuestbookStrings {
   rate: string;
   /** Diğer/bilinmeyen hata */
   generic: string;
+  /** Boş durum başlığı */
+  emptyTitle?: string;
+  /** Boş durum alt metni */
+  emptySub?: string;
+  /** Boş durumda forma odaklayan düğme */
+  emptyCta?: string;
+  /** Hata kartı başlığı */
+  errorTitle?: string;
+  /** Hata kartı açıklaması */
+  errorSub?: string;
+  /** Yeniden deneme düğmesi */
+  retry?: string;
 }

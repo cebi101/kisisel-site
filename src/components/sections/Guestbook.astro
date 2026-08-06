@@ -26,6 +26,12 @@ const g = t.guestbook;
         short: g.errorShort,
         rate: g.errorRate,
         generic: g.errorGeneric,
+        emptyTitle: g.emptyTitle,
+        emptySub: g.emptySub,
+        emptyCta: g.emptyCta,
+        errorTitle: g.errorTitle,
+        errorSub: g.errorSub,
+        retry: g.retry,
       })}
     >
       <p class="contact-sub">{g.sub}</p>
@@ -115,49 +121,20 @@ const g = t.guestbook;
   .gb-privacy {
     line-height: 1.5;
   }
-
   .gb-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
-  .gb-muted {
-    font-size: 14px;
-    color: var(--faint);
-  }
-  .gb-entry {
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    background: var(--panel);
-    box-shadow: var(--shadow-sm);
-    padding: 16px 18px;
-  }
-  .gb-entry-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 4px;
-  }
-  .gb-name {
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .gb-date {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--faint);
-  }
-  .gb-msg {
-    font-size: 14.5px;
-    color: var(--muted2);
-    line-height: 1.55;
-  }
-
   @media (max-width: 940px) {
     .gb-grid {
       grid-template-columns: 1fr;
       gap: 36px;
+    }
+  }
+  @keyframes gb-shimmer {
+    to {
+      background-position: -150% 0;
     }
   }
 </style>
@@ -179,10 +156,7 @@ const g = t.guestbook;
     const render = (entries: GuestbookEntry[]) => {
       list.textContent = "";
       if (!entries.length) {
-        const p = document.createElement("p");
-        p.className = "gb-muted";
-        p.textContent = list.dataset.empty || "";
-        list.append(p);
+        list.append(bosDurum());
         return;
       }
       for (const e of entries) {
@@ -209,18 +183,74 @@ const g = t.guestbook;
       }
     };
 
-    const showUnavailable = () => {
-      list.textContent = "";
-      const p = document.createElement("p");
-      p.className = "gb-muted";
-      p.textContent = strings.generic;
-      list.append(p);
+    /** Boş durum: ortalanmış blok + forma odaklayan düğme. */
+    const bosDurum = () => {
+      const kutu = document.createElement("div");
+      kutu.className = "gb-empty";
+      const ikon = document.createElement("span");
+      ikon.className = "gb-empty-icon";
+      ikon.setAttribute("aria-hidden", "true");
+      ikon.textContent = "✎";
+      const bas = document.createElement("p");
+      bas.className = "gb-empty-title";
+      bas.textContent = strings.emptyTitle ?? "";
+      const alt = document.createElement("p");
+      alt.className = "gb-empty-sub";
+      alt.textContent = strings.emptySub ?? "";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "gb-action";
+      btn.textContent = strings.emptyCta ?? "";
+      btn.addEventListener("click", () => {
+        (form.querySelector("input[name=name]") as HTMLInputElement | null)?.focus();
+      });
+      kutu.append(ikon, bas, alt, btn);
+      return kutu;
     };
 
-    fetch("/api/guestbook")
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((d) => (d.unavailable ? showUnavailable() : render(d.entries || [])))
-      .catch(showUnavailable);
+    /** Yükleniyor: gerçek kart yüksekliğinde iskelet — düzen sıçramaz. */
+    const iskelet = () => {
+      const sar = document.createElement("div");
+      sar.setAttribute("aria-hidden", "true");
+      for (let i = 0; i < 3; i++) {
+        const s = document.createElement("div");
+        s.className = "gb-skeleton";
+        sar.append(s);
+      }
+      return sar;
+    };
+
+    /** Hata: sebebini söyler ve YENİDEN DENEME sunar. */
+    const hataDurumu = () => {
+      list.textContent = "";
+      const kutu = document.createElement("div");
+      kutu.className = "gb-error";
+      kutu.setAttribute("role", "alert");
+      const bas = document.createElement("p");
+      bas.className = "gb-error-title";
+      bas.textContent = strings.errorTitle ?? strings.generic;
+      const alt = document.createElement("p");
+      alt.className = "gb-error-sub";
+      alt.textContent = strings.errorSub ?? "";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "gb-action";
+      btn.textContent = strings.retry ?? "";
+      btn.addEventListener("click", () => yukle());
+      kutu.append(bas, alt, btn);
+      list.append(kutu);
+    };
+
+    const yukle = () => {
+      list.textContent = "";
+      list.append(iskelet());
+      fetch("/api/guestbook")
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+        .then((d) => (d.unavailable ? hataDurumu() : render(d.entries || [])))
+        .catch(hataDurumu);
+    };
+
+    yukle();
 
     form.addEventListener("submit", async (ev) => {
       ev.preventDefault();

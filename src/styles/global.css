@@ -1167,6 +1167,7 @@ textarea::placeholder {
   }
 }
 .footer-views {
+  min-width: 9ch; /* sayı gelince footer sıçramasın (CLS) */
   font-family: var(--font-mono);
   font-size: 11.5px;
   color: var(--accent-text);
@@ -1848,4 +1849,131 @@ html:not(.js) .sidebar {
   .pr-state {
     white-space: normal;
   }
+}
+
+/* =============== DEFTER: JAVASCRIPT'İN ÜRETTİĞİ ÖĞELER =============== */
+/* Bu sınıflar `document.createElement` ile çalışma anında üretiliyor.
+   Astro'nun scoped stili yalnızca SUNUCUDA render edilen (data-astro-cid
+   taşıyan) öğelere uygulanır — bu yüzden buradaki kurallar GLOBAL olmalı.
+   Aksi halde onaylanan ilk not tamamen stilsiz görünürdü. */
+.gb-muted {
+  font-size: 14px;
+  color: var(--faint);
+}
+.gb-entry {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
+  padding: 16px 18px;
+}
+.gb-entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.gb-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+.gb-date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--faint);
+}
+.gb-msg {
+  font-size: 14.5px;
+  color: var(--muted2);
+  line-height: 1.55;
+}
+/* ---- T2.6 · DURUM TASARIMI (yükleniyor / boş / hata) ---- */
+/* Üçü de eskiden aynı düz gri cümleydi. */
+.gb-skeleton {
+  height: 92px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: linear-gradient(100deg, var(--panel) 30%, var(--peach) 50%, var(--panel) 70%);
+  background-size: 300% 100%;
+  animation: gb-shimmer 1.4s var(--ease-out) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gb-skeleton {
+    animation: none;
+    opacity: 0.6;
+    background: var(--panel);
+  }
+}
+.gb-empty {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 34px 20px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+}
+.gb-empty-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  background: var(--peach);
+  color: var(--accent);
+  font-size: 18px;
+}
+.gb-empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.gb-empty-sub {
+  font-size: 14px;
+  color: var(--muted);
+}
+.gb-error {
+  display: grid;
+  gap: 6px;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-inline-start: 3px solid var(--highlight);
+  border-radius: 14px;
+  background: var(--panel);
+}
+.gb-error-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.gb-error-sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+.gb-action {
+  margin-top: 10px;
+  padding: 9px 16px;
+  min-height: 40px;
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--accent);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+.gb-action:hover {
+  background: var(--accent);
+  color: var(--onaccent);
+}
+.gb-action:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
