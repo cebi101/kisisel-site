@@ -1,0 +1,357 @@
+---
+// Ziyaretçi defteri moderasyon ekranı.
+//
+// Onay yalnızca `curl -H "Authorization: Bearer ..."` ile yapılabiliyordu;
+// telefondan not onaylanamıyor, notlar birikiyor ve defter ölü görünüyordu.
+// Backend uçları zaten hazırdı — eksik olan ince bir arayüzdü.
+//
+// GÜVENLİK: Bu sayfa STATİK. Token sunucuda bulunmaz, sayfaya gömülmez,
+// URL'ye yazılmaz. Tarayıcıda yalnızca sessionStorage'da (localStorage
+// DEĞİL) tutulur — sekme kapanınca unutulur. Sayfa indekslenmez.
+import "../styles/fonts.css";
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Yönetim — Ziyaretçi Defteri</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      (() => {
+        let saved = null;
+        try {
+          saved = localStorage.getItem("mode");
+        } catch {
+          /* depolama engelli olabilir */
+        }
+        const system = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.mode =
+          saved === "light" || saved === "dark" ? saved : system;
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="yon">
+      <header class="yon-head">
+        <h1>Ziyaretçi Defteri</h1>
+        <p class="yon-sub">Onay bekleyen notlar</p>
+      </header>
+
+      <form id="giris" class="yon-giris">
+        <label for="tok">Yönetim anahtarı</label>
+        <input
+          id="tok"
+          name="tok"
+          type="password"
+          autocomplete="current-password"
+          required
+          placeholder="••••••••••••"
+        />
+        <button type="submit" class="btn">Aç</button>
+        <p class="yon-ipucu">Anahtar yalnızca bu sekmede tutulur, sekme kapanınca unutulur.</p>
+      </form>
+
+      <p id="durum" class="yon-durum" role="status" hidden></p>
+      <div id="liste" class="yon-liste"></div>
+    </main>
+
+    <style is:global>
+      .yon {
+        max-width: 720px;
+        box-sizing: border-box;
+        width: 100%;
+        margin-inline: auto;
+        padding: clamp(24px, 5vw, 56px) clamp(18px, 4vw, 32px);
+      }
+      .yon-head h1 {
+        font-family: var(--font-display);
+        font-size: clamp(30px, 6vw, 44px);
+        color: var(--ink);
+      }
+      .yon-sub {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      /* [hidden] tarayıcı stilinden gelir ama display:grid onu ezer */
+      .yon-giris[hidden],
+      .yon-durum[hidden] {
+        display: none;
+      }
+      .yon-giris {
+        display: grid;
+        gap: 10px;
+        margin-top: 28px;
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--panel);
+      }
+      .yon-giris label {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--faint);
+      }
+      .yon-giris input {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 46px;
+        padding: 10px 14px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--field);
+        color: var(--body);
+        font-family: inherit;
+        font-size: 16px; /* iOS'ta odakta yakınlaşmayı önler */
+      }
+      .yon-giris input:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .yon-ipucu {
+        font-size: 12px;
+        color: var(--faint);
+      }
+      .yon-durum {
+        margin-top: 18px;
+        padding: 12px 16px;
+        border-inline-start: 3px solid var(--highlight);
+        border-radius: 10px;
+        background: var(--panel);
+        font-size: 14px;
+        color: var(--body);
+      }
+      .yon-liste {
+        display: grid;
+        min-width: 0;
+        gap: 12px;
+        margin-top: 22px;
+      }
+      .yon-kart {
+        display: grid;
+        min-width: 0;
+        gap: 8px;
+        padding: 16px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--panel);
+      }
+      .yon-kart-ust {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 4px 12px;
+      }
+      .yon-ad {
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .yon-tarih {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--faint);
+      }
+      .yon-mesaj {
+        color: var(--muted2);
+        line-height: 1.55;
+        overflow-wrap: anywhere;
+      }
+      .yon-islem {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .yon-islem button {
+        min-height: 44px;
+        padding: 8px 18px;
+        border-radius: 100px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--body);
+        font-family: inherit;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .yon-islem button[data-eylem="approve"] {
+        background: var(--highlight);
+        color: var(--onhighlight);
+        border-color: transparent;
+        font-weight: 600;
+      }
+      .yon-islem button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .yon-rozet {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 100px;
+        background: var(--peach);
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--accent-text);
+      }
+    </style>
+
+    <script>
+      const giris = document.getElementById("giris") as HTMLFormElement;
+      const liste = document.getElementById("liste")!;
+      const durum = document.getElementById("durum")!;
+      const ANAHTAR = "yonetim-token";
+
+      const durumYaz = (m: string) => {
+        durum.textContent = m;
+        durum.hidden = !m;
+      };
+
+      const tokenAl = () => {
+        try {
+          return sessionStorage.getItem(ANAHTAR) ?? "";
+        } catch {
+          return "";
+        }
+      };
+      const tokenYaz = (t: string) => {
+        try {
+          sessionStorage.setItem(ANAHTAR, t);
+        } catch {
+          /* depolama engelli — bu oturumda bellekte kalır */
+        }
+      };
+      const tokenSil = () => {
+        try {
+          sessionStorage.removeItem(ANAHTAR);
+        } catch {
+          /* yapacak bir şey yok */
+        }
+      };
+
+      interface Kayit {
+        id: number;
+        name: string;
+        message: string;
+        created_at: string;
+        approved: number;
+      }
+
+      async function istek(yol: string, secenek: RequestInit = {}) {
+        const t = tokenAl();
+        return fetch(yol, {
+          ...secenek,
+          headers: {
+            ...(secenek.headers ?? {}),
+            authorization: `Bearer ${t}`,
+            "content-type": "application/json",
+          },
+        });
+      }
+
+      async function yukle() {
+        durumYaz("Yükleniyor…");
+        let r: Response;
+        try {
+          r = await istek("/api/admin/guestbook");
+        } catch {
+          durumYaz("Sunucuya ulaşılamadı.");
+          return;
+        }
+        if (r.status === 401) {
+          tokenSil();
+          giris.hidden = false;
+          liste.textContent = "";
+          durumYaz("Anahtar geçersiz. Tekrar dene.");
+          return;
+        }
+        if (!r.ok) {
+          durumYaz(`Beklenmeyen yanıt: ${r.status}`);
+          return;
+        }
+        const d = await r.json();
+        const kayitlar: Kayit[] = d.entries ?? [];
+        giris.hidden = true;
+        durumYaz(kayitlar.length ? "" : "Onay bekleyen not yok.");
+        ciz(kayitlar);
+      }
+
+      function ciz(kayitlar: Kayit[]) {
+        liste.textContent = "";
+        for (const k of kayitlar) {
+          const kart = document.createElement("div");
+          kart.className = "yon-kart";
+
+          const ust = document.createElement("div");
+          ust.className = "yon-kart-ust";
+          const ad = document.createElement("span");
+          ad.className = "yon-ad";
+          ad.textContent = k.name; // textContent → HTML enjeksiyonu imkânsız
+          const tar = document.createElement("span");
+          tar.className = "yon-tarih";
+          tar.textContent = new Date(k.created_at).toLocaleString("tr-TR");
+          ust.append(ad, tar);
+
+          const msj = document.createElement("p");
+          msj.className = "yon-mesaj";
+          msj.textContent = k.message;
+
+          const islem = document.createElement("div");
+          islem.className = "yon-islem";
+          if (k.approved) {
+            const rozet = document.createElement("span");
+            rozet.className = "yon-rozet";
+            rozet.textContent = "yayında";
+            islem.append(rozet);
+          } else {
+            islem.append(dugme("Onayla", "approve", k.id));
+          }
+          islem.append(dugme("Sil", "delete", k.id));
+
+          kart.append(ust, msj, islem);
+          liste.append(kart);
+        }
+      }
+
+      function dugme(metin: string, eylem: "approve" | "delete", id: number) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = metin;
+        b.dataset.eylem = eylem;
+        b.addEventListener("click", async () => {
+          if (eylem === "delete" && !confirm("Bu not silinsin mi?")) return;
+          b.disabled = true;
+          const r = await istek("/api/admin/guestbook", {
+            method: "POST",
+            body: JSON.stringify({ id, action: eylem }),
+          });
+          if (r.status === 401) {
+            tokenSil();
+            giris.hidden = false;
+            durumYaz("Anahtar geçersiz.");
+            return;
+          }
+          await yukle();
+        });
+        return b;
+      }
+
+      giris.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const alan = document.getElementById("tok") as HTMLInputElement;
+        tokenYaz(alan.value.trim());
+        alan.value = ""; // DOM'da kalmasın
+        yukle();
+      });
+
+      if (tokenAl()) {
+        giris.hidden = true;
+        yukle();
+      }
+    </script>
+  </body>
+</html>

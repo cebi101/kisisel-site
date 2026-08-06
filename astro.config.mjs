@@ -12,7 +12,8 @@ export default defineConfig({
         defaultLocale: "tr",
         locales: { tr: "tr-TR", en: "en-US" },
       },
-      filter: (page) => !page.includes("/cv"), // CV belgesi indekslenmesin
+      // CV belgesi ve yönetim ekranı arama motorlarına verilmez
+      filter: (page) => !page.includes("/cv") && !page.includes("/yonetim"),
     }),
   ],
 });
