@@ -1701,15 +1701,23 @@ footer {
     inset-block: 0;
     inset-inline-start: 0;
     z-index: 58;
-    width: min(310px, 86vw);
+    /* Ekranın ~%65'i: arkada sayfadan görünür bir pay kalsın ki
+       "geçici bir panel" olduğu anlaşılsın (eskiden %79 idi). */
+    width: min(280px, 65vw);
     height: 100dvh;
     border-inline-end: 1px solid var(--border);
     border-bottom: none;
-    padding: 74px 22px 26px;
+    padding: 70px 16px 26px;
     overflow-y: auto;
     transform: translateX(-102%);
     transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
     box-shadow: var(--shadow);
+  }
+
+  /* Çekmecede profil kartı gizlenir: dikey alanın yarısını kaplıyordu ve
+     fotoğraf zaten ana sayfada büyük duruyor. Menü derli toplu kalsın. */
+  .profile-card {
+    display: none;
   }
   .sidebar.open {
     transform: none;
