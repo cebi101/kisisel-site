@@ -1094,8 +1094,15 @@ footer {
   /* kenar çubuğu üst kısmı hamburgerin altından başlasın */
   .sidebar { padding-top: 64px; }
 
-  html.sidebar-off .app { grid-template-columns: 0 1fr; }
-  html.sidebar-off .sidebar { transform: translateX(-102%); }
+  /* katlıyken kenar çubuğu genişliğini KORUR; yoksa 0'a inip yüzdeli
+     kaydırma etkisiz kalıyor ve ince bir şerit görünüyordu */
+  html.sidebar-off .app { grid-template-columns: 0 1fr; overflow-x: clip; }
+  html.sidebar-off .sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    transform: translateX(calc(-1 * var(--sidebar-w) - 16px));
+    pointer-events: none;
+  }
   /* katlıyken içerik ortalanır ve hamburgerin altından başlar */
   html.sidebar-off .content > .page,
   html.sidebar-off .content > .highlight-band {
@@ -1104,7 +1111,7 @@ footer {
   html.sidebar-off .content > .page { padding-top: 92px; }
   html.sidebar-off footer { max-width: 1320px; margin-inline: auto; width: 100%; }
   [dir="rtl"] html.sidebar-off .sidebar,
-  html[dir="rtl"].sidebar-off .sidebar { transform: translateX(102%); }
+  html[dir="rtl"].sidebar-off .sidebar { transform: translateX(calc(var(--sidebar-w) + 16px)); }
 
   @media (prefers-reduced-motion: reduce) {
     .app, .sidebar { transition: none; }
