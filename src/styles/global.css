@@ -15,7 +15,8 @@
   --panel: #eeece0;
   --accent: #5f6b45; /* derin adaçayı — düğme, bağlantı, aktif menü */
   --accent-d: #4a5436;
-  --accent2: #7d8a5f; /* orta adaçayı — sayı ve rozet metni */
+  --accent2: #7d8a5f; /* orta adaçayı — YALNIZ büyük tipografi (>=24px), 3:1 */
+  --accent-text: #4f5a38; /* bilgi taşıyan KÜÇÜK metin — 4.5:1 gerekir */
   --sage: #acb794; /* açık adaçayı — dekoratif dolgu */
   --highlight: #fefd4d; /* limon — yalnızca DOLGU; üstüne koyu yazı gelir */
   --peach: #e6e9d4; /* yumuşak adaçayı yıkaması (eski şeftali yerine) */
@@ -23,7 +24,7 @@
   --body: #3a3d30;
   --muted: #55594a;
   --muted2: #4e5243;
-  --faint: #6b6f5e;
+  --faint: #5d6152;
   --faint2: #8a8f76;
   --border: #e2e0d0;
   --onaccent: #f9f8f0; /* koyu adaçayı üstündeki yazı */
@@ -36,6 +37,7 @@
 
 /* ---------- GECE (dark) ---------- */
 :root[data-mode="dark"] {
+  --accent-text: #acb794; /* koyu temada zaten 8:1 üstü — açık tema için ayrı değer */
   --bg: #1a1c16;
   --panel: #23261e;
   --accent: #e8e86a; /* limon — gecede vurgu rengi olur */
@@ -64,6 +66,11 @@
   --font-sans: "Sora", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "DM Mono", "JetBrains Mono", Menlo, monospace;
   --sidebar-w: 264px;
+  --dur-fast: 140ms;
+  --dur-base: 240ms;
+  --dur-slow: 420ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.3, 0.44, 1);
   --measure: 50ch; /* gövde metni: ~68 karakter/satır */
   --measure-narrow: 46ch; /* kısa tanıtım satırları */
   --measure-wide: 1120px; /* içerik konteyneri üst sınırı */
@@ -1023,7 +1030,7 @@ textarea::placeholder {
 .pr-tags {
   font-family: var(--font-mono);
   font-size: 12px;
-  color: var(--accent2);
+  color: var(--accent-text);
   letter-spacing: 0.5px;
   margin-top: 2px;
 }
@@ -1162,7 +1169,7 @@ textarea::placeholder {
 .footer-views {
   font-family: var(--font-mono);
   font-size: 11.5px;
-  color: var(--accent2);
+  color: var(--accent-text);
 }
 .app > footer {
   grid-column: 2;
@@ -1706,4 +1713,139 @@ footer {
 /* JS yokken çekmece açık gelsin — menü erişilebilir kalsın */
 html:not(.js) .sidebar {
   transform: none;
+}
+
+/* =============== T2.4 · MOBİL DOKUNMA HEDEFLERİ =============== */
+/* 390px'te ölçülen değerler 44px altındaydı: dil düğmeleri 33x32,
+   sosyal bağlantılar 34 yüksek, tema düğmeleri 37, hamburger 40.
+   Masaüstü ölçüleri DEĞİŞMEZ (kenar çubuğunun dikey bütçesi dar). */
+@media (max-width: 940px) {
+  .lang-switch a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 56px;
+    min-height: 44px;
+  }
+  .social-row a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+  }
+  .mode-switch button {
+    min-height: 44px;
+  }
+  .menu-toggle {
+    min-height: 46px;
+    padding-block: 12px;
+  }
+  .nav-btn {
+    min-height: 48px;
+  }
+  .cv-btn {
+    min-height: 48px;
+  }
+  /* çekmece açıkken arka plan kaymasın */
+  body {
+    overscroll-behavior: contain;
+  }
+}
+
+/* =============== T2.5 · ODAK VE BASILI DURUMLAR =============== */
+/* Odak halkası kenar çubuğunun overflow'u yüzünden yanlardan kırpılıyordu;
+   içeriden çizilen halka her koşulda dört kenardan görünür. */
+.nav-btn:focus-visible,
+.cv-btn:focus-visible,
+.social-row a:focus-visible,
+.lang-switch a:focus-visible,
+.mode-switch button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+  border-radius: 12px;
+}
+/* odak, hover ile AYNI jesti kullanır — tutarlı geri bildirim */
+.nav-btn:focus-visible .num {
+  background: var(--highlight);
+  color: var(--onhighlight);
+}
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.chip:focus-visible,
+.social-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
+
+/* Basılı durum: dokunmatikte "bir şey oldu" geri bildirimi yoktu */
+.btn:active,
+.nav-btn:active,
+.cv-btn:active,
+.menu-toggle:active,
+.mode-switch button:active,
+.lang-switch a:active,
+.social-row a:active {
+  transform: scale(0.985);
+  transition-duration: var(--dur-fast);
+}
+
+/* =============== T2.2 · HAREKET: REDUCED-MOTION TAM KAPSAM =============== */
+/* Eski blok reveal ve sayfa geçişini kapatıyordu ama hover'daki
+   transform'ları kapatmıyordu — vestibüler duyarlılık için eksikti. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .nav-btn:hover,
+  .btn:hover,
+  .cert-card:hover,
+  .project-row:hover,
+  .menu-toggle:hover,
+  .chip:hover,
+  .tl-item:hover::before,
+  .btn:active,
+  .nav-btn:active,
+  .cv-btn:active,
+  .menu-toggle:active {
+    transform: none !important;
+  }
+}
+
+/* =============== T2.7 · PROJE DURUM ROZETİ =============== */
+/* Reposu kapalı projeler eskiden sadece `cursor: default` ile ayrılıyordu;
+   ziyaretçi tıklıyor, hiçbir şey olmuyor, site bozuk sanıyordu.
+   Artık NEDEN tıklanamadığını söylüyor. */
+.pr-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  padding: 6px 11px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill, 100px);
+  background: var(--panel);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.3;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.pr-state-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sage, var(--accent2));
+  flex-shrink: 0;
+}
+@media (max-width: 640px) {
+  .pr-state {
+    white-space: normal;
+  }
 }

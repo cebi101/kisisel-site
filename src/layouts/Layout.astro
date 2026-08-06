@@ -59,6 +59,8 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
     <meta name="twitter:description" content={description} />
     <title>{title}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <!-- Tipografi: kendi sunucumuzda barındırılıyor (dış istek yok) -->
     <!-- Kritik renkler: dış CSS inmeden ilk kare bile doğru boyansın (beyaz parlama olmasın) -->
     <style is:inline>
@@ -456,7 +458,7 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
         document.documentElement.lang === "en"
           ? "%c </> code & curiosity %c\n\nHand-written, line by line — no template.\nAstro + TypeScript + plain CSS · TR/EN\ngithub.com/cebi101 · seymanurcebi6@gmail.com\n\n— Şeyma Nur Çebi"
           : "%c </> kod & merak %c\n\nBu siteyi hazır şablonla değil, satır satır kendim yazdım.\nAstro + TypeScript + saf CSS · TR/EN\ngithub.com/cebi101 · seymanurcebi6@gmail.com\n\n— Şeyma Nur Çebi",
-        "font-size:14px; font-weight:bold; background:#B98A82; color:#FBF7F1; padding:6px 12px; border-radius:6px;",
+        "font-size:14px; font-weight:bold; background:#fefd4d; color:#23261c; padding:6px 12px; border-radius:6px;",
         "font-size:12px; color:#9FA98C;",
       );
     </script>

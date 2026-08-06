@@ -178,6 +178,11 @@ export const tr = {
   },
 
   projects: {
+    stateLabels: {
+      private: "Depo kapalı — yarışma sürüyor",
+      wip: "Geliştirme aşamasında",
+    },
+
     title: "Projeler",
     items: [
       {
@@ -411,6 +416,11 @@ export const en: Dict = {
   },
 
   projects: {
+    stateLabels: {
+      private: "Repository closed — competition in progress",
+      wip: "In development",
+    },
+
     title: "Projects",
     items: [
       {

@@ -1,7 +1,7 @@
 ---
 import { PAGE_NUM } from "../../data/routes";
 import type { Dict } from "../../i18n/translations";
-import { PROJECT_HREFS } from "../../data/site";
+import { PROJECTS } from "../../data/site";
 
 interface Props {
   t: Dict;
@@ -17,7 +17,9 @@ const { t } = Astro.props;
   <div class="project-list">
     {
       t.projects.items.map((p, i) => {
-        const href = PROJECT_HREFS[i];
+        const meta = PROJECTS[i];
+        const href = meta?.href ?? null;
+        const state = meta?.state ?? "public";
         const Tag = href ? "a" : "div";
         return (
           <Tag
@@ -34,9 +36,14 @@ const { t } = Astro.props;
               <span class="pr-desc">{p.desc}</span>
               <span class="pr-tags">{p.tags}</span>
             </span>
-            {href && (
+            {href ? (
               <span class="pr-arrow" aria-hidden="true">
                 ↗
+              </span>
+            ) : (
+              <span class="pr-state">
+                <span class="pr-state-dot" aria-hidden="true" />
+                {t.projects.stateLabels[state as "private" | "wip"]}
               </span>
             )}
           </Tag>

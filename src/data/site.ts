@@ -5,12 +5,29 @@ export const EMAIL = "seymanurcebi6@gmail.com";
 
 // Proje kartlarının hedefleri (translations.ts'teki projects.items sırasıyla)
 // null = herkese açık repo yok → tıklanamaz kart (kırık link üretme)
-export const PROJECT_HREFS: (string | null)[] = [
-  null,
-  "https://github.com/msgxr/teknofest-2026-kamu-evrak-akilli-ajan",
-  "https://github.com/cebi101/foundry-local-rag",
-  null,
-  "https://github.com/cebi101/YemekStes",
+/**
+ * Projelerin bağlantı ve durum bilgisi (sıra translations.ts'teki `projects.items`
+ * ile aynıdır). Repo kapalıysa kart ölü bir tıklama alanı bırakmaz — DURUMU
+ * söyler. Dürüstlük tasarımın parçası: gizlenen boşluk hata gibi görünür.
+ *
+ * state:
+ *   public  → depo açık, karta tıklanır
+ *   private → depo kapalı (yarışma sürüyor) — rozetle belirtilir
+ *   wip     → geliştirme aşamasında
+ */
+export type ProjectState = "public" | "private" | "wip";
+
+export interface ProjectMeta {
+  href: string | null;
+  state: ProjectState;
+}
+
+export const PROJECTS: ProjectMeta[] = [
+  { href: null, state: "private" },
+  { href: "https://github.com/msgxr/teknofest-2026-kamu-evrak-akilli-ajan", state: "public" },
+  { href: "https://github.com/cebi101/foundry-local-rag", state: "public" },
+  { href: null, state: "private" },
+  { href: "https://github.com/cebi101/YemekStes", state: "public" },
 ];
 
 // Akademik veriler — Şeyma'nın ilettiği resmî transkript tablosu
