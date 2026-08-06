@@ -35,7 +35,20 @@ const langs = [
 ];
 ---
 
-<aside class="sidebar">
+<button
+  class="menu-toggle"
+  id="menu-toggle"
+  type="button"
+  aria-controls="sidebar"
+  aria-expanded="false"
+  aria-label={t.navLabel}
+>
+  <span class="mt-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+  <span class="mt-text">{t.nav[current] ?? t.nav.home}</span>
+</button>
+<div class="menu-scrim" id="menu-scrim" hidden></div>
+
+<aside class="sidebar" id="sidebar">
   <div class="profile-card">
     <div class="avatar-wrap">
       <Image src={foto} width={152} alt={t.hero.photoAlt} class="avatar" loading="eager" />

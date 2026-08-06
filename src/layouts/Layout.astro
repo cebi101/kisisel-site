@@ -302,6 +302,38 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
           .finally(() => { visitInFlight = false; });
       };
 
+      // ---------- Mobil çekmece menü ----------
+      const bindDrawer = () => {
+        const btn = document.getElementById("menu-toggle");
+        const sidebar = document.getElementById("sidebar");
+        const scrim = document.getElementById("menu-scrim");
+        if (!btn || !sidebar || !scrim) return;
+        if (btn.dataset.bound) return;
+        btn.dataset.bound = "1";
+
+        const setOpen = (open: boolean) => {
+          sidebar.classList.toggle("open", open);
+          btn.setAttribute("aria-expanded", String(open));
+          if (open) {
+            scrim.hidden = false;
+            requestAnimationFrame(() => scrim.classList.add("show"));
+          } else {
+            scrim.classList.remove("show");
+            setTimeout(() => { scrim.hidden = true; }, 350);
+          }
+        };
+        btn.addEventListener("click", () =>
+          setOpen(!sidebar.classList.contains("open")));
+        scrim.addEventListener("click", () => setOpen(false));
+        addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && sidebar.classList.contains("open")) setOpen(false);
+        });
+        // menüden bir sayfa seçilince çekmece kapansın
+        sidebar.addEventListener("click", (e) => {
+          if ((e.target as HTMLElement).closest("a")) setOpen(false);
+        });
+      };
+
       // ---------- Sayfa geçişlerinde yeniden bağlama ----------
       // ClientRouter gövdeyi değiştirdiği için her yüklemede yeniden kur
       const onPage = () => {
@@ -310,6 +342,7 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
         bindForm();
         setProgress();
         countVisit();
+        bindDrawer();
         // ışıltı canvas'ı gövde değişince kopar → geri tak
         if (typeof sparkleCanvas !== "undefined" && sparkleCanvas && !sparkleCanvas.isConnected) {
           document.body.appendChild(sparkleCanvas);
