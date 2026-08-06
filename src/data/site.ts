@@ -1,7 +1,8 @@
+// İletişim sabitleri ayrı dosyada; buradan yeniden dışa aktarılır
+// ki mevcut içe aktarımlar bozulmasın.
+export { GITHUB, LINKEDIN, EMAIL } from "./contact";
+
 // Site geneli sabitler — tek kaynak
-export const GITHUB = "https://github.com/cebi101";
-export const LINKEDIN = "https://www.linkedin.com/in/seymanurcebi";
-export const EMAIL = "seymanurcebi6@gmail.com";
 
 // Proje kartlarının hedefleri (translations.ts'teki projects.items sırasıyla)
 // null = herkese açık repo yok → tıklanamaz kart (kırık link üretme)
