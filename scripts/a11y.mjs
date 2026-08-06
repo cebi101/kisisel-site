@@ -26,14 +26,31 @@ addEventListener("load", () => setTimeout(() => {
     nb.classList.add("__test-hover");
     hoverT = getComputedStyle(nb).transform;
   }
+  // Çekmece kapalıyken karartma katmanı dokunuşları GEÇİRMELİ.
+  // (Bir kez tam ekran görünmez katman sayfadaki her dokunuşu yutmuştu.)
+  const scrim = document.getElementById("menu-scrim");
+  let scrimYutuyor = false;
+  let engelleyen = "";
+  if (scrim) {
+    const cs = getComputedStyle(scrim);
+    const acik = scrim.classList.contains("show");
+    if (!acik && cs.display !== "none" && cs.pointerEvents !== "none") scrimYutuyor = true;
+    const orta = document.elementFromPoint(innerWidth / 2, innerHeight / 2);
+    if (orta && orta.id === "menu-scrim") { scrimYutuyor = true; engelleyen = "sayfa ortası"; }
+  }
+
   document.title = JSON.stringify({
     vw: innerWidth,
     kucukHedefSayisi: kucuk.length,
     kucukler: kucuk.slice(0, 8),
     hedefSayisi: hedefler.length,
+    scrimYutuyor,
+    engelleyen,
   });
 }, 800));
 </script>`;
+
+let hataVar = false;
 
 const srv = spawn("python3", ["-m", "http.server", String(PORT)], {
   cwd: "dist",
@@ -69,3 +86,9 @@ try {
 } finally {
   process.kill(-srv.pid);
 }
+
+if (hataVar) {
+  console.error("ERİŞİLEBİLİRLİK DENETİMİ BAŞARISIZ");
+  process.exit(1);
+}
+console.log("Erişilebilirlik denetimi temiz.");

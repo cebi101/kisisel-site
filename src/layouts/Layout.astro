@@ -314,13 +314,14 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
       };
 
       // ---------- Mobil çekmece menü ----------
+      /** Çekmeceyi dışarıdan kapatabilmek için tutulur (sayfa geçişi sonrası). */
+      let cekmeceKapat: (() => void) | null = null;
+
       const bindDrawer = () => {
         const btn = document.getElementById("menu-toggle");
         const sidebar = document.getElementById("sidebar");
         const scrim = document.getElementById("menu-scrim");
         if (!btn || !sidebar || !scrim) return;
-        if (btn.dataset.bound) return;
-        btn.dataset.bound = "1";
 
         const wide = () => matchMedia("(min-width: 941px)").matches;
         const setOpen = (open: boolean) => {
@@ -336,6 +337,12 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
             }, 350);
           }
         };
+        // Kapatma işlevi her yüklemede GÜNCEL öğelere bağlanır
+        cekmeceKapat = () => setOpen(false);
+
+        if (btn.dataset.bound) return; // dinleyiciler yalnız bir kez
+        btn.dataset.bound = "1";
+
         const syncWide = () => {
           if (!wide()) return;
           const off = document.documentElement.classList.contains("sidebar-off");
@@ -375,6 +382,10 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
         setProgress();
         countVisit();
         bindDrawer();
+        // Sayfa geçişinde Astro kenar çubuğunu koruyabiliyor (işaretleme aynı),
+        // bu yüzden `open` sınıfı geçişten sağ çıkıp çekmece açık kalıyordu.
+        // Dar ekranda her yüklemede kesin kapat.
+        if (!matchMedia("(min-width: 941px)").matches) cekmeceKapat?.();
         // ışıltı canvas'ı gövde değişince kopar → geri tak
         // gezinmeden sonra ışıltı canvas'ı gövdeye geri bağlanır
         sparkleReattach?.();

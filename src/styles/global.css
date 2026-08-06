@@ -1676,10 +1676,20 @@ footer {
     z-index: 55;
     background: color-mix(in srgb, var(--ink) 42%, transparent);
     opacity: 0;
+    /* KRİTİK: Kapalıyken dokunuşları GEÇİRMELİ.
+       Yoksa opacity:0 olan tam ekran katman sayfadaki her dokunuşu yutar —
+       telefonda içerikteki hiçbir düğmeye/bağlantıya basılamıyordu. */
+    pointer-events: none;
     transition: opacity 0.35s ease;
+  }
+  /* `hidden` özniteliği tarayıcı stilinden gelir ama yukarıdaki
+     `display: block` onu ezer; bu yüzden açıkça yazılıyor. */
+  .menu-scrim[hidden] {
+    display: none;
   }
   .menu-scrim.show {
     opacity: 1;
+    pointer-events: auto; /* açıkken tıklayınca çekmece kapansın */
   }
 
   /* kenar çubuğu artık yandan kayan çekmece */
