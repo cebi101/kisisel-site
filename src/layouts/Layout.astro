@@ -86,6 +86,10 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
         const system = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         document.documentElement.dataset.mode =
           saved === "light" || saved === "dark" ? saved : system;
+        // masaüstünde kenar çubuğu tercihi (katlı/açık) — boyamadan önce
+        let sb = null;
+        try { sb = localStorage.getItem("sidebar"); } catch {}
+        if (sb === "off") document.documentElement.classList.add("sidebar-off");
       })();
     </script>
     <ClientRouter />
@@ -318,6 +322,7 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
         if (btn.dataset.bound) return;
         btn.dataset.bound = "1";
 
+        const wide = () => matchMedia("(min-width: 941px)").matches;
         const setOpen = (open: boolean) => {
           sidebar.classList.toggle("open", open);
           btn.setAttribute("aria-expanded", String(open));
@@ -329,15 +334,29 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
             setTimeout(() => { scrim.hidden = true; }, 350);
           }
         };
-        btn.addEventListener("click", () =>
-          setOpen(!sidebar.classList.contains("open")));
+        const syncWide = () => {
+          if (!wide()) return;
+          const off = document.documentElement.classList.contains("sidebar-off");
+          btn.setAttribute("aria-expanded", String(!off));
+        };
+        syncWide();
+        btn.addEventListener("click", () => {
+          if (wide()) {
+            // masaüstü: kenar çubuğunu katla/aç ve tercihi hatırla
+            const off = document.documentElement.classList.toggle("sidebar-off");
+            btn.setAttribute("aria-expanded", String(!off));
+            try { localStorage.setItem("sidebar", off ? "off" : "on"); } catch {}
+          } else {
+            setOpen(!sidebar.classList.contains("open"));
+          }
+        });
         scrim.addEventListener("click", () => setOpen(false));
         addEventListener("keydown", (e) => {
           if (e.key === "Escape" && sidebar.classList.contains("open")) setOpen(false);
         });
-        // menüden bir sayfa seçilince çekmece kapansın
+        // menüden bir sayfa seçilince çekmece kapansın (yalnız dar ekranda)
         sidebar.addEventListener("click", (e) => {
-          if ((e.target as HTMLElement).closest("a")) setOpen(false);
+          if (!wide() && (e.target as HTMLElement).closest("a")) setOpen(false);
         });
       };
 
