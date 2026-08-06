@@ -115,27 +115,40 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
     }
     <!-- Tema: boyamadan ÖNCE uygula (parlama olmasın) -->
     <script is:inline>
-      document.documentElement.classList.add("js");
+      // Görünüm tercihini <html> üzerine BOYAMADAN ÖNCE uygular.
+      //
+      // ÖNEMLİ: Sayfa geçişinde (View Transitions) Astro <html> etiketinin
+      // özniteliklerini YENİ belgeden kopyalar. data-mode ve sidebar-off
+      // çalışma anında yazıldığı için sunucudan gelen belgede yoktur —
+      // yani geçişte SİLİNİRLER ve tema kendiliğinden gündüze dönerdi.
+      // Bu yüzden aynı işlev `astro:after-swap` olayında (yeni sayfa
+      // yerleşti ama HENÜZ BOYANMADI) tekrar çalıştırılır.
       (() => {
-        // localStorage engelliyken (Safari kilitli mod vb.) SecurityError fırlatır
-        let saved = null;
-        try {
-          saved = localStorage.getItem("mode");
-        } catch {
-          /* depolama engelli olabilir (gizli mod) — sessiz geçmek doğru */
-        }
-        // mockup varsayılanı: gündüz; sistem gece tercihindeyse gece
-        const system = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        document.documentElement.dataset.mode =
-          saved === "light" || saved === "dark" ? saved : system;
-        // masaüstünde kenar çubuğu tercihi (katlı/açık) — boyamadan önce
-        let sb = null;
-        try {
-          sb = localStorage.getItem("sidebar");
-        } catch {
-          /* depolama engelli olabilir (gizli mod) — sessiz geçmek doğru */
-        }
-        if (sb === "off") document.documentElement.classList.add("sidebar-off");
+        const uygula = () => {
+          // localStorage engelliyken (Safari kilitli mod vb.) SecurityError fırlatır
+          let saved = null;
+          try {
+            saved = localStorage.getItem("mode");
+          } catch {
+            /* depolama engelli olabilir (gizli mod) — sessiz geçmek doğru */
+          }
+          // varsayılan: gündüz; sistem gece tercihindeyse gece
+          const system = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          document.documentElement.dataset.mode =
+            saved === "light" || saved === "dark" ? saved : system;
+
+          // masaüstünde kenar çubuğu tercihi (katlı/açık)
+          let sb = null;
+          try {
+            sb = localStorage.getItem("sidebar");
+          } catch {
+            /* depolama engelli olabilir (gizli mod) — sessiz geçmek doğru */
+          }
+          document.documentElement.classList.toggle("sidebar-off", sb === "off");
+          document.documentElement.classList.add("js");
+        };
+        uygula();
+        document.addEventListener("astro:after-swap", uygula);
       })();
     </script>
     <ClientRouter />
