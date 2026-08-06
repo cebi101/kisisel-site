@@ -44,7 +44,7 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f1eae8" />
+    <meta name="theme-color" content="#f7f6ef" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -126,8 +126,8 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
         addEventListener("resize", resize);
 
         // yıldız tonları temaya göre: kâğıt zeminde görünür kalsın, gecede parlasın
-        const TINTS_LIGHT = ["#f2adc9", "#f8c4dc", "#efb7d0", "#fbd0e3", "#f5bcd7"];
-        const TINTS_DARK = ["#ffdcec", "#fbcfe3", "#ffe9f3", "#f7c3dc", "#fff4f9"];
+        const TINTS_LIGHT = ["#c7cf8e", "#aeb977", "#d9dd9a", "#9fae6b", "#e4e6a8"];
+        const TINTS_DARK = ["#fefd4d", "#f3f28a", "#e8e86a", "#fbfab0", "#d6dc7e"];
         const tints = () =>
           document.documentElement.dataset.mode === "dark" ? TINTS_DARK : TINTS_LIGHT;
         type P = { x: number; y: number; vx: number; vy: number; life: number; max: number; r: number; c: string; spin: number };
@@ -223,7 +223,7 @@ const enPath = lang === "tr" ? PAIRS[path] ?? "/en" : path;
           b.setAttribute("aria-pressed", String(b.dataset.mode === mode));
         });
         const themeMeta = document.querySelector('meta[name="theme-color"]');
-        themeMeta?.setAttribute("content", mode === "dark" ? "#211a19" : "#f1eae8");
+        themeMeta?.setAttribute("content", mode === "dark" ? "#1a1c16" : "#f7f6ef");
       };
       const bindTheme = () => {
         document.querySelectorAll<HTMLButtonElement>(".mode-switch button").forEach((b) => {

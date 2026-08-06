@@ -32,12 +32,21 @@ const personLd = {
   <div class="app">
     <Sidebar t={t} current={current} />
 
-    <main class="content" id="icerik" tabindex="-1">
+    <main class="content" id="icerik" tabindex="-1" transition:animate="slide">
       <slot />
     </main>
 
     <footer>
       <span>© 2026 {t.displayName}</span>
+      <nav class="footer-social" aria-label={t.contact.social}>
+        <a href={GITHUB} target="_blank" rel="noopener">GitHub</a>
+        <span aria-hidden="true">·</span>
+        <a href={LINKEDIN} target="_blank" rel="noopener">LinkedIn</a>
+        <span aria-hidden="true">·</span>
+        <a href={`mailto:${EMAIL}`}>{t.emailLabel}</a>
+        <span aria-hidden="true">·</span>
+        <a href={t.cvPath}>{t.cvLabel}</a>
+      </nav>
       <span class="footer-views" id="site-views" data-label={t.guestbook.viewsLabel} hidden></span>
       <span class="footer-motto">{t.footer}</span>
     </footer>

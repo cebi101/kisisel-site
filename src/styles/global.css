@@ -10,50 +10,53 @@
 /* ---------- GÜNDÜZ (light) ---------- */
 :root,
 :root[data-mode="light"] {
-  --bg: #f1eae8;
-  --panel: #ece0dd;
-  /* vurgular canlandırıldı: soluk mauve/adaçayı yerine daha doygun,
-     kontrastı geçen tonlar (eski: #b98a82 / #9e6e66 / #9fa98c) */
-  --accent: #a15c50;      /* derin gül */
-  --accentD: #854a3f;
-  --accent2: #6f7d55;     /* adaçayı */
-  --peach: #e8cfc8;
-  --ink: #3b332c;
-  --body: #4a4038;
-  /* ikincil metin koyulaştırıldı ki başarılar öne çıksın (eski: #6e6357/#6a6054) */
-  --muted: #5c5348;
-  --muted2: #544c42;
-  --faint: #6e6357;
-  --faint2: #8a7867;
-  --border: #e4d8d4;
-  --onaccent: #fbf7f1;
-  --field: #fbf7f1;
-  --dot: #d7c8c1;
-  --shadow: 0 6px 20px -8px rgba(59, 51, 44, 0.18);
-  --shadow-sm: 0 2px 8px -3px rgba(59, 51, 44, 0.14);
+  /* LİMON & ADAÇAYI — kâğıt zemin, derin adaçayı vurgu, limon işaretleyici */
+  --bg: #f7f6ef;
+  --panel: #eeece0;
+  --accent: #5f6b45;      /* derin adaçayı — düğme, bağlantı, aktif menü */
+  --accentD: #4a5436;
+  --accent2: #7d8a5f;     /* orta adaçayı — sayı ve rozet metni */
+  --sage: #acb794;        /* açık adaçayı — dekoratif dolgu */
+  --highlight: #fefd4d;   /* limon — yalnızca DOLGU; üstüne koyu yazı gelir */
+  --peach: #e6e9d4;       /* yumuşak adaçayı yıkaması (eski şeftali yerine) */
+  --ink: #23261c;
+  --body: #3a3d30;
+  --muted: #55594a;
+  --muted2: #4e5243;
+  --faint: #6b6f5e;
+  --faint2: #8a8f76;
+  --border: #e2e0d0;
+  --onaccent: #f9f8f0;    /* koyu adaçayı üstündeki yazı */
+  --onhighlight: #23261c; /* limon üstündeki yazı */
+  --field: #fdfdf7;
+  --dot: #dcdac6;
+  --shadow: 0 6px 20px -8px rgba(35, 38, 28, 0.20);
+  --shadow-sm: 0 2px 8px -3px rgba(35, 38, 28, 0.16);
 }
 
 /* ---------- GECE (dark) ---------- */
 :root[data-mode="dark"] {
-  --bg: #211a19;
-  --panel: #2b2220;
-  --accent: #cda69d;
-  --accentD: #b98a82;
-  --accent2: #a9b39c;
-  --peach: #3a2b29;
-  --ink: #f4ecea;
-  --body: #e4d8d5;
-  --muted: #b8a9a5;
-  --muted2: #a2938f;
-  /* soluk tonlar WCAG AA için açıldı (eski: #8a7c78/#5c4e4a) */
-  --faint: #998b84;
-  --faint2: #82736d;
-  --border: #3a2e2c;
-  --onaccent: #231917;
-  --field: #241b19;
-  --dot: #372b29;
-  --shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.5);
-  --shadow-sm: 0 2px 10px -3px rgba(0, 0, 0, 0.45);
+  --bg: #1a1c16;
+  --panel: #23261e;
+  --accent: #e8e86a;      /* limon — gecede vurgu rengi olur */
+  --accentD: #fefd4d;
+  --accent2: #acb794;
+  --sage: #acb794;
+  --highlight: #fefd4d;
+  --peach: #2e3226;
+  --ink: #f2f3e9;
+  --body: #dfe1d4;
+  --muted: #b9bda9;
+  --muted2: #a8ad96;
+  --faint: #9aa088;
+  --faint2: #848a72;
+  --border: #333829;
+  --onaccent: #1a1c16;    /* limon düğme üstünde koyu yazı */
+  --onhighlight: #1a1c16;
+  --field: #1f221a;
+  --dot: #2f3327;
+  --shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.55);
+  --shadow-sm: 0 2px 10px -3px rgba(0, 0, 0, 0.5);
 }
 
 :root {
@@ -831,6 +834,25 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 }
 
 /* =============== FOOTER =============== */
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.footer-social a { color: var(--accent); }
+.footer-social span { color: var(--faint2); }
+.sidebar-wrap { display: contents; }
+
+/* sayfa geçişleri: içerik yumuşakça kayarak gelsin */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) { animation: vt-out 0.22s ease both; }
+  ::view-transition-new(root) { animation: vt-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
+}
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
 .footer-views {
   font-family: var(--font-mono);
   font-size: 11.5px;
@@ -954,4 +976,36 @@ footer {
   .page { padding: 24px 0; }
   .photo-badge { background: none; color: var(--body); border: 1px solid var(--border); }
   .cert-card, .tl-item, .project-row { break-inside: avoid; }
+}
+
+/* =============== LİMON VURGULARI =============== */
+/* Sarı yalnızca DOLGU olarak kullanılır; üstüne her zaman koyu yazı gelir. */
+
+/* hero'da soyadın altına fosforlu kalem izi — YALNIZCA açık temada.
+   Gece modunda yazının kendisi zaten limon; sarı üstüne sarı okunmaz. */
+:root[data-mode="light"] .home h1 em {
+  background-image: linear-gradient(transparent 62%, var(--highlight) 62%);
+  padding-inline: 2px;
+}
+
+/* müsaitlik rozeti */
+.profile-avail {
+  background: var(--highlight);
+  color: var(--onhighlight);
+}
+.avail-dot { background: var(--accentD); box-shadow: none; }
+
+/* GNO rozeti ve akademik künye sayıları */
+.tl-badge {
+  background: var(--highlight);
+  color: var(--onhighlight);
+  border-color: transparent;
+}
+
+/* yarışma vitrinindeki puan kartı */
+.hl-score { border-inline-start: 4px solid var(--highlight); }
+
+/* çip üstüne gelince limon */
+@media (hover: hover) {
+  .chip:hover { background: var(--highlight); color: var(--onhighlight); border-color: transparent; }
 }
