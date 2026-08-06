@@ -330,6 +330,15 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
       /** Çekmeceyi dışarıdan kapatabilmek için tutulur (sayfa geçişi sonrası). */
       let cekmeceKapat: (() => void) | null = null;
 
+      // Escape PENCEREYE bağlanır; pencere gezinmelerde ölmez, bu yüzden
+      // bu dinleyici bindDrawer'ın İÇİNDE OLAMAZ. Orada `#menu-toggle`
+      // üzerindeki dataset.bound koruması işe yaramaz (öğe her geçişte
+      // yenilenir), dolayısıyla her sekme tıklamasında bir dinleyici daha
+      // eklenir ve her biri bir önceki sayfanın tüm DOM'unu canlı tutardı.
+      addEventListener("keydown", (e) => {
+        if (e.key === "Escape") cekmeceKapat?.();
+      });
+
       const bindDrawer = () => {
         const btn = document.getElementById("menu-toggle");
         const sidebar = document.getElementById("sidebar");
@@ -337,21 +346,30 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
         if (!btn || !sidebar || !scrim) return;
 
         const wide = () => matchMedia("(min-width: 941px)").matches;
+        // Kapanış animasyonu bitince scrim gizlenir. Bekleyen bu zamanlayıcı
+        // İPTAL EDİLMEZSE, 350 ms dolmadan çekmece yeniden açıldığında
+        // scrim açık çekmecenin altında gizlenir → dışarı dokunmak kapatmaz.
+        let scrimTimer = 0;
         const setOpen = (open: boolean) => {
           sidebar.classList.toggle("open", open);
           btn.setAttribute("aria-expanded", String(open));
+          clearTimeout(scrimTimer);
           if (open) {
             scrim.hidden = false;
             requestAnimationFrame(() => scrim.classList.add("show"));
           } else {
             scrim.classList.remove("show");
-            setTimeout(() => {
+            scrimTimer = window.setTimeout(() => {
               scrim.hidden = true;
             }, 350);
           }
         };
-        // Kapatma işlevi her yüklemede GÜNCEL öğelere bağlanır
-        cekmeceKapat = () => setOpen(false);
+        // Kapatma işlevi her yüklemede GÜNCEL öğelere bağlanır.
+        // Zaten kapalıysa hiç dokunma: yoksa her gezinmede boş yere
+        // 350 ms'lik gizleme zamanlayıcısı kurulurdu.
+        cekmeceKapat = () => {
+          if (sidebar.classList.contains("open")) setOpen(false);
+        };
 
         if (btn.dataset.bound) return; // dinleyiciler yalnız bir kez
         btn.dataset.bound = "1";
@@ -377,9 +395,6 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
           }
         });
         scrim.addEventListener("click", () => setOpen(false));
-        addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && sidebar.classList.contains("open")) setOpen(false);
-        });
         // menüden bir sayfa seçilince çekmece kapansın (yalnız dar ekranda)
         sidebar.addEventListener("click", (e) => {
           if (!wide() && (e.target as HTMLElement).closest("a")) setOpen(false);
