@@ -6,7 +6,16 @@
 // tuzlanmış SHA-256 özeti tutulur ve bu özet 1 saat sonra silinir (NULL).
 // IP_SALT ayarlı değilse özet hiç üretilmez (sabit tuza düşülmez).
 
-import { json, asObject, hashIp, sameOrigin, type BaseEnv } from "./_shared";
+import {
+  json,
+  asObject,
+  hashIp,
+  sameOrigin,
+  type BaseEnv,
+  logError,
+  onbellektenAl,
+  onbellegeYaz,
+} from "./_shared";
 
 type Env = BaseEnv;
 
@@ -14,6 +23,9 @@ const MAX_NAME = 40;
 const MAX_MESSAGE = 280;
 const MAX_BODY_BYTES = 4096;
 const RATE_LIMIT = 3; // aynı ziyaretçiden saatte en fazla
+/** Onaylanmayan notların saklanma süresi (gün) — KVKK. */
+const SAKLAMA_GUN = 30;
+
 const LIST_LIMIT = 50;
 
 /** Kontrol karakterlerini temizler, boşlukları sadeleştirir, kırpar */
@@ -27,7 +39,9 @@ export const clean = (s: unknown, max: number): string =>
     .trim()
     .slice(0, max);
 
-export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
+export const onRequestGet: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
+  const onbellekli = await onbellektenAl(request);
+  if (onbellekli) return onbellekli;
   try {
     const { results } = await env.DB.prepare(
       `SELECT id, name, message, created_at
@@ -38,8 +52,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
     )
       .bind(LIST_LIMIT)
       .all();
-    return json({ entries: results ?? [] });
-  } catch {
+    return onbellegeYaz(request, json({ entries: results ?? [] }), { waitUntil });
+  } catch (err) {
+    logError("guestbook", err, request);
     return json({ entries: [], unavailable: true });
   }
 };
@@ -88,7 +103,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       .run();
 
     if ((inserted.meta?.changes ?? 0) === 0) {
-      return json({ ok: false, error: "rate_limited" }, 429);
+      return json({ ok: false, error: "rate_limited" }, 429, { "retry-after": "3600" });
     }
 
     // Süresi dolan özetleri sil: hız sınırı penceresi geçtikten sonra
@@ -99,9 +114,18 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       .bind(since)
       .run();
 
+    // KVKK saklama süresi: onaylanmayan notlar 30 gün sonra otomatik silinir.
+    // (Onaylı notlar SİLİNMEZ.) Bu bakım, yeni not eklendiğinde çalışır —
+    // ayrı bir zamanlanmış işe gerek kalmaz.
+    const saklamaSiniri = new Date(now.getTime() - SAKLAMA_GUN * 86400000).toISOString();
+    await env.DB.prepare("DELETE FROM guestbook WHERE approved = 0 AND created_at < ?")
+      .bind(saklamaSiniri)
+      .run();
+
     // approved = 0 → Şeyma onaylayana kadar sitede görünmez
     return json({ ok: true, pending: true });
-  } catch {
+  } catch (err) {
+    logError("guestbook", err, request);
     return json({ ok: false, error: "unavailable" }, 503);
   }
 };

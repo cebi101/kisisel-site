@@ -62,3 +62,89 @@ export function sameOrigin(request: Request): boolean {
     return false;
   }
 }
+
+/**
+ * Yapısal hata kaydı.
+ *
+ * Her `catch` bloğu sessizdi; D1 bağlaması koparsa, kota dolarsa veya SQL
+ * bozulursa site sessizce "henüz not yok" der, sayaç kaybolurdu — Şeyma bunu
+ * ancak bir ziyaretçi söylerse öğrenirdi.
+ *
+ * KİŞİSEL VERİ LOGLANMAZ: ziyaretçi adı, not metni ve IP asla yazılmaz.
+ * Yalnızca kapsam, hata adı/mesajı, Cloudflare ray kimliği ve rota.
+ */
+export function logError(scope: string, err: unknown, request?: Request): void {
+  const e = err instanceof Error ? err : new Error(String(err));
+  let route: string;
+  try {
+    route = request ? new URL(request.url).pathname : "";
+  } catch {
+    route = "";
+  }
+  console.error(
+    JSON.stringify({
+      scope,
+      name: e.name,
+      message: e.message,
+      ray: request?.headers.get("cf-ray") ?? null,
+      route,
+    }),
+  );
+}
+
+/**
+ * Kenar önbelleği yardımcıları.
+ *
+ * Her iki GET de `no-store` ile dönüyordu; ölçülen TTFB 0,28-0,61 sn.
+ * İstemci her `astro:page-load` olayında sayaç istiyordu — 6 sayfalık bir
+ * gezintide 6 D1 okuması. Okuma uçları artık kenarda önbelleklenir; yazma
+ * uçları ilgili anahtarı düşürür.
+ */
+const ONBELLEK_SANIYE = 60;
+
+export async function onbellektenAl(request: Request): Promise<Response | null> {
+  try {
+    const hit = await caches.default.match(request);
+    if (!hit) return null;
+    const r = new Response(hit.body, hit);
+    r.headers.set("x-cache", "HIT");
+    return r;
+  } catch {
+    return null; // önbellek yoksa (yerel geliştirme) sessizce atla
+  }
+}
+
+export function onbellegeYaz(
+  request: Request,
+  response: Response,
+  ctx: { waitUntil(p: Promise<unknown>): void },
+): Response {
+  const kopya = new Response(response.body, response);
+  kopya.headers.set(
+    "cache-control",
+    `public, max-age=${ONBELLEK_SANIYE}, stale-while-revalidate=300`,
+  );
+  kopya.headers.set("x-cache", "MISS");
+  try {
+    ctx.waitUntil(caches.default.put(request, kopya.clone()));
+  } catch {
+    /* yerel geliştirmede caches yok — önbelleksiz devam */
+  }
+  return kopya;
+}
+
+/** Yazma işleminden sonra ilgili okuma önbelleğini düşürür. */
+export function onbellegiDusur(
+  request: Request,
+  yollar: string[],
+  ctx: { waitUntil(p: Promise<unknown>): void },
+): void {
+  try {
+    const kok = new URL(request.url).origin;
+    for (const y of yollar) {
+      ctx.waitUntil(caches.default.delete(new Request(kok + y)));
+    }
+  } catch {
+    /* önbellek yoksa yapacak bir şey yok */
+  }
+}

@@ -232,7 +232,7 @@ export const tr = {
     retry: "Tekrar dene",
     loading: "Notlar yükleniyor…",
     privacy:
-      "Yalnızca yazdığın ad ve not saklanır. Spam önlemek için IP adresinin gizli bir anahtarla tuzlanmış özeti en fazla 1 saat tutulur, sonra silinir; ham IP hiç kaydedilmez.",
+      "Yalnızca yazdığın ad ve not saklanır. Spam önlemek için IP adresinin gizli bir anahtarla tuzlanmış özeti en fazla 1 saat tutulur, sonra silinir; ham IP hiç kaydedilmez. Onaylanmayan notlar 30 gün sonra otomatik silinir.",
     viewsLabel: "ziyaret",
   },
 
@@ -476,7 +476,7 @@ export const en: Dict = {
     retry: "Try again",
     loading: "Loading notes…",
     privacy:
-      "Only the name and note you type are stored. To prevent spam a salted hash of your IP is kept for at most 1 hour, then deleted; the raw IP is never saved.",
+      "Only the name and note you type are stored. To prevent spam a salted hash of your IP is kept for at most 1 hour, then deleted; the raw IP is never saved. Notes that are not approved are deleted automatically after 30 days.",
     viewsLabel: "visits",
   },
 

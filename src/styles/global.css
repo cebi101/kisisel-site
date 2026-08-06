@@ -1496,9 +1496,6 @@ footer {
     opacity: 0.8;
     transform: translateX(4px);
   }
-  [dir="rtl"] .nav-btn:not(.active):hover .arrow {
-    transform: translateX(-4px);
-  }
 }
 
 /* =============== HAMBURGER MENÜ (her boyutta) =============== */
@@ -1680,9 +1677,6 @@ footer {
     transform: translateX(-102%);
     transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
     box-shadow: var(--shadow);
-  }
-  [dir="rtl"] .sidebar {
-    transform: translateX(102%);
   }
   .sidebar.open {
     transform: none;

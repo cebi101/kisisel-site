@@ -7,7 +7,16 @@
 // Kişisel veri saklanmaz: ham IP değil, gizli tuzla özetlenmiş değeri
 // ve yalnızca 2 gün tutulur.
 
-import { json, hashIp, sameOrigin, type BaseEnv } from "./_shared";
+import {
+  json,
+  hashIp,
+  sameOrigin,
+  logError,
+  onbellektenAl,
+  onbellegeYaz,
+  onbellegiDusur,
+  type BaseEnv,
+} from "./_shared";
 
 type Env = BaseEnv;
 
@@ -18,16 +27,20 @@ async function currentViews(env: Env): Promise<number | null> {
   return row?.n ?? 0;
 }
 
-export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
+export const onRequestGet: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
+  const onbellekli = await onbellektenAl(request);
+  if (onbellekli) return onbellekli;
   try {
-    return json({ views: await currentViews(env) });
-  } catch {
+    const yanit = json({ views: await currentViews(env) });
+    return onbellegeYaz(request, yanit, { waitUntil });
+  } catch (err) {
     // Veritabanı bağlı değilse site çalışmaya devam etsin, sayaç gizlensin
+    logError("views.get", err, request);
     return json({ views: null });
   }
 };
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   try {
     // Başka sitelerden tetiklenen tarayıcı isteklerini sayma
     if (!sameOrigin(request)) return json({ views: await currentViews(env) });
@@ -56,10 +69,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       // Eski tekilleştirme kayıtlarını temizle (tablo şişmesin, veri birikmesin)
       const cutoff = new Date(Date.now() - 2 * 86400_000).toISOString().slice(0, 10);
       await env.DB.prepare("DELETE FROM view_hits WHERE day < ?").bind(cutoff).run();
+
+      // Sayı değişti — okuma önbelleği bayatlamasın
+      onbellegiDusur(request, ["/api/views"], { waitUntil });
     }
 
     return json({ views: await currentViews(env) });
-  } catch {
+  } catch (err) {
+    logError("views.post", err, request);
     return json({ views: null });
   }
 };

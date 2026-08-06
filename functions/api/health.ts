@@ -1,0 +1,29 @@
+// Sağlık ucu — /api/health
+// Dış izleme servisi (UptimeRobot vb.) buraya bakar. D1 erişimi kopmuşsa
+// 503 döner, böylece sorun ziyaretçiden önce fark edilir.
+//
+// SIR DEĞERİ ASLA BASILMAZ — yalnızca "tanımlı mı" bilgisi döner.
+
+import { json, logError, type BaseEnv } from "./_shared";
+
+interface Env extends BaseEnv {
+  ADMIN_TOKEN?: string;
+}
+
+export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
+  const govde = {
+    db: "hata" as "ok" | "hata",
+    salt: Boolean(env.IP_SALT && env.IP_SALT.length >= 24),
+    admin: Boolean(env.ADMIN_TOKEN && env.ADMIN_TOKEN.length >= 24),
+  };
+
+  try {
+    await env.DB.prepare("SELECT n FROM counters WHERE key = 'views'").first<{ n: number }>();
+    govde.db = "ok";
+  } catch (err) {
+    logError("health.db", err, request);
+    return json(govde, 503);
+  }
+
+  return json(govde, 200);
+};

@@ -5,7 +5,7 @@
 // GET    /api/admin/guestbook            → onay bekleyenleri listeler
 // POST   /api/admin/guestbook  {id, action:"approve"|"delete"}
 
-import { json, asObject } from "../_shared";
+import { json, asObject, logError, onbellegiDusur } from "../_shared";
 
 interface Env {
   DB: D1Database;
@@ -38,12 +38,13 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
         LIMIT 200`,
     ).all();
     return json({ entries: results ?? [] });
-  } catch {
+  } catch (err) {
+    logError("admin.guestbook", err, request);
     return json({ error: "unavailable" }, 503);
   }
 };
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   if (!authorized(request, env)) return json({ error: "unauthorized" }, 401);
 
   const body = asObject(await request.json().catch(() => null));
@@ -55,14 +56,18 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   try {
     if (body.action === "approve") {
       await env.DB.prepare("UPDATE guestbook SET approved = 1 WHERE id = ?").bind(id).run();
+      // Onaylanan not defterde görünmeli — okuma önbelleğini düşür
+      onbellegiDusur(request, ["/api/guestbook"], { waitUntil });
       return json({ ok: true, id, approved: true });
     }
     if (body.action === "delete") {
       await env.DB.prepare("DELETE FROM guestbook WHERE id = ?").bind(id).run();
+      onbellegiDusur(request, ["/api/guestbook"], { waitUntil });
       return json({ ok: true, id, deleted: true });
     }
     return json({ error: "bad_action" }, 400);
-  } catch {
+  } catch (err) {
+    logError("admin.guestbook", err, request);
     return json({ error: "unavailable" }, 503);
   }
 };

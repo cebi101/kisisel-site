@@ -127,6 +127,7 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
     <slot />
 
     <script>
+      import { EMAIL, GITHUB } from "../data/site";
       // ---------- Okuma ilerleme çubuğu ----------
       // View Transitions ile gövde değiştiği için öğe her sayfada yeniden aranır
       const setProgress = () => {
@@ -456,8 +457,8 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
       // ---------- Konsol sürprizi ----------
       console.log(
         document.documentElement.lang === "en"
-          ? "%c </> code & curiosity %c\n\nHand-written, line by line — no template.\nAstro + TypeScript + plain CSS · TR/EN\ngithub.com/cebi101 · seymanurcebi6@gmail.com\n\n— Şeyma Nur Çebi"
-          : "%c </> kod & merak %c\n\nBu siteyi hazır şablonla değil, satır satır kendim yazdım.\nAstro + TypeScript + saf CSS · TR/EN\ngithub.com/cebi101 · seymanurcebi6@gmail.com\n\n— Şeyma Nur Çebi",
+          ? `%c </> code & curiosity %c\n\nHand-written, line by line — no template.\nAstro + TypeScript + plain CSS · TR/EN\n${GITHUB.replace("https://", "")} · ${EMAIL}\n\n— Şeyma Nur Çebi`
+          : `%c </> kod & merak %c\n\nBu siteyi hazır şablonla değil, satır satır kendim yazdım.\nAstro + TypeScript + saf CSS · TR/EN\n${GITHUB.replace("https://", "")} · ${EMAIL}\n\n— Şeyma Nur Çebi`,
         "font-size:14px; font-weight:bold; background:#fefd4d; color:#23261c; padding:6px 12px; border-radius:6px;",
         "font-size:12px; color:#9FA98C;",
       );

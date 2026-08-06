@@ -2,5 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /cv
 Disallow: /en/cv
+Disallow: /api/
+Disallow: /yonetim
 
 Sitemap: https://seymanurcebi.dev/sitemap-index.xml
