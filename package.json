@@ -18,7 +18,8 @@
     "size": "size-limit",
     "dev:api": "astro build && wrangler pages dev dist --local --persist-to .wrangler --port 8788",
     "db:init:local": "wrangler d1 execute kisisel-site --local --persist-to .wrangler --file db/schema.sql",
-    "measure": "node scripts/measure.mjs"
+    "measure": "node scripts/measure.mjs",
+    "audit": "node scripts/audit.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
