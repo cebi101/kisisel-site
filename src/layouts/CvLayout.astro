@@ -15,6 +15,7 @@ const { t } = Astro.props;
 
 // Tek kaynak: src/data/site.ts — e-posta depoda üç yerde geçiyordu
 import { GITHUB, LINKEDIN, EMAIL } from "../data/site";
+import { PAGES } from "../data/routes";
 
 const fullName = `${t.hero.h1a} ${t.hero.h1b}`.replace(/\.$/, "");
 const pageTitle = `${t.cvTitle} — ${fullName}`;
@@ -81,6 +82,19 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         max-width: 820px;
         margin: 0 auto;
         padding: 16px 20px;
+      }
+      .cv-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 14px;
+      }
+      .cv-nav a {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .cv-nav a:hover {
+        color: var(--accent);
       }
       .bar a {
         font-family: var(--font-mono);
@@ -412,6 +426,13 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         >{other.lang.toUpperCase()}</a
       >
       <button id="cv-print">{t.cvSave}</button>
+      {
+        /* CV, kenar çubuğu içermeyen bir iskelet — site gezinmesi olmadan
+          çıkmaz sokaktı. .no-print sayesinde A4 çıktısına girmez. */
+      }
+      <nav class="cv-nav" aria-label={t.navLabel}>
+        {PAGES.map((p) => <a href={t.routes[p.key]}>{t.nav[p.key]}</a>)}
+      </nav>
     </div>
 
     <main class="cv">

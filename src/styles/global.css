@@ -2034,3 +2034,57 @@ html:not(.js) .sidebar {
 .form-durum[hidden] {
   display: none;
 }
+
+/* =============== N1 · ALTBİLGİ GEZİNMESİ =============== */
+/* Kenar çubuğu gizlendiğinde (mobil çekmece, masaüstü katlama) sitede
+   tıklanabilir hiçbir bağlantı kalmıyordu. Bu satır her durumda görünür. */
+.foot-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  width: 100%;
+  margin-bottom: 6px;
+}
+.foot-nav a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  transition: color var(--dur-fast) ease;
+}
+.foot-nav a:hover {
+  color: var(--accent);
+}
+.foot-nav a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 500;
+}
+.foot-nav a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* =============== N2 · HAMBURGER: MENÜ + SAYFA =============== */
+/* Düğmede yalnız sayfa adı yazıyordu; menü olduğu anlaşılmıyordu ve
+   görünen metin erişilebilir adın içinde değildi (WCAG 2.5.3). */
+.mt-page {
+  position: relative;
+  padding-inline-start: 9px;
+  color: color-mix(in srgb, var(--onhighlight) 62%, transparent);
+  font-weight: 500;
+}
+.mt-page::before {
+  content: "·";
+  position: absolute;
+  inset-inline-start: 1px;
+  opacity: 0.5;
+}
+@media (max-width: 420px) {
+  /* çok dar ekranda yalnız "Menü" kalsın, düğme taşmasın */
+  .mt-page {
+    display: none;
+  }
+}

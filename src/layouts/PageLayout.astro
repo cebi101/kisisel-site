@@ -4,7 +4,7 @@ import Layout from "./Layout.astro";
 import Sidebar from "../components/Sidebar.astro";
 import type { Dict } from "../i18n/translations";
 import { GITHUB, LINKEDIN, EMAIL } from "../data/site";
-import type { PageKey } from "../data/routes";
+import { PAGES, EXTRA_PAGES, type PageKey } from "../data/routes";
 
 interface Props {
   t: Dict;
@@ -41,6 +41,22 @@ const personLd = {
     </main>
 
     <footer>
+      {
+        /*
+        Kenar çubuğu gizlenebilir üç yol var (mobil çekmece, masaüstü katlama,
+        kenar çubuğu içermeyen iskeletler) ve üçünde de ekranda tıklanabilir
+        HİÇBİR bağlantı kalmıyordu. Bu satır durumdan bağımsızdır.
+      */
+      }
+      <nav class="foot-nav" aria-label={t.navLabel}>
+        {
+          [...PAGES, ...EXTRA_PAGES].map((p) => (
+            <a href={t.routes[p.key]} aria-current={p.key === current ? "page" : undefined}>
+              {p.key === "cv" ? t.cvLabel : t.nav[p.key as PageKey]}
+            </a>
+          ))
+        }
+      </nav>
       <span>© 2026 {t.displayName}</span>
       <span class="footer-views" id="site-views" data-label={t.guestbook.viewsLabel} hidden></span>
       <span class="footer-motto">{t.footer}</span>

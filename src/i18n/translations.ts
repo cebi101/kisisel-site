@@ -25,6 +25,7 @@ export const tr = {
   cvSave: "PDF olarak kaydet",
 
   navLabel: "Site gezintisi",
+  menuLabel: "Menü",
   displayName: "Şeyma Nur Çebi",
   cvTitle: "Özgeçmiş",
   nav: {
@@ -276,6 +277,7 @@ export const en: Dict = {
   cvSave: "Save as PDF",
 
   navLabel: "Site navigation",
+  menuLabel: "Menu",
   displayName: "Şeyma Nur Çebi",
   cvTitle: "Résumé",
   nav: {

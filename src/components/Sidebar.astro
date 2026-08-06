@@ -38,10 +38,16 @@ const langs = [
   type="button"
   aria-controls="sidebar"
   aria-expanded="false"
-  aria-label={t.navLabel}
+  aria-label={`${t.menuLabel} — ${t.nav[current] ?? t.nav.home}`}
 >
   <span class="mt-bars" aria-hidden="true"><i></i><i></i><i></i></span>
-  <span class="mt-text">{t.nav[current] ?? t.nav.home}</span>
+  {
+    /* Görünen metin erişilebilir adın İÇİNDE olmalı (WCAG 2.5.3).
+      Eskiden yalnız sayfa adı yazıyordu; düğme menü değil rozet gibi
+      okunuyordu. */
+  }
+  <span class="mt-text">{t.menuLabel}</span>
+  <span class="mt-page">{t.nav[current] ?? t.nav.home}</span>
 </button>
 <div class="menu-scrim" id="menu-scrim" hidden></div>
 
