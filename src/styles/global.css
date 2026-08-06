@@ -19,7 +19,23 @@
   --accent-text: #4f5a38; /* bilgi taşıyan KÜÇÜK metin — 4.5:1 gerekir */
   --sage: #acb794; /* açık adaçayı — dekoratif dolgu */
   --highlight: #fefd4d; /* limon — yalnızca DOLGU; üstüne koyu yazı gelir */
-  --peach: #e6e9d4; /* yumuşak adaçayı yıkaması (eski şeftali yerine) */
+  --peach: #e6e9d4;
+
+  /* LATTE SKALASI — sütlü kahve tonları.
+     Limon ve adaçayı DEĞİŞMEDİ; bu skala onların altında sıcak bir
+     üçüncü ses olarak duruyor.
+     --latte  : yalnız çizgi/kenarlık/dolgu ve >=24px metin (zemine 3.04:1,
+                küçük metin için YETMEZ). Geçerli pencere #ab8760–#a98560;
+                DEĞİŞTİRME, metin-dışı 3:1 sınırında.
+     --latte-koyu   : espresso — küçük metin için güvenli (zemine 9.33:1)
+     --latte-yuzey  : sıcak yüzey; üstünde var(--accent) ile KÜÇÜK metin
+                      yazılmaz (4.24:1), gerekirse --accent-d kullan.
+     RENK KÖRLÜĞÜ: latte ile adaçayı, iki durumu ayıran TEK sinyal olarak
+     kullanılmamalı. Bu skala tonlar silinse bile espresso/adaçayı arasında
+     1.77:1 parlaklık adımı bırakır. */
+  --latte: #ab8760;
+  --latte-koyu: #513e2d;
+  --latte-yuzey: #ebdcc4;
   --ink: #23261c;
   --body: #3a3d30;
   --muted: #55594a;
@@ -38,6 +54,9 @@
 /* ---------- GECE (dark) ---------- */
 :root[data-mode="dark"] {
   --accent-text: #acb794; /* koyu temada zaten 8:1 üstü — açık tema için ayrı değer */
+  --latte: #96795a;
+  --latte-koyu: #cfbb9c; /* limondan 1.44:1 uzak — gece modunda çakışmasın */
+  --latte-yuzey: #352b22;
   --bg: #1a1c16;
   --panel: #23261e;
   --accent: #e8e86a; /* limon — gecede vurgu rengi olur */
@@ -629,7 +648,7 @@ textarea::placeholder {
   font-weight: 900;
   font-size: 38px;
   line-height: 1;
-  color: var(--accent2);
+  color: var(--latte-koyu); /* latte: 38px sayı; --accent2 3:1 sınırındaydı, espresso 9.33:1 */
 }
 .hl-score-label {
   font-family: var(--font-mono);
@@ -648,7 +667,7 @@ textarea::placeholder {
 .page-no {
   font-family: var(--font-mono);
   font-size: 14px;
-  color: var(--accent);
+  color: var(--latte-koyu); /* latte: sayfa numarası dekoratif krom — etkileşim rengi taşımamalı */
 }
 .section-title {
   font-family: var(--font-display);
@@ -869,7 +888,7 @@ textarea::placeholder {
   top: 8px;
   bottom: 8px;
   width: 1px;
-  background: var(--border);
+  background: var(--latte); /* latte: omurga 1.23:1 ile görünmezdi, şimdi 3.04:1 */
 }
 .tl-item {
   position: relative;
@@ -949,7 +968,7 @@ textarea::placeholder {
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 2px;
-  color: var(--accent);
+  color: var(--latte-koyu); /* latte: kurum adı bağlantı değil, bağlantı rengi taşımamalı */
   text-transform: uppercase;
 }
 .cert-card h3 {
@@ -1376,6 +1395,10 @@ footer {
     --onaccent: #fff;
     --field: #fff;
     --dot: transparent;
+
+    --latte: #888; /* beyaz kâğıtta 3.54:1 — #999 olmaz, 2.85 verir */
+    --latte-koyu: #333;
+    --latte-yuzey: #fff;
   }
   body {
     background-image: none;
@@ -1857,7 +1880,7 @@ html:not(.js) .sidebar {
 .gb-entry {
   border: 1px solid var(--border);
   border-radius: 14px;
-  background: var(--panel);
+  background: var(--latte-yuzey); /* latte: ziyaretçi defteri = kafe defteri */
   box-shadow: var(--shadow-sm);
   padding: 16px 18px;
 }
@@ -1916,8 +1939,8 @@ html:not(.js) .sidebar {
   height: 42px;
   margin-bottom: 4px;
   border-radius: 50%;
-  background: var(--peach);
-  color: var(--accent);
+  background: var(--latte-yuzey);
+  color: var(--latte-koyu);
   font-size: 18px;
 }
 .gb-empty-title {

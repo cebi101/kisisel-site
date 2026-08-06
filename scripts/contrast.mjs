@@ -43,6 +43,13 @@ const KURALLAR = [
   ["--onhighlight", "--highlight", 4.5, "limon üstü metin"],
   ["--faint2", "--field", 3.0, "form yer tutucu (büyük/dekoratif)"],
   ["--border", "--bg", 1.2, "kenarlık (görünürlük)"],
+  ["--latte", "--bg", 3.0, "latte orta ton — YALNIZ çizgi/dolgu"],
+  ["--latte-koyu", "--bg", 4.5, "espresso metin (zemin)"],
+  ["--latte-koyu", "--panel", 4.5, "espresso metin (panel)"],
+  ["--latte-koyu", "--latte-yuzey", 4.5, "espresso, latte yüzeyde"],
+  ["--ink", "--latte-yuzey", 4.5, "başlık, latte yüzeyde"],
+  ["--muted2", "--latte-yuzey", 4.5, "gövde, latte yüzeyde"],
+  ["--faint", "--latte-yuzey", 4.5, "tarih etiketi, latte yüzeyde"],
 ];
 
 let hata = 0;
