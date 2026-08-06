@@ -1,0 +1,8 @@
+# Yerel geliştirme gizli değerleri — bu dosyayı `.dev.vars` olarak kopyalayıp doldur.
+# `.dev.vars` gitignore'ludur; DEĞERLERİ ASLA depoya girmez.
+
+# IP özetleme tuzu. En az 24 karakter olmalı; kısa/boşsa uçlar kapalı arızalanır.
+IP_SALT=
+
+# Defter moderasyon anahtarı (Bearer). Üretimde Cloudflare secret olarak tutulur.
+ADMIN_TOKEN=

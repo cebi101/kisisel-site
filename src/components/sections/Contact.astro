@@ -1,4 +1,5 @@
 ---
+import { PAGE_NUM } from "../../data/routes";
 import type { Dict } from "../../i18n/translations";
 import { GITHUB, LINKEDIN, EMAIL } from "../../data/site";
 
@@ -10,7 +11,7 @@ const { t } = Astro.props;
 
 <div class="page">
   <div class="page-head">
-    <span class="page-no" aria-hidden="true">{t.contact.no}</span>
+    <span class="page-no" aria-hidden="true">{PAGE_NUM.contact}</span>
     <h1 class="section-title" id="contact-title">{t.contact.title}</h1>
   </div>
   <div class="contact-grid">

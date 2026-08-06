@@ -1,4 +1,5 @@
 ---
+import { otherLangPath } from "../data/routes";
 import { ClientRouter } from "astro:transitions";
 import "../styles/fonts.css";
 import "../styles/global.css";
@@ -26,16 +27,9 @@ const canonical =
   new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, "") || Astro.site!.href;
 const ogImage = new URL("/og.png", Astro.site).href;
 // TR ↔ EN eşleştirmesi: /hakkimda ↔ /en/about
-const PAIRS: Record<string, string> = {
-  "/": "/en",
-  "/hakkimda": "/en/about",
-  "/projeler": "/en/projects",
-  "/iletisim": "/en/contact",
-};
-const path = Astro.url.pathname.replace(/\/$/, "") || "/";
-const trPath =
-  lang === "tr" ? path : (Object.entries(PAIRS).find(([, en]) => en === path)?.[0] ?? "/");
-const enPath = lang === "tr" ? (PAIRS[path] ?? "/en") : path;
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const trPath = lang === "tr" ? path : otherLangPath(path, "en");
+const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
 ---
 
 <!doctype html>

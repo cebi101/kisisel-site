@@ -64,6 +64,9 @@
   --font-sans: "Sora", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "DM Mono", "JetBrains Mono", Menlo, monospace;
   --sidebar-w: 264px;
+  --measure: 50ch; /* gövde metni: ~68 karakter/satır */
+  --measure-narrow: 46ch; /* kısa tanıtım satırları */
+  --measure-wide: 1120px; /* içerik konteyneri üst sınırı */
 }
 
 * {
@@ -155,7 +158,9 @@ textarea::placeholder {
 .app {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: var(--sidebar-w) 1fr;
+  /* minmax(0,...) olmadan grid alt elemanının otomatik minimumu `auto` olur;
+     içindeki nowrap tablo sütunu daraltmayı engelleyip sayfayı taşırıyordu (T1.3) */
+  grid-template-columns: minmax(0, var(--sidebar-w)) minmax(0, 1fr);
 }
 
 /* =============== KENAR ÇUBUĞU =============== */
@@ -481,10 +486,40 @@ textarea::placeholder {
 }
 
 /* =============== İÇERİK =============== */
+/* SAYFA GUTTER'I — taban kural (T1.2).
+   Eskiden iç boşluk YALNIZCA iki medya sorgusunun içinde tanımlıydı;
+   1201px üstünde hiç kural olmadığı için 1512/1920 px'te padding 0'a
+   düşüyor, içerik viewport kenarına yapışıyordu. clamp() üç kırılımı da
+   kapsar, medya sorgularındaki geçersiz kılmalar kaldırıldı. */
+.page {
+  padding-block: clamp(48px, 5vw, 88px);
+  padding-inline: clamp(22px, 4vw, 72px);
+}
+/* OKUMA ÖLÇÜSÜ (T1.5) — 1920px'te satırlar 144 karaktere kadar uzuyordu.
+   İki katman: konteyner genişliği + metin ölçüsü. */
+.page-inner {
+  max-width: var(--measure-wide);
+  margin-inline: auto;
+  width: 100%;
+}
+.about-p1,
+.about-p2,
+.about-p3,
+.hl-desc,
+.contact-sub,
+.tl-item p,
+.pr-desc,
+.gb-msg,
+.cert-card p,
+.tagline {
+  max-width: var(--measure);
+}
+
 .content {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-width: 0; /* taşan tabloyu kendi kaydırma kutusunda tutar (T1.3) */
 }
 
 /* sayfa girişi — her rota yüklendiğinde içerik yumuşak belirir */
@@ -529,6 +564,9 @@ textarea::placeholder {
   align-items: center;
   justify-content: space-between;
   gap: 28px;
+  /* taban gutter (T1.2) — 1201px üstünde de kenar boşluğu olsun */
+  margin-inline: clamp(22px, 4vw, 72px);
+  margin-bottom: clamp(44px, 5vw, 72px);
   padding: 30px 34px;
   border: 1px solid var(--border);
   border-radius: 18px;
@@ -558,7 +596,7 @@ textarea::placeholder {
 .hl-desc {
   font-size: 15px;
   color: var(--muted2);
-  max-width: 56ch;
+  max-width: var(--measure);
   text-wrap: pretty;
 }
 .hl-link {
@@ -658,7 +696,7 @@ textarea::placeholder {
 .tagline {
   font-size: 20px;
   line-height: 1.65;
-  max-width: 46ch;
+  max-width: var(--measure-narrow);
   color: var(--muted);
   text-wrap: pretty;
 }
@@ -703,7 +741,10 @@ textarea::placeholder {
 }
 .photo-backdrop {
   position: absolute;
-  inset: -20px;
+  /* -20px her yönden, döndürme ile birleşince 1512px+ ekranda sağdan
+     36px taşırıyordu. Sağ/alt payı kısaldı; taşma bastırılmadı, kaynağı
+     düzeltildi (T1.4). */
+  inset: -14px -14px -18px -18px;
   background: var(--peach);
   border-radius: 26px;
   transform: rotate(-4deg);
@@ -976,7 +1017,7 @@ textarea::placeholder {
   font-size: 15px;
   color: var(--muted2);
   line-height: 1.55;
-  max-width: 62ch;
+  max-width: var(--measure);
   text-wrap: pretty;
 }
 .pr-tags {
@@ -1167,12 +1208,6 @@ footer {
 /* sabit genişlikler (sidebar 264 + padding 128 + foto 340 + gap 56)
    bu aralıkta hero metnini eziyordu; ölçüler küçülür, yerleşim aynı kalır */
 @media (max-width: 1200px) and (min-width: 941px) {
-  .page {
-    padding: 56px 40px;
-  }
-  .highlight-band {
-    margin: 0 40px 56px;
-  }
   .home {
     grid-template-columns: 1fr 280px;
     gap: 40px;
@@ -1234,11 +1269,7 @@ footer {
   .app > footer {
     grid-column: 1;
   }
-  .page {
-    padding: 44px 22px;
-  }
   .highlight-band {
-    margin: 0 22px 44px;
     padding: 22px;
   }
   .hl-title {

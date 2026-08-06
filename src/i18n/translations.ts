@@ -87,7 +87,6 @@ export const tr = {
   },
 
   about: {
-    no: "01",
     title: "Hakkımda",
     year: "3. Sınıf",
     p1: "İstanbul Arel Üniversitesi Yazılım Mühendisliği'nde tam burslu, bölüme birincilikle girmiş bir 3. sınıf öğrencisiyim; genel ortalamam 3,62. İlgimi çeken şey yapay zekânın teoride kaldığı yer değil, bir işe yaradığı yer: graf sinir ağlarıyla sağlık verisini modellemek, LLM tabanlı ajanlara gerçek bir görev yaptırmak, bir modelin neden o kararı verdiğini açıklayabilmek.",
@@ -179,7 +178,6 @@ export const tr = {
   },
 
   projects: {
-    no: "02",
     title: "Projeler",
     items: [
       {
@@ -211,7 +209,6 @@ export const tr = {
   },
 
   guestbook: {
-    no: "04",
     title: "Ziyaretçi Defteri",
     sub: "Bir selam, bir soru ya da aklına takılan bir fikir — buraya not bırakabilirsin. Notlar ben okuyup onayladıktan sonra yayımlanır.",
     fName: "Adın",
@@ -229,7 +226,6 @@ export const tr = {
   },
 
   contact: {
-    no: "03",
     title: "İletişim",
     sub: "Bir fikrin, iş birliği ya da soru mu var? Yaz, konuşalım.",
     fName: "Adınız",
@@ -325,7 +321,6 @@ export const en: Dict = {
   },
 
   about: {
-    no: "01",
     title: "About Me",
     year: "3rd Year",
     p1: "I'm a third-year Software Engineering student at Istanbul Arel University on a full scholarship, admitted ranked first, with a 3.62 GPA. What draws me isn't AI in theory but AI where it does something: modelling health data with graph neural networks, giving LLM-based agents a real job to do, and being able to explain why a model decided what it decided.",
@@ -416,7 +411,6 @@ export const en: Dict = {
   },
 
   projects: {
-    no: "02",
     title: "Projects",
     items: [
       {
@@ -448,7 +442,6 @@ export const en: Dict = {
   },
 
   guestbook: {
-    no: "04",
     title: "Guestbook",
     sub: "A hello, a question or an idea you had — leave a note here. Notes are published after I read and approve them.",
     fName: "Your name",
@@ -466,7 +459,6 @@ export const en: Dict = {
   },
 
   contact: {
-    no: "03",
     title: "Contact",
     sub: "Got an idea, a collaboration or a question? Write me, let's talk.",
     fName: "Your name",

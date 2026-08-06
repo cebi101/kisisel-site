@@ -5,8 +5,7 @@ import type { Dict } from "../i18n/translations";
 import { locales } from "../i18n/translations";
 import foto from "../assets/foto.jpg";
 import { GITHUB, LINKEDIN, EMAIL } from "../data/site";
-
-type PageKey = "home" | "about" | "projects" | "contact" | "guestbook";
+import { PAGES, type PageKey } from "../data/routes";
 
 interface Props {
   t: Dict;
@@ -14,13 +13,11 @@ interface Props {
 }
 const { t, current } = Astro.props;
 
-const navItems: { id: PageKey; num: string; label: string }[] = [
-  { id: "home", num: "01", label: t.nav.home },
-  { id: "about", num: "02", label: t.nav.about },
-  { id: "projects", num: "03", label: t.nav.projects },
-  { id: "contact", num: "04", label: t.nav.contact },
-  { id: "guestbook", num: "05", label: t.nav.guestbook },
-];
+const navItems = PAGES.map((p) => ({
+  id: p.key,
+  num: p.num,
+  label: t.nav[p.key],
+}));
 
 const sideSocials = [
   { label: "GitHub", href: GITHUB },

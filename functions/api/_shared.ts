@@ -6,12 +6,30 @@ export interface BaseEnv {
   IP_SALT?: string;
 }
 
-export const json = (data: unknown, status = 200): Response =>
+/**
+ * Her Function yanıtına giden güvenlik başlıkları.
+ *
+ * `public/_headers` dosyasındaki `/*` kuralı Cloudflare Pages'te YALNIZCA
+ * statik varlıklara uygulanır; Function yanıtları o kuralı hiç görmez.
+ * Bu yüzden başlıklar `json()` yardımcısına gömülüdür — çağıran taraf
+ * unutamaz.
+ */
+const GUVENLIK_BASLIKLARI: Record<string, string> = {
+  "x-content-type-options": "nosniff",
+  "referrer-policy": "strict-origin-when-cross-origin",
+  "x-robots-tag": "noindex",
+  "cross-origin-resource-policy": "same-origin",
+  vary: "Origin",
+};
+
+export const json = (data: unknown, status = 200, ekBaslik?: Record<string, string>): Response =>
   new Response(JSON.stringify(data), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
       "cache-control": "no-store",
+      ...GUVENLIK_BASLIKLARI,
+      ...ekBaslik,
     },
   });
 

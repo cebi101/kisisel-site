@@ -1,4 +1,5 @@
 ---
+import { PAGE_NUM } from "../../data/routes";
 // Ziyaretçi defteri — notlar /api/guestbook üzerinden tarayıcıda yüklenir.
 // Sunucu tarafı statik kalır; yalnızca API çağrıları dinamiktir.
 import type { Dict } from "../../i18n/translations";
@@ -12,7 +13,7 @@ const g = t.guestbook;
 
 <div class="page">
   <div class="page-head">
-    <span class="page-no">{g.no}</span>
+    <span class="page-no" aria-hidden="true">{PAGE_NUM.guestbook}</span>
     <h1 class="section-title">{g.title}</h1>
   </div>
 

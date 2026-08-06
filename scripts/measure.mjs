@@ -6,10 +6,11 @@ import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from "
 import { join } from "node:path";
 import { gzipSync } from "node:zlib";
 
-const OUT = process.argv[2] || "scratchpad/baseline.json";
+const OUT = process.argv.find((a) => a.endsWith(".json")) || "scratchpad/baseline.json";
 const PORT = 8907;
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-const WIDTHS = [320, 360, 390, 768, 1200, 1512, 1920];
+const HIZLI = process.argv.includes("--hizli");
+const WIDTHS = HIZLI ? [390, 1512, 1920] : [320, 360, 390, 768, 1200, 1512, 1920];
 const ROUTES = [
   "/",
   "/hakkimda",

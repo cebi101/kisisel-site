@@ -55,7 +55,7 @@ const num = (n: number, d = 2) => (t.lang === "tr" ? n.toFixed(d).replace(".", "
     </div>
   </figure>
 
-  <div class="ac-table-wrap">
+  <div class="ac-table-wrap" role="region" aria-label={a.label} tabindex="0">
     <table class="ac-table">
       <thead>
         <tr>
@@ -185,7 +185,20 @@ const num = (n: number, d = 2) => (t.lang === "tr" ? n.toFixed(d).replace(".", "
 
   .ac-table-wrap {
     max-width: 760px;
+    min-width: 0; /* grid alt elemanı daralabilsin, sayfayı taşırmasın (T1.3) */
     overflow-x: auto;
+    overscroll-behavior-x: contain;
+    /* sağda içerik devam ediyorsa yumuşak bir maske ipucu verir */
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  }
+  .ac-table-wrap:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  @supports not (mask-image: linear-gradient(#000, #000)) {
+    .ac-table-wrap {
+      mask-image: none;
+    }
   }
   .ac-table {
     width: 100%;

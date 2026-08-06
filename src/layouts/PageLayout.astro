@@ -4,8 +4,7 @@ import Layout from "./Layout.astro";
 import Sidebar from "../components/Sidebar.astro";
 import type { Dict } from "../i18n/translations";
 import { GITHUB, LINKEDIN, EMAIL } from "../data/site";
-
-type PageKey = "home" | "about" | "projects" | "contact" | "guestbook";
+import type { PageKey } from "../data/routes";
 
 interface Props {
   t: Dict;
