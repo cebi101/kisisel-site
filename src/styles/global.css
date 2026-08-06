@@ -1094,24 +1094,31 @@ footer {
   /* kenar çubuğu üst kısmı hamburgerin altından başlasın */
   .sidebar { padding-top: 64px; }
 
-  /* katlıyken kenar çubuğu genişliğini KORUR; yoksa 0'a inip yüzdeli
-     kaydırma etkisiz kalıyor ve ince bir şerit görünüyordu */
-  html.sidebar-off .app { grid-template-columns: 0 1fr; overflow-x: clip; }
+  /* Katlama artık KAYDIRMAYA değil, genişliğin kapanmasına dayanıyor.
+     Kaydırma animasyonu bazı durumlarda başlangıçta donup kalıyor ve
+     menü içeriğin üstünde asılı kalıyordu; bu yaklaşımda öyle bir risk yok:
+     genişlik 0 + overflow:hidden → taşacak piksel kalmaz. */
+  .sidebar {
+    overflow-x: hidden;
+    transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                min-width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                padding 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.3s ease,
+                background 0.35s ease,
+                visibility 0s linear 0s;
+  }
+  html.sidebar-off .app { grid-template-columns: 0 1fr; }
   html.sidebar-off .sidebar {
-    width: var(--sidebar-w);
-    min-width: var(--sidebar-w);
-    transform: translateX(calc(-1 * var(--sidebar-w) - 16px));
+    width: 0;
+    min-width: 0;
+    padding-inline: 0;
+    border-inline-end-color: transparent;
+    visibility: hidden;
     pointer-events: none;
+    transition-delay: 0s, 0s, 0s, 0s, 0s, 0.45s; /* görünürlük en sonda kapansın */
   }
-  /* katlıyken içerik ortalanır ve hamburgerin altından başlar */
-  html.sidebar-off .content > .page,
-  html.sidebar-off .content > .highlight-band {
-    margin-inline: auto;
-  }
-  html.sidebar-off .content > .page { padding-top: 92px; }
-  html.sidebar-off footer { max-width: 1320px; margin-inline: auto; width: 100%; }
-  [dir="rtl"] html.sidebar-off .sidebar,
-  html[dir="rtl"].sidebar-off .sidebar { transform: translateX(calc(var(--sidebar-w) + 16px)); }
+  /* içindekiler daralırken sarmasın, düzgün kayıp gitsin */
+  html.sidebar-off .sidebar > * { min-width: var(--sidebar-w); }
 
   @media (prefers-reduced-motion: reduce) {
     .app, .sidebar { transition: none; }
