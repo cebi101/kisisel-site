@@ -834,18 +834,6 @@ input::placeholder, textarea::placeholder { color: var(--faint); }
 }
 
 /* =============== FOOTER =============== */
-.footer-social {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  font-family: var(--font-mono);
-  font-size: 12px;
-}
-.footer-social a { color: var(--accent); }
-.footer-social span { color: var(--faint2); }
-.sidebar-wrap { display: contents; }
-
 /* sayfa geçişleri: içerik yumuşakça kayarak gelsin */
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root) { animation: vt-out 0.22s ease both; }
