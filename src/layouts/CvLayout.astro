@@ -29,11 +29,17 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
     <meta name="robots" content="noindex" />
     <title>{pageTitle}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preload" href="/fonts/sora-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href="/fonts/sora-400-normal-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="stylesheet" href="/fonts-cv.css" />
     <style>
       :root {
-        --paper: #ffffff;
+        --paper: #fff;
         --ink: #2b2620;
         --body: #423b32;
         --muted: #6a6054;
@@ -45,7 +51,11 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         --font-sans: "Sora", -apple-system, BlinkMacSystemFont, sans-serif;
         --font-mono: "DM Mono", "JetBrains Mono", Menlo, monospace;
       }
-      * { margin: 0; padding: 0; box-sizing: border-box; }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
       body {
         background: #efe7e2;
         color: var(--body);
@@ -54,7 +64,10 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
       }
-      a { color: inherit; text-decoration: none; }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
 
       /* ---- ekran araç çubuğu (yazdırmada gizli) ---- */
       .bar {
@@ -69,13 +82,14 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         margin: 0 auto;
         padding: 16px 20px;
       }
-      .bar { gap: 12px; }
       .bar a {
         font-family: var(--font-mono);
         font-size: 13px;
         color: var(--muted);
       }
-      .bar a:hover { color: var(--accent); }
+      .bar a:hover {
+        color: var(--accent);
+      }
       .bar button {
         font-family: var(--font-sans);
         font-weight: 600;
@@ -87,7 +101,9 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         color: #fff;
         cursor: pointer;
       }
-      .bar button:hover { background: #854a3f; }
+      .bar button:hover {
+        background: #854a3f;
+      }
 
       /* ---- CV kâğıdı ---- */
       .cv {
@@ -96,7 +112,7 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         background: var(--paper);
         padding: 48px 52px;
         border-radius: 8px;
-        box-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 10px 40px -12px rgb(0, 0, 0, 0.25);
       }
 
       .cv-head {
@@ -107,7 +123,10 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         padding-bottom: 18px;
         margin-bottom: 22px;
       }
-      .cv-head-text { flex: 1; min-width: 0; }
+      .cv-head-text {
+        flex: 1;
+        min-width: 0;
+      }
       .cv-photo {
         flex-shrink: 0;
         width: 104px;
@@ -124,7 +143,9 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         letter-spacing: -1px;
         color: var(--ink);
       }
-      [dir="rtl"] .cv-name { letter-spacing: 0; }
+      [dir="rtl"] .cv-name {
+        letter-spacing: 0;
+      }
       .cv-role {
         font-family: var(--font-mono);
         font-size: 12px;
@@ -142,9 +163,13 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         font-size: 12.5px;
         color: var(--muted);
       }
-      .cv-contact a:hover { color: var(--accent); }
+      .cv-contact a:hover {
+        color: var(--accent);
+      }
 
-      section { margin-top: 22px; }
+      section {
+        margin-top: 22px;
+      }
       .sec-title {
         font-family: var(--font-mono);
         font-size: 11px;
@@ -156,25 +181,41 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         margin-bottom: 12px;
       }
 
-      .summary { color: var(--body); }
-      .summary p + p { margin-top: 8px; }
+      .summary {
+        color: var(--body);
+      }
+      .summary p + p {
+        margin-top: 8px;
+      }
 
-      .item { margin-bottom: 13px; }
-      .item:last-child { margin-bottom: 0; }
+      .item {
+        margin-bottom: 13px;
+      }
+      .item:last-child {
+        margin-bottom: 0;
+      }
       .item-top {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
         gap: 12px;
       }
-      .item-title { font-weight: 600; font-size: 15px; color: var(--ink); }
+      .item-title {
+        font-weight: 600;
+        font-size: 15px;
+        color: var(--ink);
+      }
       .item-when {
         font-family: var(--font-mono);
         font-size: 11.5px;
         color: var(--muted);
         white-space: nowrap;
       }
-      .item-desc { font-size: 13.5px; color: var(--body); margin-top: 2px; }
+      .item-desc {
+        font-size: 13.5px;
+        color: var(--body);
+        margin-top: 2px;
+      }
       .item-badge {
         display: inline-block;
         margin-top: 5px;
@@ -192,8 +233,15 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         margin-top: 3px;
       }
 
-      .skills-row { display: flex; gap: 10px; margin-bottom: 8px; align-items: baseline; }
-      .skills-row:last-child { margin-bottom: 0; }
+      .skills-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 8px;
+        align-items: baseline;
+      }
+      .skills-row:last-child {
+        margin-bottom: 0;
+      }
       .skills-label {
         flex: 0 0 auto;
         min-width: 132px;
@@ -203,8 +251,14 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         text-transform: uppercase;
         color: var(--muted);
       }
-      [dir="rtl"] .skills-label { letter-spacing: 0; }
-      .skills-items { display: flex; flex-wrap: wrap; gap: 6px; }
+      [dir="rtl"] .skills-label {
+        letter-spacing: 0;
+      }
+      .skills-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
       .skill {
         direction: ltr;
         font-family: var(--font-mono);
@@ -218,9 +272,18 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
       /* ---- YAZDIRMA / PDF ---- */
       /* ---- YAZDIRMA / PDF: TEK SAYFAYA SIĞAR ---- */
       @media print {
-        @page { size: A4; margin: 9mm 10mm; }
-        body { background: #fff; font-size: 8.2pt; line-height: 1.26; }
-        .no-print { display: none !important; }
+        @page {
+          size: A4;
+          margin: 9mm 10mm;
+        }
+        body {
+          background: #fff;
+          font-size: 8.2pt;
+          line-height: 1.26;
+        }
+        .no-print {
+          display: none !important;
+        }
         .cv {
           max-width: none;
           margin: 0;
@@ -230,51 +293,128 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
         }
 
         /* başlık */
-        .cv-head { gap: 14px; padding-bottom: 6px; margin-bottom: 7px; break-inside: avoid; }
-        .cv-name { font-size: 19pt; letter-spacing: -0.5px; }
-        .cv-role { font-size: 7.4pt; letter-spacing: 1.4px; margin-top: 2px; }
-        .cv-contact { gap: 2px 10px; margin-top: 5px; font-size: 7.6pt; }
+        .cv-head {
+          gap: 14px;
+          padding-bottom: 6px;
+          margin-bottom: 7px;
+          break-inside: avoid;
+        }
+        .cv-name {
+          font-size: 19pt;
+          letter-spacing: -0.5px;
+        }
+        .cv-role {
+          font-size: 7.4pt;
+          letter-spacing: 1.4px;
+          margin-top: 2px;
+        }
+        .cv-contact {
+          gap: 2px 10px;
+          margin-top: 5px;
+          font-size: 7.6pt;
+        }
         .cv-photo {
-          width: 68px; height: 82px; border-radius: 7px;
-          -webkit-print-color-adjust: exact; print-color-adjust: exact;
+          width: 68px;
+          height: 82px;
+          border-radius: 7px;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
         }
 
         /* bölümler */
-        section { margin-top: 5px; }
-        .sec-title { font-size: 7.2pt; letter-spacing: 1.2px; padding-bottom: 2px; margin-bottom: 3px; }
-        .summary p + p { margin-top: 2px; }
+        section {
+          margin-top: 5px;
+        }
+        .sec-title {
+          font-size: 7.2pt;
+          letter-spacing: 1.2px;
+          padding-bottom: 2px;
+          margin-bottom: 3px;
+        }
+        .summary p + p {
+          margin-top: 2px;
+        }
 
-        .item { margin-bottom: 3px; break-inside: avoid; }
-        .item-title { font-size: 8.6pt; }
-        .item-when { font-size: 7.4pt; }
-        .item-desc { font-size: 7.9pt; margin-top: 0; }
-        .item-badge { margin-top: 2px; padding: 1px 7px; font-size: 7.2pt; }
-        .item-tags { font-size: 7.4pt; margin-top: 1px; }
+        .item {
+          margin-bottom: 3px;
+          break-inside: avoid;
+        }
+        .item-title {
+          font-size: 8.6pt;
+        }
+        .item-when {
+          font-size: 7.4pt;
+        }
+        .item-desc {
+          font-size: 7.9pt;
+          margin-top: 0;
+        }
+        .item-badge {
+          margin-top: 2px;
+          padding: 1px 7px;
+          font-size: 7.2pt;
+        }
+        .item-tags {
+          font-size: 7.4pt;
+          margin-top: 1px;
+        }
 
         /* projeler ve sertifikalar iki sütunda — yatay alanı kullan */
-        .cv-cols { columns: 2; column-gap: 16px; }
-        .cv-cols-3 { columns: 3; column-gap: 14px; }
-        .cv-cols-3 .item { break-inside: avoid; }
-        .cv-cols .item { break-inside: avoid; }
+        .cv-cols {
+          columns: 2;
+          column-gap: 16px;
+        }
+        .cv-cols-3 {
+          columns: 3;
+          column-gap: 14px;
+        }
+        .cv-cols-3 .item {
+          break-inside: avoid;
+        }
+        .cv-cols .item {
+          break-inside: avoid;
+        }
 
         /* yetenekler tek satıra yakın */
-        .skills-row { gap: 6px; margin-bottom: 2px; break-inside: avoid; }
-        .skills-label { min-width: 104px; font-size: 7.2pt; letter-spacing: 0.6px; }
-        .skills-items { gap: 3px; }
-        .skill { font-size: 7.4pt; padding: 1px 7px; }
+        .skills-row {
+          gap: 6px;
+          margin-bottom: 2px;
+          break-inside: avoid;
+        }
+        .skills-label {
+          min-width: 104px;
+          font-size: 7.2pt;
+          letter-spacing: 0.6px;
+        }
+        .skills-items {
+          gap: 3px;
+        }
+        .skill {
+          font-size: 7.4pt;
+          padding: 1px 7px;
+        }
       }
 
       @media (max-width: 640px) {
-        .cv { padding: 30px 22px; }
-        .cv-name { font-size: 30px; }
-        .skills-row { flex-direction: column; gap: 4px; }
+        .cv {
+          padding: 30px 22px;
+        }
+        .cv-name {
+          font-size: 30px;
+        }
+        .skills-row {
+          flex-direction: column;
+          gap: 4px;
+        }
       }
     </style>
   </head>
   <body>
     <div class="bar no-print">
       <a href={t.routes.home}>{t.cvBack}</a>
-      <a href={other.routes.cv} hreflang={other.lang} lang={other.lang} class="cv-lang">{other.lang.toUpperCase()}</a>
+      <a href={other.routes.cv} hreflang={other.lang} lang={other.lang} class="cv-lang"
+        >{other.lang.toUpperCase()}</a
+      >
       <button id="cv-print">{t.cvSave}</button>
     </div>
 
@@ -303,79 +443,95 @@ const other = t.lang === "tr" ? locales.en : locales.tr;
 
       <section>
         <div class="sec-title">{t.about.eduLabel}</div>
-        {t.about.edu.map((e) => (
-          <div class="item">
-            <div class="item-top">
-              <span class="item-title">{e.title}</span>
-              <span class="item-when">{e.when}</span>
+        {
+          t.about.edu.map((e) => (
+            <div class="item">
+              <div class="item-top">
+                <span class="item-title">{e.title}</span>
+                <span class="item-when">{e.when}</span>
+              </div>
+              <div class="item-desc">{e.desc}</div>
+              <span class="item-badge">{e.badge}</span>
             </div>
-            <div class="item-desc">{e.desc}</div>
-            <span class="item-badge">{e.badge}</span>
-          </div>
-        ))}
+          ))
+        }
       </section>
 
       <section>
         <div class="sec-title">{t.about.expLabel}</div>
-        {t.about.exp.map((e) => (
-          <div class="item">
-            <div class="item-top">
-              <span class="item-title">{e.title}</span>
-              <span class="item-when">{e.when}</span>
+        {
+          t.about.exp.map((e) => (
+            <div class="item">
+              <div class="item-top">
+                <span class="item-title">{e.title}</span>
+                <span class="item-when">{e.when}</span>
+              </div>
+              <div class="item-desc">{e.desc}</div>
             </div>
-            <div class="item-desc">{e.desc}</div>
-          </div>
-        ))}
+          ))
+        }
       </section>
 
       <section>
         <div class="sec-title">{t.about.compLabel}</div>
-        {t.about.comp.map((e) => (
-          <div class="item">
-            <div class="item-top">
-              <span class="item-title">{e.title}</span>
-              <span class="item-when">{e.when}</span>
+        {
+          t.about.comp.map((e) => (
+            <div class="item">
+              <div class="item-top">
+                <span class="item-title">{e.title}</span>
+                <span class="item-when">{e.when}</span>
+              </div>
+              <div class="item-desc">{e.desc}</div>
             </div>
-            <div class="item-desc">{e.desc}</div>
-          </div>
-        ))}
+          ))
+        }
       </section>
 
       <section>
         <div class="sec-title">{t.projects.title}</div>
         <div class="cv-cols">
-        {t.projects.items.map((p) => (
-          <div class="item">
-            <div class="item-title">{p.title}</div>
-            <div class="item-desc">{p.desc}</div>
-            <div class="item-tags">{p.tags}</div>
-          </div>
-        ))}
+          {
+            t.projects.items.map((p) => (
+              <div class="item">
+                <div class="item-title">{p.title}</div>
+                <div class="item-desc">{p.desc}</div>
+                <div class="item-tags">{p.tags}</div>
+              </div>
+            ))
+          }
         </div>
       </section>
 
       <section>
         <div class="sec-title">{t.about.certsLabel}</div>
         <div class="cv-cols cv-cols-3">
-        {t.about.certs.map((c) => (
-          <div class="item">
-            <div class="item-title">{c.name} · {c.org}</div>
-            <div class="item-desc">{c.desc}</div>
-          </div>
-        ))}
+          {
+            t.about.certs.map((c) => (
+              <div class="item">
+                <div class="item-title">
+                  {c.name} · {c.org}
+                </div>
+                <div class="item-desc">{c.desc}</div>
+              </div>
+            ))
+          }
         </div>
       </section>
 
       <section>
         <div class="sec-title">{t.about.skillsLabel}</div>
-        {SKILL_GROUPS.map((g) => (
-          <div class="skills-row">
-            <span class="skills-label">{t.about.skillGroups[g.key]}</span>
-            <span class="skills-items">
-              {g.items.map((s) => <span class="skill">{s}</span>)}
-            </span>
-          </div>
-        ))}
+        {
+          SKILL_GROUPS.map((g) => (
+            <div class="skills-row">
+              <span class="skills-label">{t.about.skillGroups[g.key]}</span>
+              <span class="skills-items">
+                {g.items.map((s) => (
+                  <span class="skill">{s}</span>
+                ))}
+              </span>
+            </div>
+          ))
+        }
       </section>
     </main>
 

@@ -35,7 +35,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       `SELECT id, name, message, created_at, approved
          FROM guestbook
         ORDER BY approved ASC, created_at DESC
-        LIMIT 200`
+        LIMIT 200`,
     ).all();
     return json({ entries: results ?? [] });
   } catch {

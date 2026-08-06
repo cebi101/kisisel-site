@@ -21,6 +21,7 @@ Oluşturduğun veritabanına gir → **Console** sekmesi.
 Depodaki [`db/schema.sql`](../db/schema.sql) dosyasının **tamamını** yapıştır ve çalıştır.
 
 Şu üç şeyi oluşturur:
+
 - `counters` → görüntülenme sayısı (tek satır, kişisel veri yok)
 - `guestbook` → ziyaretçi notları (onaysızlar gizli)
 - İki indeks (hızlı listeleme ve hız sınırı için)
@@ -29,10 +30,10 @@ Depodaki [`db/schema.sql`](../db/schema.sql) dosyasının **tamamını** yapış
 
 **Workers & Pages → kisisel-site → Settings → Bindings → Add → D1 database**
 
-| Alan | Değer |
-|---|---|
-| Variable name | `DB` |
-| D1 database | `kisisel-site` |
+| Alan          | Değer          |
+| ------------- | -------------- |
+| Variable name | `DB`           |
+| D1 database   | `kisisel-site` |
 
 > Değişken adı **tam olarak `DB`** olmalı, kod bu adı arıyor.
 
@@ -40,10 +41,10 @@ Depodaki [`db/schema.sql`](../db/schema.sql) dosyasının **tamamını** yapış
 
 Aynı **Settings → Variables and Secrets** bölümünde, **Type: Secret** seçerek:
 
-| İsim | Ne işe yarar | Nasıl üretilir |
-|---|---|---|
-| `IP_SALT` | IP özetlerini tahmin edilemez kılar | Uzun, rastgele bir metin (32+ karakter) |
-| `ADMIN_TOKEN` | Not onaylama yetkisi | Uzun, rastgele bir metin (32+ karakter) |
+| İsim          | Ne işe yarar                        | Nasıl üretilir                          |
+| ------------- | ----------------------------------- | --------------------------------------- |
+| `IP_SALT`     | IP özetlerini tahmin edilemez kılar | Uzun, rastgele bir metin (32+ karakter) |
+| `ADMIN_TOKEN` | Not onaylama yetkisi                | Uzun, rastgele bir metin (32+ karakter) |
 
 Terminalde üretmek için: `openssl rand -base64 32`
 

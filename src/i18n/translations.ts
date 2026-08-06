@@ -27,10 +27,18 @@ export const tr = {
   navLabel: "Site gezintisi",
   displayName: "Şeyma Nur Çebi",
   cvTitle: "Özgeçmiş",
-  nav: { home: "Ana Sayfa", about: "Hakkımda", projects: "Projeler", contact: "İletişim", guestbook: "Defter" },
+  nav: {
+    home: "Ana Sayfa",
+    about: "Hakkımda",
+    projects: "Projeler",
+    contact: "İletişim",
+    guestbook: "Defter",
+  },
   pageDesc: {
-    about: "Eğitim, deneyim, yarışmalar ve sertifikalar — İstanbul Arel Üniversitesi Yazılım Mühendisliği öğrencisi Şeyma Nur Çebi.",
-    projects: "VARIANT-GNN, yapay zekâ dil ajanları, biyobelirteç analizi ve YemekStes — Şeyma Nur Çebi'nin projeleri.",
+    about:
+      "Eğitim, deneyim, yarışmalar ve sertifikalar — İstanbul Arel Üniversitesi Yazılım Mühendisliği öğrencisi Şeyma Nur Çebi.",
+    projects:
+      "VARIANT-GNN, yapay zekâ dil ajanları, biyobelirteç analizi ve YemekStes — Şeyma Nur Çebi'nin projeleri.",
     contact: "Şeyma Nur Çebi ile iletişime geçin — e-posta, GitHub ve LinkedIn.",
   },
 
@@ -215,7 +223,8 @@ export const tr = {
     errorGeneric: "Not kaydedilemedi. Biraz sonra tekrar dener misin?",
     empty: "Henüz not yok — ilk yazan sen ol.",
     loading: "Notlar yükleniyor…",
-    privacy: "Yalnızca yazdığın ad ve not saklanır. Spam önlemek için IP adresinin gizli bir anahtarla tuzlanmış özeti en fazla 1 saat tutulur, sonra silinir; ham IP hiç kaydedilmez.",
+    privacy:
+      "Yalnızca yazdığın ad ve not saklanır. Spam önlemek için IP adresinin gizli bir anahtarla tuzlanmış özeti en fazla 1 saat tutulur, sonra silinir; ham IP hiç kaydedilmez.",
     viewsLabel: "ziyaret",
   },
 
@@ -257,10 +266,18 @@ export const en: Dict = {
   navLabel: "Site navigation",
   displayName: "Şeyma Nur Çebi",
   cvTitle: "Résumé",
-  nav: { home: "Home", about: "About", projects: "Projects", contact: "Contact", guestbook: "Guestbook" },
+  nav: {
+    home: "Home",
+    about: "About",
+    projects: "Projects",
+    contact: "Contact",
+    guestbook: "Guestbook",
+  },
   pageDesc: {
-    about: "Education, experience, competitions and certificates — Şeyma Nur Çebi, software engineering student at Istanbul Arel University.",
-    projects: "VARIANT-GNN, AI language agents, biomarker analysis and YemekStes — projects by Şeyma Nur Çebi.",
+    about:
+      "Education, experience, competitions and certificates — Şeyma Nur Çebi, software engineering student at Istanbul Arel University.",
+    projects:
+      "VARIANT-GNN, AI language agents, biomarker analysis and YemekStes — projects by Şeyma Nur Çebi.",
     contact: "Get in touch with Şeyma Nur Çebi — email, GitHub and LinkedIn.",
   },
 
@@ -369,8 +386,7 @@ export const en: Dict = {
       ectsLabel: "ECTS COMPLETED",
       courseLabel: "COURSES COMPLETED",
       chartTitle: "GPA by semester",
-      chartDesc:
-        "Semester GPAs are 3.60 · 3.60 · 3.40 · 3.65; cumulative GPA 3.62 / 4.00.",
+      chartDesc: "Semester GPAs are 3.60 · 3.60 · 3.40 · 3.65; cumulative GPA 3.62 / 4.00.",
       scaleNote: "Scale 3.00 – 4.00",
       thTerm: "Semester",
       thCourses: "Courses",
@@ -444,7 +460,8 @@ export const en: Dict = {
     errorGeneric: "Could not save the note. Please try again shortly.",
     empty: "No notes yet — be the first.",
     loading: "Loading notes…",
-    privacy: "Only the name and note you type are stored. To prevent spam a salted hash of your IP is kept for at most 1 hour, then deleted; the raw IP is never saved.",
+    privacy:
+      "Only the name and note you type are stored. To prevent spam a salted hash of your IP is kept for at most 1 hour, then deleted; the raw IP is never saved.",
     viewsLabel: "visits",
   },
 

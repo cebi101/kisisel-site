@@ -57,26 +57,34 @@ const langs = [
     <div class="profile-name">{t.name}</div>
     <div class="profile-role">{t.role}</div>
     <div class="profile-loc">
-      <span aria-hidden="true">◍</span> {t.location}
+      <span aria-hidden="true">◍</span>
+      {t.location}
     </div>
     <div class="profile-avail">
-      <span class="avail-dot" aria-hidden="true"></span> {t.availability}
+      <span class="avail-dot" aria-hidden="true"></span>
+      {t.availability}
     </div>
   </div>
 
   <nav class="nav-links" aria-label={t.navLabel}>
-    {navItems.map((n) => (
-      <a
-        href={t.routes[n.id]}
-        class={`nav-btn ${n.id === current ? "active" : ""}`}
-        aria-current={n.id === current ? "page" : undefined}
-      >
-        {n.id === current && <span class="nav-pill" aria-hidden="true"></span>}
-        <span class="num" aria-hidden="true">{n.num}</span>
-        <span class="lbl">{n.label}</span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    ))}
+    {
+      navItems.map((n) => (
+        <a
+          href={t.routes[n.id]}
+          class={`nav-btn ${n.id === current ? "active" : ""}`}
+          aria-current={n.id === current ? "page" : undefined}
+        >
+          {n.id === current && <span class="nav-pill" aria-hidden="true" />}
+          <span class="num" aria-hidden="true">
+            {n.num}
+          </span>
+          <span class="lbl">{n.label}</span>
+          <span class="arrow" aria-hidden="true">
+            →
+          </span>
+        </a>
+      ))
+    }
   </nav>
 
   <a href={t.routes.cv} class="cv-btn">
@@ -90,25 +98,31 @@ const langs = [
         <span class="now-dot" aria-hidden="true"></span>
         <span class="now-label">{t.now.label}</span>
       </div>
-      {t.now.items.map((it) => (
-        <div class="now-item">
-          <span class="now-k">{it.k}</span>
-          <span class="now-v">{it.v}</span>
-        </div>
-      ))}
+      {
+        t.now.items.map((it) => (
+          <div class="now-item">
+            <span class="now-k">{it.k}</span>
+            <span class="now-v">{it.v}</span>
+          </div>
+        ))
+      }
       <span class="now-updated" title={t.now.note}>{t.now.updated}</span>
     </div>
 
     <div class="social-row">
-      {sideSocials.map((s) => (
-        <a
-          href={s.href}
-          target={s.href.startsWith("http") ? "_blank" : undefined}
-          rel={s.href.startsWith("http") ? "noopener" : undefined}
-          title={s.label}
-          aria-label={s.label}
-        >{s.label}</a>
-      ))}
+      {
+        sideSocials.map((s) => (
+          <a
+            href={s.href}
+            target={s.href.startsWith("http") ? "_blank" : undefined}
+            rel={s.href.startsWith("http") ? "noopener" : undefined}
+            title={s.label}
+            aria-label={s.label}
+          >
+            {s.label}
+          </a>
+        ))
+      }
     </div>
 
     <div class="side-label">{t.themeLabel}</div>
@@ -119,15 +133,20 @@ const langs = [
 
     <div class="side-label">{t.langLabel}</div>
     <div class="lang-switch">
-      {langs.map((l) => (
-        <a
-          href={l.href}
-          hreflang={l.lang}
-          lang={l.lang}
-          aria-current={t.lang === l.lang ? "true" : undefined}
-          class={t.lang === l.lang ? "on" : ""}
-        >{l.code}<span class="visually-hidden"> — {l.name}</span></a>
-      ))}
+      {
+        langs.map((l) => (
+          <a
+            href={l.href}
+            hreflang={l.lang}
+            lang={l.lang}
+            aria-current={t.lang === l.lang ? "true" : undefined}
+            class={t.lang === l.lang ? "on" : ""}
+          >
+            {l.code}
+            <span class="visually-hidden"> — {l.name}</span>
+          </a>
+        ))
+      }
     </div>
   </div>
 </aside>

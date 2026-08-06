@@ -9,10 +9,43 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check && tsc -p functions --noEmit",
+    "lint": "eslint . && stylelint \"src/**/*.css\" \"src/**/*.astro\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "size": "size-limit",
+    "dev:api": "astro build && wrangler pages dev dist --d1 DB=kisisel-site --local --persist-to .wrangler",
+    "db:init:local": "wrangler d1 execute kisisel-site --local --file db/schema.sql",
+    "measure": "node scripts/measure.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.1.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@cloudflare/workers-types": "^5.20260804.1",
+    "@eslint/js": "^10.0.1",
+    "@size-limit/file": "^13.0.3",
+    "eslint": "^10.8.0",
+    "eslint-plugin-astro": "^3.1.0",
+    "postcss-html": "^2.0.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
+    "size-limit": "^13.0.3",
+    "stylelint": "^17.14.1",
+    "stylelint-config-html": "^2.0.0",
+    "stylelint-config-standard": "^40.0.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.66.0",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.119.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "workerd@1.20260801.1": true,
+    "fsevents@2.3.3": true
   }
 }

@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  dogrula:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Bağımlılıklar
+        run: npm ci
+
+      - name: Tip denetimi
+        run: npm run check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Biçim
+        run: npm run format:check
+
+      - name: Birim testleri
+        run: npm test
+
+      - name: Derleme
+        run: npm run build
+
+      - name: Boyut bütçesi
+        run: npm run size
+
+      - name: İç bağlantılar çözülüyor mu
+        run: node scripts/check-links.mjs

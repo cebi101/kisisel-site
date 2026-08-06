@@ -25,7 +25,12 @@ const personLd = {
 };
 ---
 
-<Layout title={title ?? t.title} description={description ?? t.description} lang={t.lang} dir={t.dir}>
+<Layout
+  title={title ?? t.title}
+  description={description ?? t.description}
+  lang={t.lang}
+  dir={t.dir}
+>
   <script type="application/ld+json" set:html={JSON.stringify(personLd)} is:inline />
   <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
   <a class="skip-link" href="#icerik">{t.skipLink}</a>

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "ana sayfa HTML",
+    "path": "dist/index.html",
+    "limit": "7 kB",
+    "gzip": true
+  },
+  {
+    "name": "CSS (tüm sayfalar)",
+    "path": "dist/_astro/*.css",
+    "limit": "8 kB",
+    "gzip": true
+  },
+  {
+    "name": "kendi JS'imiz (ClientRouter hariç)",
+    "path": ["dist/_astro/Layout*.js", "dist/_astro/sparkle*.js"],
+    "limit": "2.8 kB",
+    "gzip": true
+  }
+]

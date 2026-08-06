@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # yerel yönetim anahtarı — asla commit edilmez
 .admin-token.local
+
+.wrangler/
+.dev.vars
+test-results/
+playwright-report/
+scratchpad/

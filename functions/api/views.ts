@@ -42,9 +42,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const day = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
     // Aynı ziyaretçi + aynı gün → yalnızca ilk kayıt eklenir
-    const hit = await env.DB.prepare(
-      "INSERT OR IGNORE INTO view_hits (ip_hash, day) VALUES (?, ?)"
-    )
+    const hit = await env.DB.prepare("INSERT OR IGNORE INTO view_hits (ip_hash, day) VALUES (?, ?)")
       .bind(ipHash, day)
       .run();
 
@@ -52,7 +50,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     if (isNew) {
       await env.DB.prepare(
         `INSERT INTO counters (key, n) VALUES ('views', 1)
-         ON CONFLICT(key) DO UPDATE SET n = n + 1`
+         ON CONFLICT(key) DO UPDATE SET n = n + 1`,
       ).run();
 
       // Eski tekilleştirme kayıtlarını temizle (tablo şişmesin, veri birikmesin)

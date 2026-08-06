@@ -4,6 +4,11 @@ import Projects from "../components/sections/Projects.astro";
 import { tr } from "../i18n/translations";
 ---
 
-<PageLayout t={tr} current="projects" title={`${tr.projects.title} — ${tr.displayName}`} description={tr.pageDesc.projects}>
+<PageLayout
+  t={tr}
+  current="projects"
+  title={`${tr.projects.title} — ${tr.displayName}`}
+  description={tr.pageDesc.projects}
+>
   <Projects t={tr} />
 </PageLayout>

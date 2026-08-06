@@ -14,8 +14,7 @@ const a = t.about.academic;
 const MIN = 3;
 const MAX = 4;
 const pct = (g: number) => Math.round(((g - MIN) / (MAX - MIN)) * 100);
-const num = (n: number, d = 2) =>
-  t.lang === "tr" ? n.toFixed(d).replace(".", ",") : n.toFixed(d);
+const num = (n: number, d = 2) => (t.lang === "tr" ? n.toFixed(d).replace(".", ",") : n.toFixed(d));
 ---
 
 <section class="academic reveal" aria-labelledby="ac-heading">
@@ -42,15 +41,17 @@ const num = (n: number, d = 2) =>
       <span class="ac-scale">{a.scaleNote}</span>
     </figcaption>
     <div class="ac-bars" role="img" aria-label={a.chartDesc}>
-      {SEMESTERS.map((s, i) => (
-        <div class="ac-bar-row">
-          <span class="ac-bar-term">{a.termsShort[i]}</span>
-          <span class="ac-bar-track">
-            <span class="ac-bar-fill" style={`width:${pct(s.gpa)}%`}></span>
-          </span>
-          <span class="ac-bar-val">{num(s.gpa)}</span>
-        </div>
-      ))}
+      {
+        SEMESTERS.map((s, i) => (
+          <div class="ac-bar-row">
+            <span class="ac-bar-term">{a.termsShort[i]}</span>
+            <span class="ac-bar-track">
+              <span class="ac-bar-fill" style={`width:${pct(s.gpa)}%`} />
+            </span>
+            <span class="ac-bar-val">{num(s.gpa)}</span>
+          </div>
+        ))
+      }
     </div>
   </figure>
 
@@ -67,23 +68,27 @@ const num = (n: number, d = 2) =>
         </tr>
       </thead>
       <tbody>
-        {SEMESTERS.map((s, i) => (
-          <tr>
-            <th scope="row">{a.terms[i]}</th>
-            <td>{s.courses}</td>
-            <td>{s.credits}</td>
-            <td>{s.ects}</td>
-            <td>{num(s.gpa)}</td>
-            <td class="ac-cum">{num(s.cum)}</td>
-          </tr>
-        ))}
+        {
+          SEMESTERS.map((s, i) => (
+            <tr>
+              <th scope="row">{a.terms[i]}</th>
+              <td>{s.courses}</td>
+              <td>{s.credits}</td>
+              <td>{s.ects}</td>
+              <td>{num(s.gpa)}</td>
+              <td class="ac-cum">{num(s.cum)}</td>
+            </tr>
+          ))
+        }
       </tbody>
     </table>
   </div>
 </section>
 
 <style>
-  .academic { margin-top: 8px; }
+  .academic {
+    margin-top: 8px;
+  }
 
   .ac-kpis {
     display: grid;
@@ -122,7 +127,10 @@ const num = (n: number, d = 2) =>
     color: var(--faint);
   }
 
-  .ac-chart { max-width: 760px; margin-bottom: 26px; }
+  .ac-chart {
+    max-width: 760px;
+    margin-bottom: 26px;
+  }
   .ac-chart-title {
     display: flex;
     justify-content: space-between;
@@ -136,8 +144,15 @@ const num = (n: number, d = 2) =>
     color: var(--muted);
     margin-bottom: 12px;
   }
-  .ac-scale { color: var(--faint); letter-spacing: 0.5px; }
-  .ac-bars { display: flex; flex-direction: column; gap: 9px; }
+  .ac-scale {
+    color: var(--faint);
+    letter-spacing: 0.5px;
+  }
+  .ac-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
   .ac-bar-row {
     display: grid;
     grid-template-columns: 96px 1fr 44px;
@@ -168,7 +183,10 @@ const num = (n: number, d = 2) =>
     text-align: end;
   }
 
-  .ac-table-wrap { max-width: 760px; overflow-x: auto; }
+  .ac-table-wrap {
+    max-width: 760px;
+    overflow-x: auto;
+  }
   .ac-table {
     width: 100%;
     border-collapse: collapse;
@@ -194,13 +212,26 @@ const num = (n: number, d = 2) =>
     font-weight: 600;
     color: var(--ink);
   }
-  .ac-table thead th:first-child { text-align: start; }
-  .ac-table td { color: var(--muted2); font-family: var(--font-mono); font-size: 13px; }
-  .ac-table .ac-cum { color: var(--accent2); }
+  .ac-table thead th:first-child {
+    text-align: start;
+  }
+  .ac-table td {
+    color: var(--muted2);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .ac-table .ac-cum {
+    color: var(--accent2);
+  }
   .ac-table tbody tr:last-child th,
-  .ac-table tbody tr:last-child td { border-bottom: none; }
+  .ac-table tbody tr:last-child td {
+    border-bottom: none;
+  }
 
   @media (max-width: 640px) {
-    .ac-bar-row { grid-template-columns: 78px 1fr 40px; gap: 8px; }
+    .ac-bar-row {
+      grid-template-columns: 78px 1fr 40px;
+      gap: 8px;
+    }
   }
 </style>

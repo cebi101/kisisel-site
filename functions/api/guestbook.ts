@@ -17,9 +17,11 @@ const RATE_LIMIT = 3; // aynı ziyaretçiden saatte en fazla
 const LIST_LIMIT = 50;
 
 /** Kontrol karakterlerini temizler, boşlukları sadeleştirir, kırpar */
-const clean = (s: unknown, max: number): string =>
+export const clean = (s: unknown, max: number): string =>
   String(s ?? "")
     .slice(0, max * 4) // regex'ler dev metinlerde çalışmasın
+    // Kontrol karakterlerini kasten temizliyoruz (görünmez karakterle biçim bozma)
+    // eslint-disable-next-line no-control-regex
     .replace(/[\u0000-\u001f\u007f]/g, " ")
     .replace(/\s+/g, " ")
     .trim()
@@ -32,7 +34,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
          FROM guestbook
         WHERE approved = 1
         ORDER BY created_at DESC
-        LIMIT ?`
+        LIMIT ?`,
     )
       .bind(LIST_LIMIT)
       .all();
@@ -80,7 +82,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       `INSERT INTO guestbook (name, message, created_at, approved, ip_hash)
        SELECT ?, ?, ?, 0, ?
         WHERE (SELECT COUNT(*) FROM guestbook
-                WHERE ip_hash = ? AND created_at > ?) < ?`
+                WHERE ip_hash = ? AND created_at > ?) < ?`,
     )
       .bind(name, message, now.toISOString(), ipHash, ipHash, since, RATE_LIMIT)
       .run();
@@ -92,7 +94,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     // Süresi dolan özetleri sil: hız sınırı penceresi geçtikten sonra
     // ip_hash'in saklanması için hiçbir gerekçe kalmaz
     await env.DB.prepare(
-      "UPDATE guestbook SET ip_hash = NULL WHERE ip_hash IS NOT NULL AND created_at <= ?"
+      "UPDATE guestbook SET ip_hash = NULL WHERE ip_hash IS NOT NULL AND created_at <= ?",
     )
       .bind(since)
       .run();

@@ -27,62 +27,73 @@ const { t } = Astro.props;
       <p class="about-p2">{t.about.p2}</p>
       <p class="about-p2">{t.about.p3}</p>
       <h2 class="side-label">{t.about.skillsLabel}</h2>
-      {SKILL_GROUPS.map((g) => (
-        <div class="skill-group">
-          <span class="skill-group-label">{t.about.skillGroups[g.key]}</span>
-          <div class="chips">
-            {g.items.map((sk) => <span class="chip">{sk}</span>)}
+      {
+        SKILL_GROUPS.map((g) => (
+          <div class="skill-group">
+            <span class="skill-group-label">{t.about.skillGroups[g.key]}</span>
+            <div class="chips">
+              {g.items.map((sk) => (
+                <span class="chip">{sk}</span>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </div>
 
   <h2 class="side-label block-label reveal">{t.about.eduLabel}</h2>
   <div class="timeline">
-    {t.about.edu.map((j) => (
-      <div class="tl-item reveal">
-        <div class="tl-when">{j.when}</div>
-        <h3>{j.title}</h3>
-        <p>{j.desc}</p>
-        <span class="tl-badge">{j.badge}</span>
-      </div>
-    ))}
+    {
+      t.about.edu.map((j) => (
+        <div class="tl-item reveal">
+          <div class="tl-when">{j.when}</div>
+          <h3>{j.title}</h3>
+          <p>{j.desc}</p>
+          <span class="tl-badge">{j.badge}</span>
+        </div>
+      ))
+    }
   </div>
 
   <Academic t={t} />
 
-
   <h2 class="side-label block-label reveal">{t.about.expLabel}</h2>
   <div class="timeline">
-    {t.about.exp.map((j, i) => (
-      <div class={`tl-item reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
-        <div class="tl-when">{j.when}</div>
-        <h3>{j.title}</h3>
-        <p>{j.desc}</p>
-      </div>
-    ))}
+    {
+      t.about.exp.map((j, i) => (
+        <div class={`tl-item reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
+          <div class="tl-when">{j.when}</div>
+          <h3>{j.title}</h3>
+          <p>{j.desc}</p>
+        </div>
+      ))
+    }
   </div>
 
   <h2 class="side-label block-label reveal">{t.about.compLabel}</h2>
   <div class="timeline">
-    {t.about.comp.map((j, i) => (
-      <div class={`tl-item reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
-        <div class="tl-when">{j.when}</div>
-        <h3>{j.title}</h3>
-        <p>{j.desc}</p>
-      </div>
-    ))}
+    {
+      t.about.comp.map((j, i) => (
+        <div class={`tl-item reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
+          <div class="tl-when">{j.when}</div>
+          <h3>{j.title}</h3>
+          <p>{j.desc}</p>
+        </div>
+      ))
+    }
   </div>
 
   <h2 class="side-label block-label reveal">{t.about.certsLabel}</h2>
   <div class="cert-grid">
-    {t.about.certs.map((c, i) => (
-      <div class={`cert-card reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
-        <span class="cert-org">{c.org}</span>
-        <h3>{c.name}</h3>
-        <p>{c.desc}</p>
-      </div>
-    ))}
+    {
+      t.about.certs.map((c, i) => (
+        <div class={`cert-card reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
+          <span class="cert-org">{c.org}</span>
+          <h3>{c.name}</h3>
+          <p>{c.desc}</p>
+        </div>
+      ))
+    }
   </div>
 </div>

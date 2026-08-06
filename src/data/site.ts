@@ -13,7 +13,6 @@ export const PROJECT_HREFS: (string | null)[] = [
   "https://github.com/cebi101/YemekStes",
 ];
 
-
 // Akademik veriler — Şeyma'nın ilettiği resmî transkript tablosu
 // (dil bağımsız sayılar; etiketler translations.ts > about.academic)
 export const SEMESTERS = [

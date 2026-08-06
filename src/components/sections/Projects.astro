@@ -14,25 +14,33 @@ const { t } = Astro.props;
     <h1 class="section-title">{t.projects.title}</h1>
   </div>
   <div class="project-list">
-    {t.projects.items.map((p, i) => {
-      const href = PROJECT_HREFS[i];
-      const Tag = href ? "a" : "div";
-      return (
-        <Tag
-          href={href ?? undefined}
-          target={href ? "_blank" : undefined}
-          rel={href ? "noopener" : undefined}
-          class={`project-row reveal ${href ? "" : "no-link"} ${i ? `d${Math.min(i, 3)}` : ""}`}
-        >
-          <span class="pr-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-          <span class="pr-body">
-            <h2 class="pr-title">{p.title}</h2>
-            <span class="pr-desc">{p.desc}</span>
-            <span class="pr-tags">{p.tags}</span>
-          </span>
-          {href && <span class="pr-arrow" aria-hidden="true">↗</span>}
-        </Tag>
-      );
-    })}
+    {
+      t.projects.items.map((p, i) => {
+        const href = PROJECT_HREFS[i];
+        const Tag = href ? "a" : "div";
+        return (
+          <Tag
+            href={href ?? undefined}
+            target={href ? "_blank" : undefined}
+            rel={href ? "noopener" : undefined}
+            class={`project-row reveal ${href ? "" : "no-link"} ${i ? `d${Math.min(i, 3)}` : ""}`}
+          >
+            <span class="pr-num" aria-hidden="true">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span class="pr-body">
+              <h2 class="pr-title">{p.title}</h2>
+              <span class="pr-desc">{p.desc}</span>
+              <span class="pr-tags">{p.tags}</span>
+            </span>
+            {href && (
+              <span class="pr-arrow" aria-hidden="true">
+                ↗
+              </span>
+            )}
+          </Tag>
+        );
+      })
+    }
   </div>
 </div>

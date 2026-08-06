@@ -1,0 +1,7 @@
+dist
+.astro
+node_modules
+.wrangler
+public/fonts
+scratchpad
+package-lock.json

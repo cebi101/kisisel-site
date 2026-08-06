@@ -13,7 +13,9 @@ const { t } = Astro.props;
     <span class="hl-label">{t.highlight.label}</span>
     <h2 class="hl-title">{t.highlight.title}</h2>
     <p class="hl-desc">{t.highlight.desc}</p>
-    <a href={t.routes.projects} class="hl-link">{t.nav.projects} <span aria-hidden="true">→</span></a>
+    <a href={t.routes.projects} class="hl-link"
+      >{t.nav.projects} <span aria-hidden="true">→</span></a
+    >
   </div>
   <div class="hl-score">
     <span class="hl-score-num">{t.highlight.score}</span>
