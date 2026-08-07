@@ -1,10 +1,8 @@
 ---
 import { PAGE_NUM } from "../../data/routes";
-import { Image } from "astro:assets";
 import type { Dict } from "../../i18n/translations";
 import { SKILL_GROUPS } from "../../i18n/translations";
 import Academic from "./Academic.astro";
-import foto from "../../assets/foto.jpg";
 
 interface Props {
   t: Dict;
@@ -19,10 +17,10 @@ const { t } = Astro.props;
   </div>
 
   <div class="about-grid">
-    <div class="about-photo reveal">
-      <Image src={foto} width={600} alt={t.hero.photoAlt} />
-      <div class="photo-badge">{t.about.year}</div>
-    </div>
+    {
+      /* Fotoğraf kaldırıldı: aynı görsel ana sayfada büyük, kenar çubuğunda
+        avatar olarak zaten var. Bu sayfa metne ve akademik tabloya odaklanıyor. */
+    }
     <div class="about-body reveal d1">
       <p class="about-p1">{t.about.p1}</p>
       <p class="about-p2">{t.about.p2}</p>

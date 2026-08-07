@@ -706,12 +706,15 @@ textarea::placeholder {
 .home {
   /* tam ekran yüksekliği yerine içeriğe göre: altındaki yarışma bandı
      kıvrımın hemen altında kalsın, arada ölü boşluk oluşmasın */
-  min-height: 520px;
   display: grid;
   grid-template-columns: 1fr 340px;
   gap: 56px;
   align-items: center;
-  padding-bottom: 40px;
+  /* İlk ekran tam yüksekliği kaplar: "vardım" hissi bekletmeden doğar */
+  position: relative;
+  min-height: calc(100dvh - 2 * clamp(48px, 5vw, 88px));
+  align-content: center;
+  padding-bottom: 56px;
 }
 .hero-left {
   display: flex;
@@ -737,6 +740,7 @@ textarea::placeholder {
   line-height: 0.94;
   letter-spacing: -2px;
   color: var(--ink);
+  animation: gir-asagidan var(--dur-slow) var(--ease-out) 80ms both;
 }
 .home h1 em {
   font-style: italic;
@@ -790,6 +794,7 @@ textarea::placeholder {
   justify-self: center;
   transform: translateY(var(--parallax, 0));
   will-change: transform;
+  animation: foto-gir 0.7s var(--ease-out) 120ms both;
 }
 .photo-backdrop {
   position: absolute;
@@ -827,8 +832,10 @@ textarea::placeholder {
 
 /* =============== 02 HAKKIMDA =============== */
 .about-grid {
+  /* Fotoğraf kaldırıldıktan sonra tek sütun; metin kendi okuma ölçüsünde
+     (--measure) kalıyor, sayfayı kaplamıyor. */
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 1fr;
   gap: 56px;
   align-items: start;
   margin-bottom: 56px;
@@ -2540,5 +2547,77 @@ html.tema-degisiyor .chip {
   html.tema-degisiyor,
   html.tema-degisiyor * {
     transition: none !important;
+  }
+}
+
+/* =============== ANA SAYFA: BEKLETMEDEN VARIŞ HİSSİ =============== */
+/* Yükleme perdesi YOK — site zaten 0,27 sn'de açılıyor, yapay bekleme
+   eklemek işe alımcının 40 saniyesinden çalardı. Bunun yerine ilk ekran
+   tam yüksekliği kaplıyor ve içerik sahneye kademeli giriyor. */
+
+/* aşağıda devam olduğunu söyleyen ok — ilk ekranın DİBİNE oturur */
+.asagi-daveti {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: 0;
+  translate: -50% 0;
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--faint);
+  animation: davet-belir 0.6s var(--ease-out) 1.1s both;
+}
+.asagi-daveti span {
+  display: block;
+  animation: davet-zipla 2.4s var(--ease-out) infinite;
+}
+@keyframes davet-belir {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes davet-zipla {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+/* KADEMELİ GİRİŞ — her parça sırayla sahneye girer */
+.home .hello {
+  animation: gir-asagidan var(--dur-slow) var(--ease-out) both;
+}
+.home .tagline {
+  animation: gir-asagidan var(--dur-slow) var(--ease-out) 160ms both;
+}
+.home .cta-row {
+  animation: gir-asagidan var(--dur-slow) var(--ease-out) 240ms both;
+}
+@keyframes foto-gir {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97) rotate(1deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home .hello,
+  .home h1,
+  .home .tagline,
+  .home .cta-row,
+  .hero-photo,
+  .asagi-daveti,
+  .asagi-daveti span {
+    animation: none;
   }
 }

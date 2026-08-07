@@ -86,6 +86,7 @@ export const tr = {
     tagline:
       "İstanbul Arel Üniversitesi Yazılım Mühendisliği'nde 3. sınıf öğrencisiyim — bölüme birincilikle ve tam bursla girdim. Yapay zekâ, dil ajanları ve web projeleriyle fikirleri çalışan ürünlere dönüştürüyorum.",
     cta: "Projelerim",
+    scrollHint: "kaydır",
     photoAlt: "Şeyma Nur Çebi'nin portre fotoğrafı",
   },
 
@@ -395,6 +396,7 @@ export const en: Dict = {
     tagline:
       "I'm a third-year software engineering student at Istanbul Arel University — I entered the program ranked first, on a full scholarship. I turn ideas into working products through AI, language agents and web projects.",
     cta: "My Projects",
+    scrollHint: "scroll",
     photoAlt: "Portrait photo of Şeyma Nur Çebi",
   },
 
