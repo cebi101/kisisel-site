@@ -2225,6 +2225,11 @@ html:not(.js) .sidebar {
     opacity: 0;
     transform: translateY(28px);
   }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* =============== H5 · DÜĞME OKLARI =============== */
@@ -2608,6 +2613,14 @@ html.tema-degisiyor .chip {
   from {
     opacity: 0;
     transform: translateY(24px) scale(0.97) rotate(1deg);
+  }
+
+  /* BİTİŞ AÇIKÇA YAZILMALI. Öğe `.js .reveal { opacity: 0 }` tabanını
+     taşıyor; `to` tanımlanmazsa animasyon o değere dönüyor ve fotoğraf
+     `both` dolgusuyla KALICI OLARAK GÖRÜNMEZ kalıyordu. */
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
