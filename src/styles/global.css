@@ -794,7 +794,7 @@ textarea::placeholder {
   justify-self: center;
   transform: translateY(var(--parallax, 0));
   will-change: transform;
-  animation: foto-gir 0.7s var(--ease-out) 120ms both;
+  animation: foto-gir 0.9s var(--ease-out) 280ms both;
 }
 .photo-backdrop {
   position: absolute;
@@ -832,10 +832,12 @@ textarea::placeholder {
 
 /* =============== 02 HAKKIMDA =============== */
 .about-grid {
-  /* Fotoğraf kaldırıldıktan sonra tek sütun; metin kendi okuma ölçüsünde
-     (--measure) kalıyor, sayfayı kaplamıyor. */
+  /* Fotoğraf kalkınca metin 743 px'de kalıp sağda 375 px boşluk
+     bırakıyordu — "görsel varmış gibi sıkışık" duruyordu (ölçüldü).
+     Boşalan alan yetenekler bloğuna verildi: metin solda okuma
+     ölçüsünde, yetenekler sağda. */
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 300px);
   gap: 56px;
   align-items: start;
   margin-bottom: 56px;
@@ -2199,22 +2201,30 @@ html:not(.js) .sidebar {
 .js .home .tagline,
 .js .home .cta-row,
 .js .page-head {
-  animation: reveal-in var(--dur-slow) var(--ease-out) both;
+  /* Süre ve mesafe bilinçli olarak BÜYÜK: eski değerlerle (0,42 sn ve
+     14 px, toplam 600 ms) giriş göz tarafından fark edilmiyordu. */
+  animation: varis-gir 0.72s var(--ease-out) both;
 }
 .js .page-head {
-  animation-delay: 40ms;
-}
-.js .home .hello {
-  animation-delay: 0ms;
-}
-.js .home h1 {
   animation-delay: 60ms;
 }
+.js .home .hello {
+  animation-delay: 60ms;
+}
+.js .home h1 {
+  animation-delay: 200ms;
+}
 .js .home .tagline {
-  animation-delay: 120ms;
+  animation-delay: 360ms;
 }
 .js .home .cta-row {
-  animation-delay: 180ms;
+  animation-delay: 500ms;
+}
+@keyframes varis-gir {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
 }
 
 /* =============== H5 · DÜĞME OKLARI =============== */
@@ -2594,15 +2604,6 @@ html.tema-degisiyor .chip {
 }
 
 /* KADEMELİ GİRİŞ — her parça sırayla sahneye girer */
-.home .hello {
-  animation: gir-asagidan var(--dur-slow) var(--ease-out) both;
-}
-.home .tagline {
-  animation: gir-asagidan var(--dur-slow) var(--ease-out) 160ms both;
-}
-.home .cta-row {
-  animation: gir-asagidan var(--dur-slow) var(--ease-out) 240ms both;
-}
 @keyframes foto-gir {
   from {
     opacity: 0;
@@ -2618,6 +2619,49 @@ html.tema-degisiyor .chip {
   .hero-photo,
   .asagi-daveti,
   .asagi-daveti span {
+    animation: none;
+  }
+}
+
+/* Hakkımda: yetenekler sütunu (fotoğraftan boşalan alan) */
+.about-skills {
+  position: sticky;
+  top: clamp(48px, 5vw, 88px);
+  padding-inline-start: 28px;
+  border-inline-start: 1px solid var(--border);
+}
+.about-skills .side-label {
+  margin-top: 0;
+}
+.about-skills .skill-group + .skill-group {
+  margin-top: 20px;
+}
+.about-skills .skill-group-label {
+  display: block;
+  margin-bottom: 8px;
+}
+@media (max-width: 940px) {
+  .about-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .about-skills {
+    position: static;
+    padding-inline-start: 0;
+    border-inline-start: none;
+    border-block-start: 1px solid var(--border);
+    padding-block-start: 28px;
+  }
+}
+
+/* Hero portresi metinle aynı ritimde girsin.
+   Özgüllük NOTU: .hero-photo öğesi `reveal` sınıfı da taşıyor ve
+   `.js .reveal.visible` (0,3,0) daha düşük özgüllüklü bir kuralı ezer.
+   Bu yüzden burada da üç sınıflı bir seçici kullanılıyor. */
+.js .home .hero-photo.reveal {
+  animation: foto-gir 0.9s var(--ease-out) 280ms both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .home .hero-photo.reveal {
     animation: none;
   }
 }
