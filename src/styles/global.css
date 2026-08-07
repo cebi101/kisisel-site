@@ -455,17 +455,20 @@ textarea::placeholder {
 .social-row a {
   display: flex;
   align-items: center;
-  height: 34px;
   padding: 0 14px;
-  border: 1px solid var(--border);
-  border-radius: 9px;
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--muted);
-  background: var(--bg);
+  position: relative;
+  gap: 9px;
+  height: 38px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
   transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
+    background var(--dur-base) ease,
+    color var(--dur-base) ease,
+    transform var(--dur-base) var(--ease-out);
 }
 
 /* etiketler */
@@ -481,10 +484,11 @@ textarea::placeholder {
 .mode-switch {
   display: flex;
   padding: 4px;
-  gap: 4px;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 100px;
+  position: relative;
+  gap: 0;
 }
 .mode-switch button {
   flex: 1;
@@ -494,41 +498,43 @@ textarea::placeholder {
   font-size: 15px;
   padding: 7px 6px;
   border: none;
-  border-radius: 100px;
   cursor: pointer;
-  background: transparent;
   color: var(--muted);
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
+  position: relative;
+  z-index: 1;
+  border-radius: 9px;
+  background: transparent;
+  transition: color var(--dur-base) ease;
 }
 .mode-switch button.on {
-  background: var(--accent);
+  background: transparent;
   color: var(--onaccent);
 }
 
 /* dil anahtarı */
 .lang-switch {
+  flex-wrap: wrap;
   display: flex;
   gap: 6px;
-  flex-wrap: wrap;
 }
 .lang-switch a {
   font-family: var(--font-mono);
   font-size: 11px;
   padding: 6px 9px;
-  border: 1px solid var(--border);
   background: transparent;
   color: var(--muted);
-  border-radius: 100px;
+  flex: 1;
+  justify-content: center;
+  border-radius: 9px;
+  border: 1px solid transparent;
   transition:
-    color 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease;
+    background var(--dur-base) ease,
+    color var(--dur-base) ease,
+    border-color var(--dur-base) ease;
 }
 .lang-switch a.on {
-  background: var(--accent);
   border-color: var(--accent);
+  background: var(--accent);
   color: var(--onaccent);
 }
 
@@ -3041,6 +3047,117 @@ html.tema-degisiyor .chip {
     animation: none;
   }
   .social-link:hover {
+    transform: none;
+  }
+}
+
+/* =============== KENAR ÇUBUĞU ALT BÖLÜM: BELİRGİN TASARIM =============== */
+/* Sosyal bağlantılar, görünüm ve dil anahtarları birbirinden ayırt
+   edilemeyen ince çerçeveli kutulardı. Artık her grup kendi yüzeyinde
+   duruyor ve her bağlantının kimlik rengi var (iletişim sayfasıyla aynı
+   dil: GitHub latte, LinkedIn adaçayı, e-posta limon). */
+
+/* --- gruplar ayrı yüzeylerde --- */
+.side-bottom .social-row,
+.side-bottom .mode-switch,
+.side-bottom .lang-switch {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 8px;
+}
+.side-bottom .social-row {
+  gap: 4px;
+}
+
+/* --- sosyal bağlantılar: kimlik noktası + kayan ok --- */
+.social-row a::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: none;
+  background: var(--nokta, var(--accent2));
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--nokta, var(--accent2)) 45%, transparent);
+  transition:
+    box-shadow var(--dur-base) ease,
+    transform var(--dur-base) var(--ease-spring);
+}
+.social-row a::after {
+  content: "↗";
+  margin-inline-start: auto;
+  opacity: 0;
+  transform: translate(-3px, 3px);
+  transition:
+    opacity var(--dur-base) ease,
+    transform var(--dur-base) var(--ease-out);
+}
+.social-row a:nth-child(1) {
+  --nokta: var(--latte);
+}
+.social-row a:nth-child(2) {
+  --nokta: var(--accent2);
+}
+.social-row a:nth-child(3) {
+  --nokta: var(--highlight);
+}
+@media (hover: hover) {
+  .social-row a:hover {
+    background: var(--bg);
+    color: var(--ink);
+    transform: translateX(2px);
+  }
+  .social-row a:hover::before {
+    transform: scale(1.25);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--nokta, var(--accent2)) 22%, transparent);
+  }
+  .social-row a:hover::after {
+    opacity: 0.7;
+    transform: none;
+  }
+}
+
+/* --- görünüm anahtarı: kayan seçim --- */
+.mode-switch::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset-block: 8px;
+  inset-inline-start: 8px;
+  width: calc(50% - 8px);
+  border-radius: 9px;
+  background: var(--accent);
+  transition: transform var(--dur-base) var(--ease-spring);
+}
+:root[data-mode="dark"] .mode-switch::after {
+  transform: translateX(100%);
+}
+
+/* --- dil anahtarı --- */
+@media (hover: hover) {
+  .lang-switch a:not(.on):hover {
+    background: var(--bg);
+    border-color: var(--border);
+    color: var(--ink);
+  }
+}
+
+/* --- başlıklar biraz daha okunur --- */
+.side-bottom .side-label {
+  margin-bottom: -6px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-row a,
+  .social-row a::before,
+  .social-row a::after,
+  .mode-switch::after,
+  .lang-switch a {
+    transition: none;
+  }
+  .social-row a:hover {
     transform: none;
   }
 }
