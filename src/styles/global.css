@@ -160,6 +160,8 @@ img {
   color: var(--onaccent);
   font-weight: 600;
   transform: translateY(-200%);
+  /* H9: geçişsiz zıplıyordu */
+  transition: transform var(--dur-base) var(--ease-out);
 }
 .skip-link:focus {
   transform: none;
@@ -1210,25 +1212,36 @@ footer {
 
 /* =============== GÖRÜNME ANİMASYONU =============== */
 /* yalnızca JS etkinken gizle: script yüklenmezse/gecikirse içerik görünür kalır */
+/* H3 · reveal ARTIK KEYFRAME — transition kısayolu değil.
+   Eski hali `transition` KISAYOLUNU yazıyordu; .project-row ve .cert-card
+   hem `reveal` sınıfı taşıyor hem kendi geçişini tanımlıyordu, kısayol daha
+   yüksek özgüllükle onu TAMAMEN eziyordu. Ölçüldü: kartların hover'ı
+   0.2s yerine 0.7s sürüyordu ve box-shadow/border-color hiç yumuşamadan
+   zıplıyordu — kullanıcının "site statik" dediği yüzeyler tam olarak bunlar. */
 .js .reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 0.7s ease,
-    transform 0.7s ease;
 }
 .js .reveal.visible {
-  opacity: 1;
-  transform: none;
+  animation: reveal-in var(--dur-slow) var(--ease-out) both;
+}
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 .js .reveal.d1 {
-  transition-delay: 0.08s;
+  animation-delay: 60ms;
 }
 .js .reveal.d2 {
-  transition-delay: 0.16s;
+  animation-delay: 120ms;
 }
 .js .reveal.d3 {
-  transition-delay: 0.24s;
+  animation-delay: 180ms;
 }
 
 /* =============== ARA KIRILIM (941–1200px) =============== */
@@ -2132,4 +2145,120 @@ html:not(.js) .sidebar {
   background: var(--latte-yuzey);
   font-size: 13px;
   color: var(--muted2);
+}
+
+/* =============== H4 · SAYFA GİRİŞİ KOREOGRAFİSİ =============== */
+/* Hero tamamen hareketsizdi (computed: all|0s). Kademeli giriş; toplam
+   gecikme 180 ms, süre --dur-slow. DİKKAT: taban kuralda opacity:0 YOK —
+   ekran görüntüsü aracı animasyonları dondurduğunda hero boş çıkardı. */
+.js .home .hello,
+.js .home h1,
+.js .home .tagline,
+.js .home .cta-row,
+.js .page-head {
+  animation: reveal-in var(--dur-slow) var(--ease-out) both;
+}
+.js .page-head {
+  animation-delay: 40ms;
+}
+.js .home .hello {
+  animation-delay: 0ms;
+}
+.js .home h1 {
+  animation-delay: 60ms;
+}
+.js .home .tagline {
+  animation-delay: 120ms;
+}
+.js .home .cta-row {
+  animation-delay: 180ms;
+}
+
+/* =============== H5 · DÜĞME OKLARI =============== */
+/* .arr'ın CSS'te hiç kuralı yoktu (all|0s) ama kenar çubuğundaki ok
+   hover'da kayıyordu — tutarsızdı. */
+.btn .arr {
+  display: inline-block;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+@media (hover: hover) {
+  .btn:hover .arr {
+    transform: translateX(3px);
+  }
+}
+.btn:active .arr {
+  transform: translateX(1px);
+}
+
+/* =============== H6 · DEFTER KARTLARI GİRİŞİ =============== */
+/* İskelet parıldayıp kartlar PAT diye yerine oturuyordu. JS eklenmedi —
+   CSS animasyonu öğe eklenince kendiliğinden tetikleniyor. */
+.gb-entry,
+.gb-empty,
+.gb-error {
+  animation: reveal-in var(--dur-base) var(--ease-out) both;
+}
+.gb-entry:nth-child(2) {
+  animation-delay: 50ms;
+}
+.gb-entry:nth-child(3) {
+  animation-delay: 100ms;
+}
+.gb-entry:nth-child(4) {
+  animation-delay: 150ms;
+}
+.gb-entry:nth-child(n + 5) {
+  animation-delay: 200ms;
+}
+
+/* =============== H7 · SAYAÇ VE DURUM SATIRLARI =============== */
+/* hidden=false ile aniden beliriyorlardı. */
+@keyframes count-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+.footer-views:not([hidden]),
+.form-durum:not([hidden]) {
+  animation: count-in var(--dur-base) var(--ease-out) both;
+}
+
+/* =============== H8 · FORM ALANLARINDA ODAK JESTİ =============== */
+/* Hiç transition taşımıyorlardı. */
+.gb-form input,
+.gb-form textarea,
+.contact-form input,
+.contact-form textarea {
+  transition:
+    border-color var(--dur-fast) ease,
+    box-shadow var(--dur-fast) ease;
+}
+.gb-form input:focus,
+.gb-form textarea:focus,
+.contact-form input:focus,
+.contact-form textarea:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* Yeni animasyonlar reduced-motion altında AÇIKÇA kapatılır: battaniye
+   kural `animation-iteration-count: 1` yazdığı için sonsuz olmayanlar
+   yine de bir tur oynardı. */
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal.visible,
+  .js .home .hello,
+  .js .home h1,
+  .js .home .tagline,
+  .js .home .cta-row,
+  .js .page-head,
+  .gb-entry,
+  .gb-empty,
+  .gb-error,
+  .footer-views:not([hidden]),
+  .form-durum:not([hidden]) {
+    animation: none !important;
+  }
+  .js .reveal {
+    opacity: 1;
+  }
 }
