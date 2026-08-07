@@ -1,0 +1,85 @@
+---
+// Ana sayfanın kıvrım altı: "KAYDIR" oku aşağıyı işaret ediyordu ama
+// aşağıda yalnız vurgu bandı ve altbilgi vardı.
+//
+// İÇERİK UYDURULMADI. Buradaki her şey var olan verilerden geliyor:
+//   - sayılar: src/data/site.ts (SEMESTERS'ten türetiliyor)
+//   - projeler: translations.ts > projects.items (ilk üçü)
+//   - şu an: translations.ts > now.items
+import type { Dict } from "../../i18n/translations";
+import { CURRENT_GPA, TOTAL_ECTS, TOTAL_COURSES, PROJECTS } from "../../data/site";
+
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+
+const sayi = (n: number, ondalik = 0) =>
+  n.toLocaleString(t.lang === "en" ? "en-GB" : "tr-TR", {
+    minimumFractionDigits: ondalik,
+    maximumFractionDigits: ondalik,
+  });
+
+// Rakamlar: hepsi transkript verisinden hesaplanıyor, elle yazılmıyor
+const kunye = [
+  { deger: sayi(CURRENT_GPA, 2), etiket: t.home.gpaLabel },
+  { deger: sayi(TOTAL_ECTS), etiket: t.home.ectsLabel },
+  { deger: sayi(TOTAL_COURSES), etiket: t.home.coursesLabel },
+];
+
+// İlk üç proje — tam liste /projeler sayfasında
+const oneCikan = t.projects.items.slice(0, 3).map((p, i) => ({
+  ...p,
+  href: PROJECTS[i]?.href ?? null,
+  num: String(i + 1).padStart(2, "0"),
+}));
+---
+
+<section class="ozet" aria-labelledby="ozet-baslik">
+  <h2 class="side-label" id="ozet-baslik">{t.home.summaryLabel}</h2>
+
+  <div class="kunye">
+    {
+      kunye.map((k) => (
+        <div class="kunye-kutu reveal">
+          <span class="kunye-deger" data-sayi>
+            {k.deger}
+          </span>
+          <span class="kunye-etiket">{k.etiket}</span>
+        </div>
+      ))
+    }
+  </div>
+
+  <h2 class="side-label block-label">{t.home.selectedLabel}</h2>
+  <div class="one-cikan">
+    {
+      oneCikan.map((p) => (
+        <a
+          class:list={["oc-kart", "reveal", !p.href && "no-link"]}
+          href={p.href ?? undefined}
+          target={p.href ? "_blank" : undefined}
+          rel={p.href ? "noopener" : undefined}
+          tabindex={p.href ? undefined : -1}
+        >
+          <span class="oc-num" aria-hidden="true">
+            {p.num}
+          </span>
+          <span class="oc-baslik">{p.title}</span>
+          <span class="oc-ozet">{p.desc}</span>
+          <span class="oc-etiketler">{p.tags}</span>
+          {p.href && (
+            <span class="oc-ok" aria-hidden="true">
+              ↗
+            </span>
+          )}
+        </a>
+      ))
+    }
+  </div>
+
+  <a href={t.routes.projects} class="btn btn-line ozet-tumu">
+    {t.home.allProjects}
+    <span class="arr" aria-hidden="true">→</span>
+  </a>
+</section>

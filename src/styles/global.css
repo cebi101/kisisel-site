@@ -2678,3 +2678,262 @@ html.tema-degisiyor .chip {
     animation: none;
   }
 }
+
+/* =============== HER SAYFADA SIRALI GİRİŞ =============== */
+/* Şeyma: "her sekmede sıra ile gelsin bilgiler, projelerde çok tatlı durur"
+   Elle d1/d2/d3 sınıfı vermek yerine nth-child ile otomatik: yeni bölüm
+   eklendiğinde sıra kendiliğinden doğru kalır. Saf CSS — JS eklenmiyor
+   (bütçede ~50 B pay var). */
+
+/* Projeler: kartlar birbiri ardına */
+.js .project-row.reveal.visible:nth-of-type(1) {
+  animation-delay: 0ms;
+}
+.js .project-row.reveal.visible:nth-of-type(2) {
+  animation-delay: 90ms;
+}
+.js .project-row.reveal.visible:nth-of-type(3) {
+  animation-delay: 180ms;
+}
+.js .project-row.reveal.visible:nth-of-type(4) {
+  animation-delay: 270ms;
+}
+.js .project-row.reveal.visible:nth-of-type(n + 5) {
+  animation-delay: 340ms;
+}
+
+/* Sertifikalar */
+.js .cert-card.reveal.visible:nth-of-type(1) {
+  animation-delay: 0ms;
+}
+.js .cert-card.reveal.visible:nth-of-type(2) {
+  animation-delay: 80ms;
+}
+.js .cert-card.reveal.visible:nth-of-type(3) {
+  animation-delay: 160ms;
+}
+.js .cert-card.reveal.visible:nth-of-type(n + 4) {
+  animation-delay: 220ms;
+}
+
+/* Zaman çizelgesi kayıtları */
+.js .tl-item.reveal.visible:nth-of-type(1) {
+  animation-delay: 0ms;
+}
+.js .tl-item.reveal.visible:nth-of-type(2) {
+  animation-delay: 70ms;
+}
+.js .tl-item.reveal.visible:nth-of-type(3) {
+  animation-delay: 140ms;
+}
+.js .tl-item.reveal.visible:nth-of-type(n + 4) {
+  animation-delay: 200ms;
+}
+
+/* Defter notları */
+.js .gb-entry:nth-child(1) {
+  animation-delay: 0ms;
+}
+.js .gb-entry:nth-child(2) {
+  animation-delay: 70ms;
+}
+.js .gb-entry:nth-child(3) {
+  animation-delay: 140ms;
+}
+.js .gb-entry:nth-child(n + 4) {
+  animation-delay: 200ms;
+}
+.js .gb-entry {
+  animation: varis-gir 0.6s var(--ease-out) both;
+}
+
+/* Akademik KPI kutuları */
+.js .ac-kpi:nth-child(1) {
+  animation-delay: 0ms;
+}
+.js .ac-kpi:nth-child(2) {
+  animation-delay: 80ms;
+}
+.js .ac-kpi:nth-child(3) {
+  animation-delay: 160ms;
+}
+.js .ac-kpi:nth-child(4) {
+  animation-delay: 240ms;
+}
+.js .ac-kpi {
+  animation: varis-gir 0.6s var(--ease-out) both;
+}
+
+/* İletişim formu alanları */
+.js .contact-form input:nth-of-type(1) {
+  animation-delay: 60ms;
+}
+.js .contact-form input:nth-of-type(2) {
+  animation-delay: 120ms;
+}
+.js .contact-form textarea {
+  animation-delay: 180ms;
+}
+.js .contact-form .btn {
+  animation-delay: 240ms;
+}
+.js .contact-form input,
+.js .contact-form textarea,
+.js .contact-form .btn {
+  animation: varis-gir 0.6s var(--ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .gb-entry,
+  .js .ac-kpi,
+  .js .contact-form input,
+  .js .contact-form textarea,
+  .js .contact-form .btn {
+    animation: none;
+  }
+}
+
+/* =============== ANA SAYFA · KIVRIM ALTI ÖZET =============== */
+/* "KAYDIR" oku aşağıyı gösteriyordu ama aşağıda yalnız vurgu bandı vardı.
+   Bu bölüm var olan verilerden besleniyor — yeni içerik uydurulmadı. */
+.ozet {
+  margin-top: clamp(56px, 7vw, 96px);
+}
+.ozet .block-label {
+  margin-top: clamp(40px, 5vw, 64px);
+}
+
+/* rakam künyesi */
+.kunye {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+.kunye-kutu {
+  display: grid;
+  gap: 4px;
+  padding: 22px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--panel);
+}
+.kunye-deger {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(30px, 3.4vw, 40px);
+  line-height: 1;
+  color: var(--latte-koyu);
+}
+.kunye-etiket {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* seçilmiş işler */
+.one-cikan {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+.oc-kart {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg);
+  overflow: hidden;
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) ease,
+    border-color var(--dur-base) ease;
+}
+.oc-kart.no-link {
+  cursor: default;
+}
+@media (hover: hover) {
+  .oc-kart:not(.no-link):hover {
+    transform: translateY(-3px);
+    border-color: var(--accent2);
+    box-shadow: var(--shadow-sm);
+  }
+  .oc-kart:not(.no-link):hover .oc-ok {
+    transform: translate(3px, -3px);
+    opacity: 1;
+  }
+}
+.oc-num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--latte-koyu);
+}
+.oc-baslik {
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.oc-ozet {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.55;
+  /* kartlar eşit yükseklikte kalsın: özet üç satırda kesilir */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+.oc-etiketler {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--faint2);
+  margin-top: 2px;
+}
+.oc-ok {
+  position: absolute;
+  inset-block-start: 20px;
+  inset-inline-end: 20px;
+  color: var(--accent);
+  opacity: 0.55;
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    opacity var(--dur-base) ease;
+}
+.ozet-tumu {
+  margin-top: 22px;
+}
+
+/* sıralı giriş */
+.js .kunye-kutu.reveal.visible:nth-child(1) {
+  animation-delay: 0ms;
+}
+.js .kunye-kutu.reveal.visible:nth-child(2) {
+  animation-delay: 80ms;
+}
+.js .kunye-kutu.reveal.visible:nth-child(3) {
+  animation-delay: 160ms;
+}
+.js .oc-kart.reveal.visible:nth-child(1) {
+  animation-delay: 0ms;
+}
+.js .oc-kart.reveal.visible:nth-child(2) {
+  animation-delay: 90ms;
+}
+.js .oc-kart.reveal.visible:nth-child(3) {
+  animation-delay: 180ms;
+}
+
+@media (max-width: 940px) {
+  .kunye,
+  .one-cikan {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

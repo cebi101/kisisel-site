@@ -61,6 +61,15 @@ export const tr = {
     privacy: "/gizlilik",
   },
 
+  home: {
+    summaryLabel: "KISACA",
+    gpaLabel: "genel ortalama",
+    ectsLabel: "tamamlanan AKTS",
+    coursesLabel: "alınan ders",
+    selectedLabel: "SEÇİLMİŞ İŞLER",
+    allProjects: "Tüm projeler",
+  },
+
   now: {
     label: "ŞU AN",
     items: [
@@ -369,6 +378,15 @@ export const en: Dict = {
     guestbook: "/en/guestbook",
     cv: "/en/cv",
     privacy: "/en/privacy",
+  },
+
+  home: {
+    summaryLabel: "IN SHORT",
+    gpaLabel: "cumulative GPA",
+    ectsLabel: "ECTS completed",
+    coursesLabel: "courses taken",
+    selectedLabel: "SELECTED WORK",
+    allProjects: "All projects",
   },
 
   now: {

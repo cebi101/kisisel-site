@@ -290,7 +290,9 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
           el.textContent = onEk + deger + kalan;
         };
         // Animasyon yarıda kalırsa (sekme değişimi, gezinme) metni geri koy
+        let emniyet = 0;
         const geriKoy = () => {
+          clearTimeout(emniyet);
           el.textContent = ham;
         };
         addEventListener("pagehide", geriKoy, { once: true });
@@ -302,6 +304,12 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
         if (document.hidden) return; // arka plandaysa hiç başlatma
         const sure = 900;
         const bas = performance.now();
+        // GÜVENCE: requestAnimationFrame yavaş cihazda ya da arka planda
+        // aç kalırsa sayı yarım donar ve ekranda YANLIŞ bir değer kalır
+        // (ör. gerçek not 3,62 iken 3,46 görünür). Bu bir CV sitesinde
+        // kabul edilemez, o yüzden süre iki katını aşarsa metin kesin
+        // olarak doğru değere sabitlenir.
+        emniyet = window.setTimeout(geriKoy, sure * 2);
         const adim = (t: number) => {
           const o = Math.min((t - bas) / sure, 1);
           const yumusak = 1 - Math.pow(1 - o, 3);
