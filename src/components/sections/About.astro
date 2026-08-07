@@ -49,10 +49,10 @@ const { t } = Astro.props;
   </div>
 
   <h2 class="side-label block-label reveal">{t.about.eduLabel}</h2>
-  <div class="timeline">
+  <div class="timeline reveal">
     {
       t.about.edu.map((j) => (
-        <div class="tl-item reveal">
+        <div class="tl-item">
           <div class="tl-when">{j.when}</div>
           <h3>{j.title}</h3>
           <p>{j.desc}</p>
@@ -65,7 +65,7 @@ const { t } = Astro.props;
   <Academic t={t} />
 
   <h2 class="side-label block-label reveal">{t.about.expLabel}</h2>
-  <div class="timeline">
+  <div class="timeline reveal">
     {
       t.about.exp.map((j, i) => (
         <div class={`tl-item reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
@@ -78,7 +78,7 @@ const { t } = Astro.props;
   </div>
 
   <h2 class="side-label block-label reveal">{t.about.compLabel}</h2>
-  <div class="timeline">
+  <div class="timeline reveal">
     {
       t.about.comp.map((j, i) => (
         <div class={`tl-item reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
@@ -91,7 +91,7 @@ const { t } = Astro.props;
   </div>
 
   <h2 class="side-label block-label reveal">{t.about.certsLabel}</h2>
-  <div class="cert-grid">
+  <div class="cert-grid reveal">
     {
       t.about.certs.map((c, i) => (
         <div class={`cert-card reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>

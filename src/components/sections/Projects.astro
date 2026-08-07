@@ -14,7 +14,7 @@ const { t } = Astro.props;
     <span class="page-no" aria-hidden="true">{PAGE_NUM.projects}</span>
     <h1 class="section-title">{t.projects.title}</h1>
   </div>
-  <div class="project-list">
+  <div class="project-list reveal">
     {
       // Gecikme sınıfı ELLE verilmiyor; sıralı giriş CSS'te nth-child ile
       // sayılıyor, böylece proje eklenince sıra kendiliğinden doğru kalır.
@@ -28,7 +28,7 @@ const { t } = Astro.props;
             href={href ?? undefined}
             target={href ? "_blank" : undefined}
             rel={href ? "noopener" : undefined}
-            class={`project-row reveal ${href ? "" : "no-link"}`}
+            class={`project-row ${href ? "" : "no-link"}`}
           >
             <span class="pr-num" aria-hidden="true">
               {String(i + 1).padStart(2, "0")}

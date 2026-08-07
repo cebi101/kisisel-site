@@ -2682,59 +2682,63 @@ html.tema-degisiyor .chip {
    eklendiğinde sıra kendiliğinden doğru kalır. Saf CSS — JS eklenmiyor
    (bütçede ~50 B pay var). */
 
-/* Projeler: kartlar birbiri ardına, ana sayfayla AYNI his.
-   DİKKAT: kartların bir kısmı <a>, bağlantısız olanlar <div>. nth-of-type
-   her etiketi AYRI saydığı için sıra bozuluyordu — nth-child kullanılıyor.
-   Ayrıca ana sayfadaki varis-gir (28 px, 0,72 sn) burada da kullanılıyor;
-   reveal-in (14 px, 0,42 sn) fark edilmeyecek kadar sönüktü. */
-.js .project-list > .reveal.visible {
+/* Projeler: liste ekrana girince BEŞ KART BİRDEN sırayla gelir.
+   ÖNCEKİ HATA: gözlemci her kartı AYRI izliyordu; yüklenince yalnız 3'ü
+   ekranda oluyor, 4-5 kaydırınca tek tek beliriyordu — hiç sıra
+   oluşmuyordu. Artık kabın kendisi gözleniyor, sıra CSS'te veriliyor. */
+.js .project-list.reveal.visible > .project-row {
   animation: varis-gir 0.72s var(--ease-out) both;
 }
-.js .project-list > .reveal.visible:nth-child(1) {
+.js .project-list.reveal.visible > .project-row:nth-child(1) {
   animation-delay: 0ms;
 }
-.js .project-list > .reveal.visible:nth-child(2) {
-  animation-delay: 120ms;
+.js .project-list.reveal.visible > .project-row:nth-child(2) {
+  animation-delay: 130ms;
 }
-.js .project-list > .reveal.visible:nth-child(3) {
-  animation-delay: 240ms;
+.js .project-list.reveal.visible > .project-row:nth-child(3) {
+  animation-delay: 260ms;
 }
-.js .project-list > .reveal.visible:nth-child(4) {
-  animation-delay: 360ms;
+.js .project-list.reveal.visible > .project-row:nth-child(4) {
+  animation-delay: 390ms;
 }
-.js .project-list > .reveal.visible:nth-child(5) {
-  animation-delay: 480ms;
+.js .project-list.reveal.visible > .project-row:nth-child(5) {
+  animation-delay: 520ms;
 }
-.js .project-list > .reveal.visible:nth-child(n + 6) {
-  animation-delay: 560ms;
+.js .project-list.reveal.visible > .project-row:nth-child(n + 6) {
+  animation-delay: 620ms;
+}
+/* Kap görünür olunca kendisi saydamlaşmasın; işi çocukları yapıyor */
+.js .project-list.reveal.visible {
+  animation: none;
+  opacity: 1;
 }
 
-/* Sertifikalar */
-.js .cert-card.reveal.visible:nth-child(1) {
+/* Sertifikalar ve zaman çizelgesi: aynı kap mantığı — bölüm ekrana
+   girince içindeki kayıtlar sırayla gelir, tek tek değil. */
+.js .cert-grid.reveal.visible,
+.js .timeline.reveal.visible {
+  animation: none;
+  opacity: 1;
+}
+.js .cert-grid.reveal.visible > .cert-card,
+.js .timeline.reveal.visible > .tl-item {
+  animation: varis-gir 0.6s var(--ease-out) both;
+}
+.js .cert-grid.reveal.visible > .cert-card:nth-child(1),
+.js .timeline.reveal.visible > .tl-item:nth-child(1) {
   animation-delay: 0ms;
 }
-.js .cert-card.reveal.visible:nth-child(2) {
-  animation-delay: 80ms;
+.js .cert-grid.reveal.visible > .cert-card:nth-child(2),
+.js .timeline.reveal.visible > .tl-item:nth-child(2) {
+  animation-delay: 100ms;
 }
-.js .cert-card.reveal.visible:nth-child(3) {
-  animation-delay: 160ms;
-}
-.js .cert-card.reveal.visible:nth-child(n + 4) {
-  animation-delay: 220ms;
-}
-
-/* Zaman çizelgesi kayıtları */
-.js .tl-item.reveal.visible:nth-child(1) {
-  animation-delay: 0ms;
-}
-.js .tl-item.reveal.visible:nth-child(2) {
-  animation-delay: 70ms;
-}
-.js .tl-item.reveal.visible:nth-child(3) {
-  animation-delay: 140ms;
-}
-.js .tl-item.reveal.visible:nth-child(n + 4) {
+.js .cert-grid.reveal.visible > .cert-card:nth-child(3),
+.js .timeline.reveal.visible > .tl-item:nth-child(3) {
   animation-delay: 200ms;
+}
+.js .cert-grid.reveal.visible > .cert-card:nth-child(n + 4),
+.js .timeline.reveal.visible > .tl-item:nth-child(n + 4) {
+  animation-delay: 290ms;
 }
 
 /* Defter notları */
