@@ -180,12 +180,24 @@ if (istenen.leak) {
   console.log("\nSPA SIZINTISI (--leak)");
   const script = `
     window.__istek = 0;
+    window.__spa = 0;
+    document.addEventListener("astro:page-load", () => { window.__spa++; });
     const _f = window.fetch;
-    window.fetch = (...a) => { if (String(a[0]).includes("/api/views")) window.__istek++; return _f(...a); };
-    const rotalar = ["/hakkimda", "/projeler", "/iletisim", "/defter", "/"];
+    window.__basarili = 0;
+    window.fetch = (...a) => {
+      const p = _f(...a);
+      if (String(a[0]).includes("/api/views")) {
+        window.__istek++;
+        p.then((r) => { if (r.ok) window.__basarili++; }).catch(() => {});
+      }
+      return p;
+    };
+    // İki sayfa arasında gidip gel: düğüm sayısı AYNI sayfada karşılaştırılır,
+    // yoksa sayfa boyutu farkı sızıntı gibi görünür.
+    const rotalar = ["/projeler", "/iletisim"];
     let i = 0, olcum = [];
     const tikla = () => {
-      const a = document.querySelector('.nav-links a[href="' + rotalar[i % rotalar.length] + '"]');
+      const a = document.querySelector('.nav-links a[href="' + rotalar[i % 2] + '"]');
       i++;
       if (a) a.click();
     };
@@ -194,7 +206,8 @@ if (istenen.leak) {
         if (i >= 12) {
           document.title = JSON.stringify({
             gezinme: i,
-            dugum: document.getElementsByTagName("*").length,
+            spaOlayi: window.__spa,
+            basarili: window.__basarili,
             olcum,
             istek: window.__istek,
           });
@@ -202,9 +215,10 @@ if (istenen.leak) {
         }
         tikla();
         setTimeout(() => {
-          olcum.push(document.getElementsByTagName("*").length);
+          // yalnız /projeler ölçülür → karşılaştırılabilir
+          olcum.push([location.pathname, document.getElementsByTagName("*").length]);
           dongu();
-        }, 260);
+        }, 280);
       }, 600);
     });
   `;
@@ -212,15 +226,36 @@ if (istenen.leak) {
   if (!v) {
     console.log("  ? ölçülemedi");
   } else {
-    const ilk = v.olcum[2] ?? v.olcum[0];
-    const son = v.olcum[v.olcum.length - 1];
-    const artis = v.olcum.length > 3 ? (son - ilk) / (v.olcum.length - 3) : 0;
-    const ok = artis < 5;
-    if (!ok) hata = true;
-    console.log(
-      `  ${ok ? "✓" : "✗"} ${v.gezinme} gezinme, düğüm ${ilk} -> ${son} (${artis.toFixed(1)}/gezinme, sınır 5)`,
-    );
-    console.log(`    /api/views isteği: ${v.istek}`);
+    // Headless'ta bağlantı tıklaması TAM SAYFA yenilemesi yapabiliyor.
+    // O durumda modül değişkenleri sıfırlanır ve SPA davranışı ölçülemez;
+    // bunu başarısızlık gibi göstermek yanıltıcı olurdu.
+    const spaCalisti = v.spaOlayi >= v.gezinme;
+    if (!spaCalisti) {
+      console.log(`  ~ SPA gezinme gerçekleşmedi (${v.spaOlayi} olay / ${v.gezinme} tıklama).`);
+      console.log("    Bu ortamda tam sayfa yenileniyor; sızıntı ve istek sayısı ÖLÇÜLEMEZ.");
+      console.log(`    Ham veri: /api/views isteği ${v.istek}, ölçüm noktası ${v.olcum.length}`);
+    } else {
+      // Aynı sayfanın ölçümlerini karşılaştır (sayfa boyutu farkı sızıntı sanılmasın)
+      const proje = v.olcum.filter(([yol]) => yol.includes("projeler")).map(([, n]) => n);
+      const ilk = proje[0] ?? 0;
+      const son = proje[proje.length - 1] ?? 0;
+      const artis = proje.length > 1 ? (son - ilk) / (proje.length - 1) : 0;
+      const ok = artis < 5;
+      if (!ok) hata = true;
+      console.log(
+        `  ${ok ? "✓" : "✗"} ${v.gezinme} gezinme, düğüm ${ilk} -> ${son} (${artis.toFixed(1)}/gezinme, sınır 5)`,
+      );
+      // Statik sunucuda /api/views yok; her istek 404 alır ve sayaç
+      // haklı olarak yeniden dener. O durumda bu ölçüm anlamlı değildir.
+      if (!v.basarili) {
+        console.log(`  ~ /api/views ulaşılamıyor (${v.istek} deneme, 0 başarılı) —`);
+        console.log("    istek sayısı yalnız API ayaktayken ölçülebilir (npm run dev:api).");
+      } else {
+        const istekOk = v.istek <= 2;
+        if (!istekOk) hata = true;
+        console.log(`  ${istekOk ? "✓" : "✗"} /api/views isteği: ${v.istek} (sınır 2)`);
+      }
+    }
   }
 }
 

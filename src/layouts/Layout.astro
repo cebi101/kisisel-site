@@ -303,8 +303,25 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
       // sayfa başına tek istek atılır ve sayaç şişmez.
       let visitCounted = false;
       let visitInFlight = false;
+      /**
+       * Ziyaret sayacı.
+       *
+       * Eskiden HER sekme tıklamasında sunucuya gidiyordu (5 tıklama = 6 istek)
+       * çünkü onPage her sayfa yüklemesinde çağrılıyor. Ayrıca `visitInFlight`
+       * erken dönüşü yavaş uçta isteği tümüyle atlıyor ve sayaç GİZLİ kalıyordu.
+       *
+       * Artık: sayı bir kez alınır, modül değişkeninde tutulur ve sonraki
+       * sayfalarda doğrudan yeni öğeye yazılır — yeni istek yok.
+       */
+      let sonSayi: number | null = null;
       const countVisit = () => {
+        // Sayı elimizde: ağa hiç çıkma, yalnız yeni öğeye yaz.
+        if (sonSayi !== null) {
+          showViews(sonSayi);
+          return;
+        }
         if (visitInFlight) return;
+
         let stored = "";
         try {
           stored = sessionStorage.getItem("visit-counted") ?? "";
@@ -323,9 +340,16 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
         }
         visitInFlight = true;
         fetch("/api/views", { method: alreadyCounted ? "GET" : "POST" })
-          .then((r) => r.json())
-          .then((d) => showViews(d.views))
-          .catch(() => {})
+          .then((r) => (r.ok ? r.json() : null))
+          .then((d) => {
+            if (d && typeof d.views === "number") {
+              sonSayi = d.views;
+              showViews(d.views);
+            }
+          })
+          .catch(() => {
+            /* sayaç görünmez kalır; site çalışmaya devam eder */
+          })
           .finally(() => {
             visitInFlight = false;
           });
