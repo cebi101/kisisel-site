@@ -42,11 +42,12 @@
   --muted2: #4e5243;
   --faint: #5d6152;
   --faint2: #8a8f76;
-  --border: #e2e0d0;
+  --border: #d8d5bf; /* nokta açılınca kenarlık onun üstünde kayboluyordu (1,05:1) */
   --onaccent: #f9f8f0; /* koyu adaçayı üstündeki yazı */
   --onhighlight: #23261c; /* limon üstündeki yazı */
   --field: #fdfdf7;
-  --dot: #dcdac6;
+  --dot: #e7e5d6; /* ΔL* 10,07 -> 6,00 */
+  --dot2: #eeece1; /* ikinci katman, ΔL* 3,50 */
   --shadow: 0 6px 20px -8px rgb(35, 38, 28, 0.2);
   --shadow-sm: 0 2px 8px -3px rgb(35, 38, 28, 0.16);
 }
@@ -75,7 +76,8 @@
   --onaccent: #1a1c16; /* limon düğme üstünde koyu yazı */
   --onhighlight: #1a1c16;
   --field: #1f221a;
-  --dot: #2f3327;
+  --dot: #26291f;
+  --dot2: #21231b;
   --shadow: 0 8px 24px -8px rgb(0, 0, 0, 0.55);
   --shadow-sm: 0 2px 10px -3px rgb(0, 0, 0, 0.5);
 }
@@ -103,9 +105,24 @@
 
 body {
   background: var(--bg);
-  /* nokta desenli zemin — kenar çubuğu kendi düz zeminiyle üstünü örter */
-  background-image: radial-gradient(var(--dot) 1.2px, transparent 1.2px);
-  background-size: 24px 24px;
+  /* NOKTALI KÂĞIT ZEMİN (Z3)
+     Eski hali `radial-gradient(renk 1.2px, transparent 1.2px)` idi: iki durak
+     AYNI konumdaydı, yani gradyan değil ikili maske. Ölçüldü — boş zeminde
+     TAM 2 renk, ΔL* 10,07 ve 24 px periyot. Göz bunu kâğıt dokusu değil
+     "tasarım aracı tuvali" olarak okuyordu.
+     Şimdi: duraklar ayrışık (gerçek kenar yumuşatma), ΔL* yarıya indi ve
+     iki katmanın periyotları aralarında asal (32 ve 45) olduğu için görsel
+     tekrar aralığı 24 px'ten 1440 px'e çıktı — ızgara okunuşu kayboldu.
+     Maliyet: sıfır (hâlâ tek gövde arka planı, aynı boya geçişi). */
+  background-image:
+    radial-gradient(var(--dot) 0.6px, transparent 1.8px),
+    radial-gradient(var(--dot2) 0.5px, transparent 1.6px);
+  background-size:
+    32px 32px,
+    45px 45px;
+  background-position:
+    0 0,
+    13px 21px;
   color: var(--body);
   font-family: var(--font-sans);
   font-size: 16px;
@@ -1408,6 +1425,7 @@ footer {
     --onaccent: #fff;
     --field: #fff;
     --dot: transparent;
+    --dot2: transparent;
 
     --latte: #888; /* beyaz kâğıtta 3.54:1 — #999 olmaz, 2.85 verir */
     --latte-koyu: #333;
