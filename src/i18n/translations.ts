@@ -252,7 +252,7 @@ export const tr = {
       },
       {
         h: "İşlenen veriler",
-        p: "Ziyaretçi defterine yazarsan: adın ve notun. İletişim formunu kullanırsan: adın, e-posta adresin ve mesajın. Her iki durumda ve ziyaret sayımında: IP adresinin gizli bir anahtarla tuzlanmış özeti ve işlem zamanı. HAM IP ADRESİ HİÇBİR YERDE SAKLANMAZ.",
+        p: "Ziyaretçi defterine yazarsan: adın ve notun. İletişim formunu kullanırsan: adın, e-posta adresin ve mesajın (bunlar sana yanıt verebilmem için veritabanında saklanır). Her iki durumda ve ziyaret sayımında: IP adresinin gizli bir anahtarla tuzlanmış özeti ve işlem zamanı. HAM IP ADRESİ HİÇBİR YERDE SAKLANMAZ.",
       },
       {
         h: "İşleme amaçları",
@@ -264,7 +264,7 @@ export const tr = {
       },
       {
         h: "Saklama süreleri",
-        p: "Onaylanmayan ziyaretçi notları {ONAYSIZ_NOT_GUN} gün sonra otomatik silinir. Hız sınırı için tutulan IP özeti {IP_OZETI_SAAT} saat sonra silinir. Ziyaret tekilleştirme kayıtları {GORUNTULENME_GUN} gün, iletişim formu sayaç kayıtları {ILETISIM_KAYDI_SAAT} saat tutulur. Bu temizlikler yeni bir istek geldiğinde çalışır. Onaylanmış notlar, sen silinmesini isteyene kadar yayında kalır. [ŞEYMA-GİRDİSİ: gelen kutusundaki e-postaların saklama süresi]",
+        p: "Onaylanmayan ziyaretçi notları {ONAYSIZ_NOT_GUN} gün sonra otomatik silinir. Hız sınırı için tutulan IP özeti {IP_OZETI_SAAT} saat sonra silinir. Ziyaret tekilleştirme kayıtları {GORUNTULENME_GUN} gün, iletişim formu sayaç kayıtları {ILETISIM_KAYDI_SAAT} saat tutulur. Bu temizlikler yeni bir istek geldiğinde çalışır. Onaylanmış notlar, sen silinmesini isteyene kadar yayında kalır. İletişim formundan gelen mesajlar okunup elle silinene kadar saklanır; silinmesini istersen yazman yeterli. [ŞEYMA-GİRDİSİ: gelen kutusundaki e-postaların saklama süresi]",
       },
       {
         h: "Aktarılan taraflar",
@@ -558,7 +558,7 @@ export const en: Dict = {
       },
       {
         h: "Data processed",
-        p: "If you write in the guestbook: your name and note. If you use the contact form: your name, email address and message. In both cases and for visit counting: a salted hash of your IP address and a timestamp. THE RAW IP ADDRESS IS NEVER STORED.",
+        p: "If you write in the guestbook: your name and note. If you use the contact form: your name, email address and message (kept in the database so that I can reply). In both cases and for visit counting: a salted hash of your IP address and a timestamp. THE RAW IP ADDRESS IS NEVER STORED.",
       },
       {
         h: "Purposes",
@@ -570,7 +570,7 @@ export const en: Dict = {
       },
       {
         h: "Retention",
-        p: "Unapproved guestbook notes are deleted automatically after {ONAYSIZ_NOT_GUN} days. The IP hash kept for rate limiting is removed after {IP_OZETI_SAAT} hour. Visit de-duplication records are kept {GORUNTULENME_GUN} days and contact-form counters {ILETISIM_KAYDI_SAAT} hour. These cleanups run when a new request arrives. Approved notes stay published until you ask for their removal. [ŞEYMA-GİRDİSİ: gelen kutusundaki e-postaların saklama süresi]",
+        p: "Unapproved guestbook notes are deleted automatically after {ONAYSIZ_NOT_GUN} days. The IP hash kept for rate limiting is removed after {IP_OZETI_SAAT} hour. Visit de-duplication records are kept {GORUNTULENME_GUN} days and contact-form counters {ILETISIM_KAYDI_SAAT} hour. These cleanups run when a new request arrives. Approved notes stay published until you ask for their removal. Messages sent through the contact form are kept until they are read and deleted manually; ask and they will be removed. [ŞEYMA-GİRDİSİ: gelen kutusundaki e-postaların saklama süresi]",
       },
       {
         h: "Third parties",

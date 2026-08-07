@@ -16,3 +16,10 @@ export const GORUNTULENME_GUN = 2;
 
 /** İletişim formu hız sınırı kayıtları bu süre sonunda silinir. */
 export const ILETISIM_KAYDI_SAAT = 1;
+
+/**
+ * İletişim mesajları /yonetim ekranından okunana kadar saklanır.
+ * Otomatik silme YOK — Şeyma okuyup elle siler. Bu, metinde böyle beyan
+ * edilmelidir (tests/privacy.test.ts kontrol eder).
+ */
+export const ILETISIM_MESAJI = "elle silinene kadar";

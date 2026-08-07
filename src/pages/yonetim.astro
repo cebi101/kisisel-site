@@ -42,8 +42,8 @@ import "../styles/global.css";
       </nav>
 
       <header class="yon-head">
-        <h1>Ziyaretçi Defteri</h1>
-        <p class="yon-sub">Onay bekleyen notlar</p>
+        <h1>Yönetim</h1>
+        <p class="yon-sub">Gelen mesajlar ve ziyaretçi defteri</p>
       </header>
 
       <form id="giris" class="yon-giris">
@@ -61,7 +61,16 @@ import "../styles/global.css";
       </form>
 
       <p id="durum" class="yon-durum" role="status" hidden></p>
-      <div id="liste" class="yon-liste"></div>
+
+      <section id="mesaj-bolum" hidden>
+        <h2 class="yon-bolum-baslik">İletişim mesajları</h2>
+        <div id="mesajlar" class="yon-liste"></div>
+      </section>
+
+      <section id="defter-bolum" hidden>
+        <h2 class="yon-bolum-baslik">Ziyaretçi defteri</h2>
+        <div id="liste" class="yon-liste"></div>
+      </section>
     </main>
 
     <style is:global>
@@ -156,6 +165,24 @@ import "../styles/global.css";
         font-size: 14px;
         color: var(--body);
       }
+      .yon-bolum-baslik {
+        margin-top: 30px;
+        margin-bottom: 4px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--latte-koyu);
+      }
+      .yon-eposta {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--accent-text);
+        overflow-wrap: anywhere;
+      }
+      .yon-yeni {
+        border-inline-start: 3px solid var(--highlight);
+      }
       .yon-liste {
         display: grid;
         min-width: 0;
@@ -217,6 +244,17 @@ import "../styles/global.css";
       .yon-islem button:focus-visible {
         outline: 2px solid var(--accent);
         outline-offset: 2px;
+      }
+      .yon-yanitla {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 8px 18px;
+        border-radius: 100px;
+        background: var(--accent);
+        color: var(--onaccent);
+        font-size: 14px;
+        font-weight: 600;
       }
       .yon-rozet {
         display: inline-block;
@@ -282,6 +320,84 @@ import "../styles/global.css";
         });
       }
 
+      interface Mesaj {
+        id: number;
+        name: string;
+        email: string;
+        message: string;
+        created_at: string;
+        okundu: number;
+      }
+
+      /** İletişim mesajlarını çizer. */
+      function cizMesajlar(kayitlar: Mesaj[]) {
+        const kap = document.getElementById("mesajlar")!;
+        const bolum = document.getElementById("mesaj-bolum")!;
+        bolum.hidden = false;
+        kap.textContent = "";
+        if (!kayitlar.length) {
+          const p = document.createElement("p");
+          p.className = "yon-sub";
+          p.textContent = "Henüz mesaj yok.";
+          kap.append(p);
+          return;
+        }
+        for (const m of kayitlar) {
+          const kart = document.createElement("div");
+          kart.className = "yon-kart" + (m.okundu ? "" : " yon-yeni");
+
+          const ust = document.createElement("div");
+          ust.className = "yon-kart-ust";
+          const ad = document.createElement("span");
+          ad.className = "yon-ad";
+          ad.textContent = m.name; // textContent → enjeksiyon imkânsız
+          const tar = document.createElement("span");
+          tar.className = "yon-tarih";
+          tar.textContent = new Date(m.created_at).toLocaleString("tr-TR");
+          ust.append(ad, tar);
+
+          const eposta = document.createElement("a");
+          eposta.className = "yon-eposta";
+          eposta.href = "mailto:" + m.email;
+          eposta.textContent = m.email;
+
+          const msj = document.createElement("p");
+          msj.className = "yon-mesaj";
+          msj.textContent = m.message;
+
+          const islem = document.createElement("div");
+          islem.className = "yon-islem";
+          const yanitla = document.createElement("a");
+          yanitla.href =
+            "mailto:" + m.email + "?subject=" + encodeURIComponent("Yanıt: siteden mesajın");
+          yanitla.textContent = "Yanıtla";
+          yanitla.className = "yon-yanitla";
+          islem.append(yanitla);
+          if (!m.okundu) islem.append(mesajDugme("Okundu", "read", m.id));
+          islem.append(mesajDugme("Sil", "delete", m.id));
+
+          kart.append(ust, eposta, msj, islem);
+          kap.append(kart);
+        }
+      }
+
+      function mesajDugme(metin: string, eylem: "read" | "delete", id: number) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = metin;
+        if (eylem === "read") b.dataset.eylem = "approve"; // aynı limon stil
+        b.addEventListener("click", async () => {
+          if (eylem === "delete" && !confirm("Bu mesaj silinsin mi?")) return;
+          b.disabled = true;
+          await istek("/api/admin/messages", {
+            method: "POST",
+            body: JSON.stringify({ id, action: eylem }),
+          });
+          await yukle();
+        });
+        return b;
+      }
+
       async function yukle() {
         durumYaz("Yükleniyor…");
         let r: Response;
@@ -305,8 +421,20 @@ import "../styles/global.css";
         const d = await r.json();
         const kayitlar: Kayit[] = d.entries ?? [];
         giris.hidden = true;
-        durumYaz(kayitlar.length ? "" : "Onay bekleyen not yok.");
+        durumYaz("");
+        document.getElementById("defter-bolum")!.hidden = false;
         ciz(kayitlar);
+
+        // İletişim mesajları
+        try {
+          const rm = await istek("/api/admin/messages");
+          if (rm.ok) {
+            const dm = await rm.json();
+            cizMesajlar(dm.messages ?? []);
+          }
+        } catch {
+          /* mesaj listesi alınamadı — defter yine görünür */
+        }
       }
 
       function ciz(kayitlar: Kayit[]) {

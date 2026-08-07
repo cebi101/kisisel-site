@@ -39,3 +39,18 @@ CREATE TABLE IF NOT EXISTS contact_hits (
 );
 CREATE INDEX IF NOT EXISTS idx_contact_rate
   ON contact_hits (ip_hash, created_at);
+
+-- İletişim formu mesajları.
+-- E-posta sağlayıcısına bağımlı kalmamak için mesajlar doğrudan burada
+-- saklanır ve /yonetim ekranından okunur. Sağlayıcı tanımlıysa AYRICA
+-- e-posta da gider; tanımlı değilse ya da reddederse mesaj yine ulaşır.
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  name       TEXT NOT NULL,
+  email      TEXT NOT NULL,
+  message    TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  okundu     INTEGER NOT NULL DEFAULT 0
+);
+CREATE INDEX IF NOT EXISTS idx_contact_messages
+  ON contact_messages (okundu, created_at DESC);
