@@ -15,9 +15,15 @@ import {
   logError,
   onbellektenAl,
   onbellegeYaz,
+  postaGonder,
 } from "./_shared";
 
-type Env = BaseEnv;
+interface Env extends BaseEnv {
+  /** Bildirim için opsiyonel — yoksa bildirim sessizce atlanır. */
+  RESEND_API_KEY?: string;
+  MAIL_FROM?: string;
+  CONTACT_TO?: string;
+}
 
 const MAX_NAME = 40;
 const MAX_MESSAGE = 280;
@@ -59,7 +65,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env, waitUntil
   }
 };
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   if (!sameOrigin(request)) return json({ ok: false, error: "bad_request" }, 403);
 
   // Dev gövdeleri ayrıştırmadan reddet
@@ -114,13 +120,25 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       .bind(since)
       .run();
 
-    // KVKK saklama süresi: onaylanmayan notlar 30 gün sonra otomatik silinir.
+    // KVKK saklama süresi: onaylanmayan notlar 7 gün sonra otomatik silinir.
     // (Onaylı notlar SİLİNMEZ.) Bu bakım, yeni not eklendiğinde çalışır —
     // ayrı bir zamanlanmış işe gerek kalmaz.
     const saklamaSiniri = new Date(now.getTime() - SAKLAMA_GUN * 86400000).toISOString();
     await env.DB.prepare("DELETE FROM guestbook WHERE approved = 0 AND created_at < ?")
       .bind(saklamaSiniri)
       .run();
+
+    // Bildirim: ASLA await edilmez — sağlayıcı arızası kaydedilmiş notu
+    // 503'e çevirip ziyaretçiye ikinci kez yazdırırdı.
+    waitUntil(
+      postaGonder(env, {
+        konu: "Deftere yeni not — onay bekliyor",
+        metin:
+          `${name}:\n${message}\n\n` +
+          `Onaylamak için: https://seymanurcebi.dev/yonetim\n` +
+          `(Onaylanmayan notlar ${SAKLAMA_GUN} gün sonra otomatik silinir.)`,
+      }),
+    );
 
     // approved = 0 → Şeyma onaylayana kadar sitede görünmez
     return json({ ok: true, pending: true });

@@ -1,5 +1,4 @@
 # Cloudflare Pages yapılandırması
-# Bağlamalar burada tanımlanır; her dağıtımda otomatik uygulanır.
 # Gizli değerler (IP_SALT, ADMIN_TOKEN, RESEND_API_KEY) BURAYA YAZILMAZ —
 # panelde secret olarak tutulur.
 
@@ -7,14 +6,16 @@ name = "kisisel-site"
 compatibility_date = "2026-08-04"
 pages_build_output_dir = "dist"
 
-# ÜRETİM — gerçek ziyaretçi notları ve sayaç
-[[env.production.d1_databases]]
+# ÜRETİM ve YEREL GELİŞTİRME
+# Pages'te üst düzey bağlama hem üretimde hem `wrangler pages dev` sırasında
+# kullanılır. `[env.production]` altına taşınırsa yerel geliştirme bağlamayı
+# bulamaz (`pages dev` --env bayrağını kabul etmiyor).
+[[d1_databases]]
 binding = "DB"
 database_name = "kisisel-site"
 database_id = "abfc1fc2-bf9e-4c49-a4e8-f81da1bb88ea"
 
-# ÖNİZLEME — dal dağıtımları buraya yazar.
-# Böylece bir dalda defteri denemek GERÇEK notları ve sayacı kirletmez.
+# ÖNİZLEME — dal dağıtımları buraya yazar; gerçek notlar ve sayaç kirlenmez.
 [[env.preview.d1_databases]]
 binding = "DB"
 database_name = "kisisel-site-preview"

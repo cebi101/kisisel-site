@@ -8,6 +8,8 @@ import { json, logError, type BaseEnv } from "./_shared";
 
 interface Env extends BaseEnv {
   ADMIN_TOKEN?: string;
+  RESEND_API_KEY?: string;
+  MAIL_FROM?: string;
 }
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
@@ -15,6 +17,10 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     db: "hata" as "ok" | "hata",
     salt: Boolean(env.IP_SALT && env.IP_SALT.length >= 24),
     admin: Boolean(env.ADMIN_TOKEN && env.ADMIN_TOKEN.length >= 24),
+    // Şeyma kurulumun tuttuğunu TEST MESAJI ATMADAN görebilsin.
+    // Yalnız boolean — sır değeri asla basılmaz.
+    mail: Boolean(env.RESEND_API_KEY),
+    mailFrom: Boolean(env.MAIL_FROM),
   };
 
   try {

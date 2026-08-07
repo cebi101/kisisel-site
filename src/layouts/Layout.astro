@@ -265,13 +265,18 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
               }),
             });
             const d = await r.json().catch(() => ({}));
+            // DOĞRULAMA hatasını SAĞLAYICI arızasından ayır: eskiden 400 de
+            // mailto açıyordu, yani kısa bir mesaj "e-posta uygulaman açılıyor"
+            // deyip çöp bir taslak açıyordu.
             if (r.ok && d.ok) {
               yaz(metin.sent || "");
               form.reset();
             } else if (r.status === 429) {
               yaz(metin.rate || "");
+            } else if (r.status === 400 || r.status === 422) {
+              yaz(metin.invalid || metin.failed || "");
             } else {
-              // 503 = e-posta sağlayıcısı tanımlı değil → eski davranışa dön
+              // 503, ağ hatası → mailto yedeği
               yaz(metin.failed || "");
               mailtoyaDus(name, from, msg);
             }

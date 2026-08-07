@@ -14,44 +14,58 @@ etmene gerek yok.
 diyor ve site eski davranışına düşüp e-posta uygulamanı açıyor. Yani şu an
 Gmail'i tarayıcıdan kullanan biri sana hâlâ ulaşamıyor.
 
-**Yapman gereken:**
+**İyi haber:** Alan adı doğrulaması (DNS kayıtları) **gerekmiyor**. Resend'in
+sandbox adresi yeterli, çünkü mesajlar zaten yalnızca **senin** adresine
+gidiyor.
 
-1. https://resend.com adresinden ücretsiz hesap aç (ayda 3.000 e-posta, kart
-   istemiyor).
-2. **Domains** → **Add Domain** → `seymanurcebi.dev` yaz.
-3. Sana 3 tane DNS kaydı verecek. Bunları Cloudflare'de ekle:
-   - Cloudflare paneli → `seymanurcebi.dev` → **DNS** → **Add record**
-   - Resend'in verdiği her kaydı aynen gir (tür, ad, değer)
-   - **Proxy durumu: kapalı (gri bulut)** olmalı
-4. Resend'e dön, **Verify** de. Birkaç dakika sürebilir.
-5. **API Keys** → **Create API Key** → adını `site-formu` koy → kopyala.
-6. Cloudflare paneli → **Workers & Pages** → `kisisel-site` → **Settings** →
-   **Variables and Secrets** → **Add**:
-   - Ad: `RESEND_API_KEY` — Değer: kopyaladığın anahtar — **Type: Secret**
-   - Ad: `CONTACT_TO` — Değer: `seymanurcebi6@gmail.com` — Type: Secret
-7. **Save** de. Yeniden dağıtım gerekmez, birkaç saniyede aktif olur.
+### Adımlar (~5 dakika)
 
-**Doğrulama:** `seymanurcebi.dev/iletisim` adresine git, kendine bir test
-mesajı gönder. İki dakika içinde gelen kutuna düşmeli ve **Yanıtla** dediğinde
-gönderenin adresine gitmeli.
+1. https://resend.com adresinden ücretsiz hesap aç.
+   **ÖNEMLİ:** Kaydolurken **`seymanurcebi6@gmail.com`** adresini kullan.
+   Başka bir adresle kaydolursan her gönderim sessizce reddedilir — sandbox
+   yalnızca hesabın kendi adresine göndermeye izin verir.
+2. **API Keys** → **Create API Key** → adını `site-formu` koy → kopyala.
+3. Cloudflare paneli → **Workers & Pages** → `kisisel-site` → **Settings** →
+   **Variables and Secrets**. Şunları ekle:
 
-> Bu adımı yapmazsan hiçbir şey bozulmaz — form bugünkü gibi e-posta
-> uygulamasını açmaya devam eder.
+   | Ad               | Değer                                | Tür                         |
+   | ---------------- | ------------------------------------ | --------------------------- |
+   | `RESEND_API_KEY` | kopyaladığın anahtar                 | **Secret**                  |
+   | `MAIL_FROM`      | `Site formu <onboarding@resend.dev>` | düz değişken                |
+   | `CONTACT_TO`     | `seymanurcebi6@gmail.com`            | düz değişken (isteğe bağlı) |
 
----
+4. **Deployments** sekmesine git → **en üstteki dağıtım** → sağdaki **⋯** →
+   **Retry deployment**.
 
-## 2. Deftere yeni not gelince e-posta ile haber almak
+   > ⚠️ **Bu adım şart.** Cloudflare'de eklenen anahtarlar mevcut dağıtıma
+   > uygulanmaz; yeniden dağıtım yapılmazsa hiçbir şey değişmez.
+   > (Bu belgede daha önce "yeniden dağıtım gerekmez" yazıyordu, yanlıştı.)
 
-Bu, 1. adımdaki Resend hesabını kullanır. Önce onu yap.
+**Doğrulama — test mesajı atmadan:**
+`https://seymanurcebi.dev/api/health` adresini aç. Çıktıda **`"mail":true`**
+görmelisin. Görüyorsan kurulum tamam.
 
-Anahtar eklendikten sonra bana söyle, bildirim kodunu ekleyeyim — sunucu
-tarafında birkaç satır. (Şu an yok, çünkü e-posta sağlayıcısı olmadan
-çalışamıyordu.)
+Sonra `seymanurcebi.dev/iletisim` sayfasından kendine bir test mesajı gönder;
+iki dakika içinde gelen kutuna düşmeli ve **Yanıtla** dediğinde gönderenin
+adresine gitmeli.
 
-**Bu arada:** Notları zaten `seymanurcebi.dev/yonetim` adresinden telefondan
-onaylayabilirsin. Yönetim anahtarın `.admin-token.local` dosyasında.
+> Not: Dal (önizleme) dağıtımlarının 503 dönmeye devam etmesi **normaldir** —
+> anahtarı yalnız Production'a ekledin.
 
----
+> Sonradan `site@seymanurcebi.dev` gibi kendi adresinden göndermek istersen
+> Resend'de alan adını doğrulaman yeter; **kod değişikliği gerekmez**, sadece
+> `MAIL_FROM` değerini güncellersin.
+
+## 2. Deftere yeni not gelince e-posta
+
+**Kod hazır** — 1. adımdaki anahtar eklendiği anda kendiliğinden çalışmaya
+başlar. Ayrı bir kurulum yok.
+
+Not düştüğünde sana kısa bir e-posta gelir: kim yazmış, ne yazmış ve
+onaylamak için `seymanurcebi.dev/yonetim` bağlantısı.
+
+> Bu önemli: onaylanmayan notlar **7 gün sonra otomatik siliniyor**.
+> Bildirim gelmezse ve `/yonetim`'e bakmazsan not kalıcı olarak gider.
 
 ## 3. Site çökerse haber veren izleme (UptimeRobot)
 
@@ -106,7 +120,7 @@ eksik.
 
 ## 5. Analitiği açmak (istemiştin)
 
-Cloudflare zaten betiği enjekte ediyor, sadece panelden açık değil:
+Analitik şu an **kapalı** — canlı sayfada betik yok (ölçüldü). Açmak için:
 
 1. Cloudflare paneli → **Workers & Pages** → `kisisel-site`
 2. **Metrics** veya **Analytics** sekmesi → **Web Analytics** → **Enable**

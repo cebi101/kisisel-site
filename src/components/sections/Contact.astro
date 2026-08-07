@@ -27,6 +27,7 @@ const { t } = Astro.props;
         sent: t.contact.sent,
         failed: t.contact.failed,
         rate: t.contact.rateLimited,
+        invalid: t.contact.errorInvalid,
       })}
     >
       <p class="contact-sub">{t.contact.sub}</p>
@@ -36,6 +37,7 @@ const { t } = Astro.props;
         id="f-name"
         name="name"
         autocomplete="name"
+        minlength="2"
         placeholder={t.contact.fName}
         required
       />
@@ -54,11 +56,15 @@ const { t } = Astro.props;
         <input type="text" name="website" tabindex="-1" autocomplete="off" />
       </label>
       <label for="f-msg" class="visually-hidden">{t.contact.fMsg}</label>
-      <textarea id="f-msg" name="msg" rows="5" placeholder={t.contact.fMsg} required></textarea>
+      <textarea id="f-msg" name="msg" rows="5" minlength="10" placeholder={t.contact.fMsg} required
+      ></textarea>
       <button type="submit" class="btn btn-solid"
         >{t.contact.fSend} <span class="arr" aria-hidden="true">→</span></button
       >
-      <span class="form-hint" id="form-hint">{t.contact.fHint}</span>
+      <span class="form-hint" id="form-hint">
+        {t.contact.fHint}{" "}
+        <a href={`mailto:${EMAIL}`} class="form-hint-mail">{EMAIL}</a>
+      </span>
       <p class="form-durum" id="form-durum" role="status" hidden></p>
     </form>
     <div class="contact-side reveal d1">

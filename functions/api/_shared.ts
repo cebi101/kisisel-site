@@ -148,3 +148,40 @@ export function onbellegiDusur(
     /* önbellek yoksa yapacak bir şey yok */
   }
 }
+
+/**
+ * Basit e-posta gönderimi (iletişim formu ve defter bildirimi paylaşır).
+ *
+ * Anahtar yoksa sessizce `false` döner — çağıran tarafı bloklamaz.
+ * ASLA `await` ile ana akışa bağlanmamalı: sağlayıcı arızası, başarıyla
+ * kaydedilmiş bir notu 503'e çevirir ve ziyaretçi notu iki kez yazar.
+ * Doğru kullanım: `ctx.waitUntil(postaGonder(...))`.
+ */
+export async function postaGonder(
+  env: {
+    RESEND_API_KEY?: string;
+    MAIL_FROM?: string;
+    CONTACT_TO?: string;
+  },
+  { konu, metin }: { konu: string; metin: string },
+): Promise<boolean> {
+  if (!env.RESEND_API_KEY) return false;
+  try {
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${env.RESEND_API_KEY}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        from: env.MAIL_FROM ?? "Site bildirimi <onboarding@resend.dev>",
+        to: [env.CONTACT_TO ?? "seymanurcebi6@gmail.com"],
+        subject: konu,
+        text: metin,
+      }),
+    });
+    return r.ok;
+  } catch {
+    return false;
+  }
+}

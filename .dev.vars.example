@@ -6,3 +6,12 @@ IP_SALT=
 
 # Defter moderasyon anahtarı (Bearer). Üretimde Cloudflare secret olarak tutulur.
 ADMIN_TOKEN=
+
+# --- E-posta (opsiyonel) ---
+# Yoksa /api/contact 503 döner ve arayüz mailto yedeğine düşer; site bozulmaz.
+RESEND_API_KEY=
+# Gönderen adresi. Sandbox: "Site formu <onboarding@resend.dev>" (DNS gerekmez).
+# Doğrulanmış alan adı: "Site formu <site@seymanurcebi.dev>".
+MAIL_FROM=
+# Alıcı. Boşsa koddaki varsayılan kullanılır.
+CONTACT_TO=
