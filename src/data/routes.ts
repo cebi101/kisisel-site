@@ -18,9 +18,15 @@ export const PAGES = [
 ] as const;
 
 /** Menüde görünmeyen ama iki dilde karşılığı olan sayfalar. */
-export const EXTRA_PAGES = [{ key: "cv", tr: "/cv", en: "/en/cv" }] as const;
+export const EXTRA_PAGES = [
+  { key: "cv", tr: "/cv", en: "/en/cv" },
+  { key: "privacy", tr: "/gizlilik", en: "/en/privacy" },
+] as const;
 
 export type PageKey = (typeof PAGES)[number]["key"];
+
+/** Menüde görünmeyen sayfalar dahil tüm rota anahtarları. */
+export type NavKey = PageKey | (typeof EXTRA_PAGES)[number]["key"];
 
 /** Sayfa numarası — menüde ve sayfa başlığında aynı değer kullanılır. */
 export const PAGE_NUM: Record<PageKey, string> = Object.fromEntries(

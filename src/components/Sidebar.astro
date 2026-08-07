@@ -5,13 +5,18 @@ import type { Dict } from "../i18n/translations";
 import { locales } from "../i18n/translations";
 import foto from "../assets/foto.jpg";
 import { GITHUB, LINKEDIN, EMAIL } from "../data/site";
-import { PAGES, type PageKey } from "../data/routes";
+import { PAGES, type PageKey, type NavKey } from "../data/routes";
 
 interface Props {
   t: Dict;
-  current: PageKey;
+  current: NavKey;
 }
 const { t, current } = Astro.props;
+
+// `current` menüde olmayan bir sayfa da olabilir (/cv, /gizlilik).
+// O durumda hamburgerde sayfa adı yerine yalnızca "Menü" görünür.
+const menuSayfasi = PAGES.some((p) => p.key === current);
+const sayfaAdi = menuSayfasi ? t.nav[current as PageKey] : null;
 
 const navItems = PAGES.map((p) => ({
   id: p.key,
@@ -38,7 +43,7 @@ const langs = [
   type="button"
   aria-controls="sidebar"
   aria-expanded="false"
-  aria-label={`${t.menuLabel} — ${t.nav[current] ?? t.nav.home}`}
+  aria-label={sayfaAdi ? `${t.menuLabel} — ${sayfaAdi}` : t.menuLabel}
 >
   <span class="mt-bars" aria-hidden="true"><i></i><i></i><i></i></span>
   {
@@ -47,7 +52,7 @@ const langs = [
       okunuyordu. */
   }
   <span class="mt-text">{t.menuLabel}</span>
-  <span class="mt-page">{t.nav[current] ?? t.nav.home}</span>
+  {sayfaAdi && <span class="mt-page">{sayfaAdi}</span>}
 </button>
 <div class="menu-scrim" id="menu-scrim" hidden></div>
 

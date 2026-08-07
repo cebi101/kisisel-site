@@ -58,6 +58,7 @@ export const tr = {
     contact: "/iletisim",
     guestbook: "/defter",
     cv: "/cv",
+    privacy: "/gizlilik",
   },
 
   now: {
@@ -238,6 +239,60 @@ export const tr = {
     viewsLabel: "ziyaret",
   },
 
+  privacy: {
+    title: "Gizlilik ve KVKK",
+    updated: "Yürürlük: [ŞEYMA-GİRDİSİ: tarih]",
+    pending: "Bu bölüm hazırlanıyor; kısa süre içinde eklenecek.",
+    intro:
+      "Bu sayfa, seymanurcebi.dev üzerinden hangi kişisel verilerin işlendiğini, neden işlendiğini ve ne kadar süreyle saklandığını anlatır. 6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında aydınlatma amacı taşır.",
+    sections: [
+      {
+        h: "Veri sorumlusu",
+        p: "[ŞEYMA-GİRDİSİ: veri sorumlusu adı ve iletişim kanalı]",
+      },
+      {
+        h: "İşlenen veriler",
+        p: "Ziyaretçi defterine yazarsan: adın ve notun. İletişim formunu kullanırsan: adın, e-posta adresin ve mesajın. Her iki durumda ve ziyaret sayımında: IP adresinin gizli bir anahtarla tuzlanmış özeti ve işlem zamanı. HAM IP ADRESİ HİÇBİR YERDE SAKLANMAZ.",
+      },
+      {
+        h: "İşleme amaçları",
+        p: "Notun yayımlanması ve moderasyonu; iletişim talebine yanıt verilmesi; spam ve kötüye kullanımın engellenmesi; toplam ziyaret sayısının tutulması; arıza teşhisi.",
+      },
+      {
+        h: "Hukuki sebep",
+        p: "Notunu veya mesajını kendi isteğinle gönderiyorsun (açık rıza). Spam engelleme ve toplam ziyaret sayımı, sitenin güvenli ve sürdürülebilir çalışması için meşru menfaat kapsamındadır (m.5/2-f).",
+      },
+      {
+        h: "Saklama süreleri",
+        p: "Onaylanmayan ziyaretçi notları {ONAYSIZ_NOT_GUN} gün sonra otomatik silinir. Hız sınırı için tutulan IP özeti {IP_OZETI_SAAT} saat sonra silinir. Ziyaret tekilleştirme kayıtları {GORUNTULENME_GUN} gün, iletişim formu sayaç kayıtları {ILETISIM_KAYDI_SAAT} saat tutulur. Bu temizlikler yeni bir istek geldiğinde çalışır. Onaylanmış notlar, sen silinmesini isteyene kadar yayında kalır. [ŞEYMA-GİRDİSİ: gelen kutusundaki e-postaların saklama süresi]",
+      },
+      {
+        h: "Aktarılan taraflar",
+        p: "Site Cloudflare altyapısında barınır (barındırma, CDN, veritabanı, hata kayıtları). İletişim formu etkinse mesajın, e-posta iletimi için Resend adlı servise gönderilir; bu aktarım yurt dışına yapılır.",
+      },
+      {
+        h: "Çerezler ve yerel depolama",
+        p: "Site ÇEREZ KULLANMAZ. Yalnızca tarayıcının kendi belleğinde iki tercih tutulur: görünüm (gündüz/gece) ve menünün açık/kapalı durumu. Bir de aynı oturumda sayacın iki kez artmaması için bir işaret. Bunlar sunucuya gönderilmez.",
+      },
+      {
+        h: "Analitik",
+        p: "[ŞEYMA-GİRDİSİ: Cloudflare Web Analytics açık mı]",
+      },
+      {
+        h: "Güvenlik",
+        p: "Tüm trafik HTTPS üzerinden akar (HSTS). İçerik güvenlik politikası (CSP) uygulanır. Ham IP adresi hiç saklanmaz. Notlar yayımlanmadan önce elle onaylanır. Yönetim ekranı ayrı bir anahtarla korunur.",
+      },
+      {
+        h: "Haklarınız",
+        p: "KVKK m.11 uyarınca: kişisel verinizin işlenip işlenmediğini öğrenme, işlenmişse bilgi talep etme, işleme amacını öğrenme, yurt içinde/dışında aktarıldığı üçüncü kişileri bilme, eksik veya yanlış işlenmişse düzeltilmesini isteme, silinmesini veya yok edilmesini isteme, bu işlemlerin aktarıldığı üçüncü kişilere bildirilmesini isteme, işlenen verilerin analiz edilmesiyle aleyhinize bir sonuç çıkmasına itiraz etme ve zarara uğramanız hâlinde giderilmesini talep etme haklarına sahipsiniz.",
+      },
+      {
+        h: "Başvuru",
+        p: "[ŞEYMA-GİRDİSİ: başvuru adresi] adresine yazabilirsin. Başvurular en geç 30 gün içinde yanıtlanır.",
+      },
+    ],
+  },
+
   contact: {
     title: "İletişim",
     sub: "Bir fikrin, iş birliği ya da soru mu var? Yaz, konuşalım.",
@@ -310,6 +365,7 @@ export const en: Dict = {
     contact: "/en/contact",
     guestbook: "/en/guestbook",
     cv: "/en/cv",
+    privacy: "/en/privacy",
   },
 
   now: {
@@ -487,6 +543,60 @@ export const en: Dict = {
     privacy:
       "Only the name and note you type are stored. To prevent spam a salted hash of your IP is kept for at most 1 hour, then deleted; the raw IP is never saved. Notes that are not approved are deleted automatically after 7 days.",
     viewsLabel: "visits",
+  },
+
+  privacy: {
+    title: "Privacy",
+    updated: "Effective: [ŞEYMA-GİRDİSİ: tarih]",
+    pending: "This section is being prepared and will be added shortly.",
+    intro:
+      "This page explains which personal data seymanurcebi.dev processes, why, and for how long it is kept. It serves as a disclosure notice under Turkish data protection law (KVKK, Law No. 6698).",
+    sections: [
+      {
+        h: "Data controller",
+        p: "[ŞEYMA-GİRDİSİ: veri sorumlusu adı ve iletişim kanalı]",
+      },
+      {
+        h: "Data processed",
+        p: "If you write in the guestbook: your name and note. If you use the contact form: your name, email address and message. In both cases and for visit counting: a salted hash of your IP address and a timestamp. THE RAW IP ADDRESS IS NEVER STORED.",
+      },
+      {
+        h: "Purposes",
+        p: "Publishing and moderating your note; replying to your message; preventing spam and abuse; counting total visits; diagnosing failures.",
+      },
+      {
+        h: "Legal basis",
+        p: "You send your note or message of your own accord (explicit consent). Spam prevention and aggregate visit counting rest on legitimate interest in running the site safely (Art. 5/2-f).",
+      },
+      {
+        h: "Retention",
+        p: "Unapproved guestbook notes are deleted automatically after {ONAYSIZ_NOT_GUN} days. The IP hash kept for rate limiting is removed after {IP_OZETI_SAAT} hour. Visit de-duplication records are kept {GORUNTULENME_GUN} days and contact-form counters {ILETISIM_KAYDI_SAAT} hour. These cleanups run when a new request arrives. Approved notes stay published until you ask for their removal. [ŞEYMA-GİRDİSİ: gelen kutusundaki e-postaların saklama süresi]",
+      },
+      {
+        h: "Third parties",
+        p: "The site runs on Cloudflare infrastructure (hosting, CDN, database, error logs). If the contact form is active, your message is passed to Resend for email delivery; this transfer goes abroad.",
+      },
+      {
+        h: "Cookies and local storage",
+        p: "The site USES NO COOKIES. Only two preferences are kept in your browser: appearance (light/dark) and whether the menu is open. Plus a marker so the visit counter does not increase twice in one session. None of these are sent to the server.",
+      },
+      {
+        h: "Analytics",
+        p: "[ŞEYMA-GİRDİSİ: Cloudflare Web Analytics açık mı]",
+      },
+      {
+        h: "Security",
+        p: "All traffic runs over HTTPS (HSTS). A content security policy is enforced. The raw IP address is never stored. Notes are approved manually before publication. The admin screen is protected by a separate key.",
+      },
+      {
+        h: "Your rights",
+        p: "Under KVKK Art. 11 you may: learn whether your personal data is processed, request information about it, learn the purpose of processing, know the third parties it is transferred to at home or abroad, request correction if it is incomplete or wrong, request erasure or destruction, request that these actions be reported to third parties, object to a conclusion drawn against you by automated analysis, and claim compensation for damages.",
+      },
+      {
+        h: "Requests",
+        p: "Write to [ŞEYMA-GİRDİSİ: başvuru adresi]. Requests are answered within 30 days at the latest.",
+      },
+    ],
   },
 
   contact: {

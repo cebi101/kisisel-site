@@ -1,0 +1,11 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Privacy from "../../components/sections/Privacy.astro";
+import { locales } from "../../i18n/translations";
+
+const t = locales.en;
+---
+
+<PageLayout t={t} current="privacy" title={`${t.privacy.title} — ${t.displayName}`}>
+  <Privacy t={t} />
+</PageLayout>

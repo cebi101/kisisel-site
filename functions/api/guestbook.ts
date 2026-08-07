@@ -29,8 +29,10 @@ const MAX_NAME = 40;
 const MAX_MESSAGE = 280;
 const MAX_BODY_BYTES = 4096;
 const RATE_LIMIT = 3; // aynı ziyaretçiden saatte en fazla
-/** Onaylanmayan notların saklanma süresi (gün) — KVKK. Şeyma'nın tercihi. */
-const SAKLAMA_GUN = 7;
+// Saklama süreleri src/data/retention.ts'ten gelir — aydınlatma metniyle
+// aynı kaynağı kullanır ki ikisi birbirinden sürüklenmesin.
+import { ONAYSIZ_NOT_GUN } from "../../src/data/retention";
+const SAKLAMA_GUN = ONAYSIZ_NOT_GUN;
 
 const LIST_LIMIT = 50;
 

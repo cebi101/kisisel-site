@@ -1,0 +1,65 @@
+---
+// Gizlilik / KVKK aydınlatma metni.
+//
+// Saklama süreleri src/data/retention.ts'ten gelir — uçların gerçekten
+// uyguladığı değerlerle aynı kaynak. tests/privacy.test.ts ikisinin
+// eşitliğini doğrular, böylece metin koddan sürüklenemez.
+import type { Dict } from "../../i18n/translations";
+import {
+  ONAYSIZ_NOT_GUN,
+  IP_OZETI_SAAT,
+  GORUNTULENME_GUN,
+  ILETISIM_KAYDI_SAAT,
+} from "../../data/retention";
+
+interface Props {
+  t: Dict;
+}
+const { t } = Astro.props;
+
+const degerler: Record<string, number> = {
+  ONAYSIZ_NOT_GUN,
+  IP_OZETI_SAAT,
+  GORUNTULENME_GUN,
+  ILETISIM_KAYDI_SAAT,
+};
+
+/** {SABIT} yer tutucularını gerçek değerlerle doldurur. */
+const doldur = (metin: string) =>
+  metin.replace(/\{(\w+)\}/g, (tam, ad) => String(degerler[ad] ?? tam));
+
+/**
+ * Şeyma'dan gelmesi gereken hukuki bilgiler henüz doldurulmadı.
+ * Bu alanlar UYDURULMAZ; ziyaretçiye ham yer tutucu da gösterilmez —
+ * dürüst bir "hazırlanıyor" notu görünür.
+ */
+const EKSIK_DESEN = /\[ŞEYMA-GİRDİSİ:[^\]]*\]/g;
+const eksikMi = (metin: string) => EKSIK_DESEN.test(metin);
+const eksikTemizle = (metin: string) => metin.replace(EKSIK_DESEN, "").replace(/\s+/g, " ").trim();
+---
+
+<div class="page page--short">
+  <div class="page-head">
+    <h1 class="section-title">{t.privacy.title}</h1>
+  </div>
+  <div class="page-inner">
+    <p class="about-p1 reveal">{t.privacy.intro}</p>
+    {
+      eksikMi(t.privacy.updated) ? (
+        <p class="gizlilik-tarih reveal">{t.privacy.pending}</p>
+      ) : (
+        <p class="gizlilik-tarih reveal">{t.privacy.updated}</p>
+      )
+    }
+
+    {
+      t.privacy.sections.map((b, i) => (
+        <section class={`gizlilik-bolum reveal ${i ? `d${Math.min(i, 3)}` : ""}`}>
+          <h2 class="gizlilik-baslik">{b.h}</h2>
+          {eksikTemizle(doldur(b.p)) && <p class="gizlilik-metin">{eksikTemizle(doldur(b.p))}</p>}
+          {eksikMi(b.p) && <p class="gizlilik-eksik">{t.privacy.pending}</p>}
+        </section>
+      ))
+    }
+  </div>
+</div>
