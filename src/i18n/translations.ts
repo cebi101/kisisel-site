@@ -253,14 +253,14 @@ export const tr = {
 
   privacy: {
     title: "Gizlilik ve KVKK",
-    updated: "Yürürlük: [ŞEYMA-GİRDİSİ: tarih]",
+    updated: "Yürürlük: 7 Ağustos 2026",
     pending: "Bu bölüm hazırlanıyor; kısa süre içinde eklenecek.",
     intro:
       "Bu sayfa, seymanurcebi.dev üzerinden hangi kişisel verilerin işlendiğini, neden işlendiğini ve ne kadar süreyle saklandığını anlatır. 6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında aydınlatma amacı taşır.",
     sections: [
       {
         h: "Veri sorumlusu",
-        p: "[ŞEYMA-GİRDİSİ: veri sorumlusu adı ve iletişim kanalı]",
+        p: "Şeyma Nur Çebi — seymanurcebi6@gmail.com",
       },
       {
         h: "İşlenen veriler",
@@ -276,7 +276,7 @@ export const tr = {
       },
       {
         h: "Saklama süreleri",
-        p: "Onaylanmayan ziyaretçi notları {ONAYSIZ_NOT_GUN} gün sonra otomatik silinir. Hız sınırı için tutulan IP özeti {IP_OZETI_SAAT} saat sonra silinir. Ziyaret tekilleştirme kayıtları {GORUNTULENME_GUN} gün, iletişim formu sayaç kayıtları {ILETISIM_KAYDI_SAAT} saat tutulur. Bu temizlikler yeni bir istek geldiğinde çalışır. Onaylanmış notlar, sen silinmesini isteyene kadar yayında kalır. İletişim formundan gelen mesajlar okunup elle silinene kadar saklanır; silinmesini istersen yazman yeterli. [ŞEYMA-GİRDİSİ: gelen kutusundaki e-postaların saklama süresi]",
+        p: "Onaylanmayan ziyaretçi notları {ONAYSIZ_NOT_GUN} gün sonra otomatik silinir. Hız sınırı için tutulan IP özeti {IP_OZETI_SAAT} saat sonra silinir. Ziyaret tekilleştirme kayıtları {GORUNTULENME_GUN} gün, iletişim formu sayaç kayıtları {ILETISIM_KAYDI_SAAT} saat tutulur. Bu temizlikler yeni bir istek geldiğinde çalışır. Onaylanmış notlar, sen silinmesini isteyene kadar yayında kalır. İletişim formundan gelen mesajlar okunup elle silinene kadar saklanır; silinmesini istersen yazman yeterli. 1 yıl",
       },
       {
         h: "Aktarılan taraflar",
@@ -288,7 +288,7 @@ export const tr = {
       },
       {
         h: "Analitik",
-        p: "[ŞEYMA-GİRDİSİ: Cloudflare Web Analytics açık mı]",
+        p: "Bu sitede analitik hizmeti kullanılmıyor; yalnızca toplam ziyaret sayısı tutuluyor",
       },
       {
         h: "Güvenlik",
@@ -300,7 +300,7 @@ export const tr = {
       },
       {
         h: "Başvuru",
-        p: "[ŞEYMA-GİRDİSİ: başvuru adresi] adresine yazabilirsin. Başvurular en geç 30 gün içinde yanıtlanır.",
+        p: "seymanurcebi6@gmail.com adresine yazabilirsin. Başvurular en geç 30 gün içinde yanıtlanır.",
       },
     ],
   },
@@ -571,14 +571,14 @@ export const en: Dict = {
 
   privacy: {
     title: "Privacy",
-    updated: "Effective: [ŞEYMA-GİRDİSİ: tarih]",
+    updated: "Effective: 7 August 2026",
     pending: "This section is being prepared and will be added shortly.",
     intro:
       "This page explains which personal data seymanurcebi.dev processes, why, and for how long it is kept. It serves as a disclosure notice under Turkish data protection law (KVKK, Law No. 6698).",
     sections: [
       {
         h: "Data controller",
-        p: "[ŞEYMA-GİRDİSİ: veri sorumlusu adı ve iletişim kanalı]",
+        p: "Şeyma Nur Çebi — seymanurcebi6@gmail.com",
       },
       {
         h: "Data processed",
@@ -594,7 +594,7 @@ export const en: Dict = {
       },
       {
         h: "Retention",
-        p: "Unapproved guestbook notes are deleted automatically after {ONAYSIZ_NOT_GUN} days. The IP hash kept for rate limiting is removed after {IP_OZETI_SAAT} hour. Visit de-duplication records are kept {GORUNTULENME_GUN} days and contact-form counters {ILETISIM_KAYDI_SAAT} hour. These cleanups run when a new request arrives. Approved notes stay published until you ask for their removal. Messages sent through the contact form are kept until they are read and deleted manually; ask and they will be removed. [ŞEYMA-GİRDİSİ: gelen kutusundaki e-postaların saklama süresi]",
+        p: "Unapproved guestbook notes are deleted automatically after {ONAYSIZ_NOT_GUN} days. The IP hash kept for rate limiting is removed after {IP_OZETI_SAAT} hour. Visit de-duplication records are kept {GORUNTULENME_GUN} days and contact-form counters {ILETISIM_KAYDI_SAAT} hour. These cleanups run when a new request arrives. Approved notes stay published until you ask for their removal. Messages sent through the contact form are kept until they are read and deleted manually; ask and they will be removed. 1 year",
       },
       {
         h: "Third parties",
@@ -606,7 +606,7 @@ export const en: Dict = {
       },
       {
         h: "Analytics",
-        p: "[ŞEYMA-GİRDİSİ: Cloudflare Web Analytics açık mı]",
+        p: "This site uses no analytics service; only a total visit count is kept",
       },
       {
         h: "Security",
@@ -618,7 +618,7 @@ export const en: Dict = {
       },
       {
         h: "Requests",
-        p: "Write to [ŞEYMA-GİRDİSİ: başvuru adresi]. Requests are answered within 30 days at the latest.",
+        p: "Write to seymanurcebi6@gmail.com. Requests are answered within 30 days at the latest.",
       },
     ],
   },

@@ -1153,9 +1153,14 @@ textarea::placeholder {
   font-size: 15px;
   border-radius: 10px;
   background: var(--panel);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
+    color var(--dur-base) ease,
+    border-color var(--dur-base) ease,
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) ease;
 }
 
 /* hover etkileri yalnız gerçek imleçli cihazlarda — dokunmatikte "yapışma" olmasın */
@@ -2964,5 +2969,78 @@ html.tema-degisiyor .chip {
   .kunye,
   .one-cikan {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* =============== İLETİŞİM BAĞLANTILARI: PARLAK GEÇİŞ =============== */
+/* GitHub / LinkedIn / e-posta satırları düz panel kutularıydı. Artık her
+   birinin kendi kimlik tonu var ve imleç gelince bir ışık soldan sağa
+   süpürüyor. Renkler paletin dışına çıkmıyor: limon, adaçayı ve latte. */
+
+/* sola dikilen ince kimlik şeridi */
+.social-link::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 3px;
+  background: var(--serit-renk, var(--accent2));
+  transition: width var(--dur-base) var(--ease-out);
+}
+.contact-side .social-link:nth-of-type(1) {
+  --serit-renk: var(--latte);
+}
+.contact-side .social-link:nth-of-type(2) {
+  --serit-renk: var(--accent2);
+}
+.contact-side .social-link:nth-of-type(3) {
+  --serit-renk: var(--highlight);
+}
+
+/* imleç gelince ışık süpürmesi */
+.social-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    color-mix(in srgb, var(--serit-renk, var(--accent2)) 26%, transparent) 50%,
+    transparent 70%
+  );
+  transition: opacity var(--dur-fast) ease;
+}
+
+@media (hover: hover) {
+  .social-link:hover {
+    transform: translateX(3px);
+    border-color: var(--serit-renk, var(--accent2));
+    box-shadow: var(--shadow-sm);
+  }
+  .social-link:hover::before {
+    width: 5px;
+  }
+  .social-link:hover::after {
+    opacity: 1;
+    animation: isik-supur 0.7s var(--ease-out);
+  }
+}
+.social-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-link,
+  .social-link::before,
+  .social-link::after {
+    transition: none;
+    animation: none;
+  }
+  .social-link:hover {
+    transform: none;
   }
 }
