@@ -13,10 +13,7 @@
   },
   {
     "name": "CV sayfası CSS (yalnız /cv)",
-    "path": [
-      "dist/_astro/CvLayout*.css",
-      "dist/_astro/fonts*.css"
-    ],
+    "path": ["dist/_astro/CvLayout*.css", "dist/_astro/fonts*.css"],
     "limit": "3.5 kB",
     "gzip": true
   },

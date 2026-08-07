@@ -22,15 +22,17 @@ const num = (n: number, d = 2) => (t.lang === "tr" ? n.toFixed(d).replace(".", "
 
   <div class="ac-kpis">
     <div class="ac-kpi">
-      <span class="ac-kpi-num">{num(CURRENT_GPA)}<span class="ac-kpi-max"> / 4,00</span></span>
+      <span class="ac-kpi-num" data-sayi
+        >{num(CURRENT_GPA)}<span class="ac-kpi-max"> / 4,00</span></span
+      >
       <span class="ac-kpi-label">{a.gpaLabel}</span>
     </div>
     <div class="ac-kpi">
-      <span class="ac-kpi-num">{TOTAL_ECTS}</span>
+      <span class="ac-kpi-num" data-sayi>{TOTAL_ECTS}</span>
       <span class="ac-kpi-label">{a.ectsLabel}</span>
     </div>
     <div class="ac-kpi">
-      <span class="ac-kpi-num">{TOTAL_COURSES}</span>
+      <span class="ac-kpi-num" data-sayi>{TOTAL_COURSES}</span>
       <span class="ac-kpi-label">{a.courseLabel}</span>
     </div>
   </div>

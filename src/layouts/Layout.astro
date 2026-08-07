@@ -162,12 +162,48 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
       // View Transitions ile gövde değiştiği için öğe her sayfada yeniden aranır
       const setProgress = () => {
         const bar = document.getElementById("scroll-progress");
+        // Menü düğmesi kaydırılınca toparlanır (CSS: html.kaydirildi).
+        // Sınıfı burada yönetiyoruz ki ayrı bir kaydırma dinleyicisi olmasın.
+        document.documentElement.classList.toggle("kaydirildi", scrollY > 24);
+        parallaxUygula();
         if (!bar) return;
         const max = document.documentElement.scrollHeight - innerHeight;
         bar.style.width = max > 0 ? `${Math.min((scrollY / max) * 100, 100)}%` : "0%";
       };
       addEventListener("scroll", setProgress, { passive: true });
       addEventListener("resize", setProgress);
+
+      // ---------- Mıknatıs düğmeler ----------
+      // İmleç yaklaşınca düğme ona doğru hafifçe kayar. Konum JS ile
+      // ölçülüp CSS değişkenine yazılır; hareketi CSS yapar.
+      // Yalnız ince imleçte (fare) çalışır — dokunmatikte anlamsız.
+      const bindMiknatis = () => {
+        if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        document.querySelectorAll<HTMLElement>(".btn, .cv-btn").forEach((el) => {
+          if (el.dataset.miknatis) return;
+          el.dataset.miknatis = "1";
+          el.addEventListener("pointermove", (e) => {
+            const r = el.getBoundingClientRect();
+            const x = (e.clientX - r.left - r.width / 2) * 0.18;
+            const y = (e.clientY - r.top - r.height / 2) * 0.18;
+            el.style.setProperty("--miknatis-x", `${x.toFixed(1)}px`);
+            el.style.setProperty("--miknatis-y", `${y.toFixed(1)}px`);
+          });
+          el.addEventListener("pointerleave", () => {
+            el.style.setProperty("--miknatis-x", "0px");
+            el.style.setProperty("--miknatis-y", "0px");
+          });
+        });
+      };
+
+      // ---------- Parallax: hero portresi ----------
+      // Mevcut kaydırma dinleyicisine bağlanır, yeni dinleyici açılmaz.
+      const parallaxUygula = () => {
+        const foto = document.querySelector<HTMLElement>(".hero-photo");
+        if (!foto || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        foto.style.setProperty("--parallax", `${Math.min(scrollY * 0.06, 40).toFixed(1)}px`);
+      };
 
       // ---------- İmleç ışıltısı (ayrı parça) ----------
       // Mobilde hiç kullanılmayan ~2,2 KB'lık kod artık indirilmiyor.
@@ -197,7 +233,22 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
           b.dataset.bound = "1";
           b.addEventListener("click", () => {
             const m = b.dataset.mode || "dark";
-            document.documentElement.dataset.mode = m;
+            // Geçiş ani olmasın: View Transitions varsa çapraz geçiş,
+            // yoksa renk animasyonu (sınıf 500 ms sonra kalkar).
+            const uygulaTema = () => {
+              document.documentElement.dataset.mode = m;
+            };
+            document.documentElement.classList.add("tema-degisiyor");
+            setTimeout(() => document.documentElement.classList.remove("tema-degisiyor"), 500);
+            type GecisliDoc = Document & {
+              startViewTransition?: (cb: () => void) => unknown;
+            };
+            const d = document as GecisliDoc;
+            if (d.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+              d.startViewTransition(uygulaTema);
+            } else {
+              uygulaTema();
+            }
             try {
               localStorage.setItem("mode", m);
             } catch {
@@ -210,10 +261,65 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
       };
 
       // ---------- Scroll'da görünme ----------
+      /**
+       * Görünür olan sayıları 0'dan hedefe sayar.
+       *
+       * DİKKAT: Metnin TAMAMI sayı olmayabilir ("93/100", "3,62 / 4,00").
+       * Yalnız BAŞTAKİ sayı animasyonlanır, kalan kısım (ekler, bölü işareti)
+       * olduğu gibi korunur — yoksa animasyon sırasında "/100" kaybolur ve
+       * animasyon yarıda kesilirse metin bozuk kalır.
+       *
+       * Ayrı bir gözlemci kurulmaz; mevcut reveal gözlemcisi tetikler.
+       */
+      const sayiyiCalistir = (el: HTMLElement) => {
+        if (el.dataset.sayildi) return;
+        el.dataset.sayildi = "1";
+        const ham = el.textContent ?? "";
+        const eslesme = ham.match(/^\s*(\d+(?:[.,]\d+)?)/);
+        if (!eslesme) return;
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        const sayiMetni = eslesme[1];
+        const kalan = ham.slice(eslesme[0].length); // "/100" gibi ek
+        const onEk = ham.slice(0, eslesme.index ?? 0);
+        const hedef = parseFloat(sayiMetni.replace(",", "."));
+        if (!isFinite(hedef) || hedef <= 0) return;
+
+        const ondalik = sayiMetni.includes(",") ? sayiMetni.split(",")[1].length : 0;
+        const yaz = (deger: string) => {
+          el.textContent = onEk + deger + kalan;
+        };
+        // Animasyon yarıda kalırsa (sekme değişimi, gezinme) metni geri koy
+        const geriKoy = () => {
+          el.textContent = ham;
+        };
+        addEventListener("pagehide", geriKoy, { once: true });
+        document.addEventListener("astro:before-swap", geriKoy, { once: true });
+        // Sekme arka plana alınırsa requestAnimationFrame durur ve sayı
+        // yarım kalmış hâlde donar. Görünürlük değişince metni geri koy.
+        document.addEventListener("visibilitychange", geriKoy, { once: true });
+
+        if (document.hidden) return; // arka plandaysa hiç başlatma
+        const sure = 900;
+        const bas = performance.now();
+        const adim = (t: number) => {
+          const o = Math.min((t - bas) / sure, 1);
+          const yumusak = 1 - Math.pow(1 - o, 3);
+          if (o < 1) {
+            yaz((hedef * yumusak).toFixed(ondalik).replace(".", ondalik ? "," : "."));
+            requestAnimationFrame(adim);
+          } else {
+            geriKoy();
+          }
+        };
+        requestAnimationFrame(adim);
+      };
+
       const observer = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
             if (entry.isIntersecting) {
+              entry.target.querySelectorAll<HTMLElement>("[data-sayi]").forEach(sayiyiCalistir);
               entry.target.classList.add("visible");
               observer.unobserve(entry.target);
             }
@@ -439,6 +545,7 @@ const enPath = lang === "tr" ? otherLangPath(path, "tr") : path;
         setProgress();
         countVisit();
         bindDrawer();
+        bindMiknatis();
         // Sayfa geçişinde Astro kenar çubuğunu koruyabiliyor (işaretleme aynı),
         // bu yüzden `open` sınıfı geçişten sağ çıkıp çekmece açık kalıyordu.
         // Dar ekranda her yüklemede kesin kapat.

@@ -689,6 +689,8 @@ textarea::placeholder {
   font-family: var(--font-mono);
   font-size: 14px;
   color: var(--latte-koyu); /* latte: sayfa numarası dekoratif krom — etkileşim rengi taşımamalı */
+  animation: reveal-in var(--dur-slow) var(--ease-out) both;
+  animation-delay: 40ms;
 }
 .section-title {
   font-family: var(--font-display);
@@ -696,6 +698,7 @@ textarea::placeholder {
   font-size: clamp(38px, 5vw, 68px);
   letter-spacing: -1px;
   color: var(--ink);
+  animation: reveal-in var(--dur-slow) var(--ease-out) both;
   line-height: 1.05;
 }
 
@@ -785,6 +788,8 @@ textarea::placeholder {
 .hero-photo {
   position: relative;
   justify-self: center;
+  transform: translateY(var(--parallax, 0));
+  will-change: transform;
 }
 .photo-backdrop {
   position: absolute;
@@ -889,6 +894,7 @@ textarea::placeholder {
     border-color 0.2s ease,
     background 0.2s ease;
   cursor: default;
+  animation: chip-in var(--dur-base) var(--ease-out) both;
 }
 
 .block-label {
@@ -1577,6 +1583,10 @@ footer {
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
+  transition:
+    padding var(--dur-slow) var(--ease-out),
+    box-shadow var(--dur-slow) ease,
+    transform var(--dur-base) var(--ease-out);
 }
 @media (hover: hover) {
   .menu-toggle:hover {
@@ -2109,6 +2119,11 @@ html:not(.js) .sidebar {
   padding-inline-start: 9px;
   color: color-mix(in srgb, var(--onhighlight) 62%, transparent);
   font-weight: 500;
+  transition:
+    opacity var(--dur-base) ease,
+    max-width var(--dur-slow) var(--ease-out),
+    margin var(--dur-slow) var(--ease-out);
+  max-width: 12rem;
 }
 .mt-page::before {
   content: "·";
@@ -2281,5 +2296,249 @@ html:not(.js) .sidebar {
   }
   .js .reveal {
     opacity: 1;
+  }
+}
+
+/* =============== HAREKET KATMANI =============== */
+/* Bedirhan'ın sitesindeki hareket hissi, Şeyma'nın paletinde ve
+   kütüphanesiz. Her efekt prefers-reduced-motion altında kapanır
+   (dosyanın sonundaki battaniye kural + aşağıdaki açık kapatmalar). */
+
+/* --- 2. GRUP HOVER: karta gelince İÇİNDEKİLER ayrı ayrı canlanır --- */
+/* Tek bir yükselme yerine numaranın dönmesi, okun kayması ve başlığın
+   renklenmesi aynı anda olur — hareket "grup" gibi okunur. */
+@media (hover: hover) {
+  .project-row:not(.no-link):hover .pr-num {
+    transform: rotate(-5deg) scale(1.08);
+    color: var(--accent);
+  }
+  .project-row:not(.no-link):hover .pr-title {
+    color: var(--accent-d);
+  }
+  .project-row:not(.no-link):hover .pr-go {
+    transform: translateX(4px);
+    opacity: 1;
+  }
+  .cert-card:hover .cert-org {
+    color: var(--accent);
+  }
+  .tl-item:hover::before {
+    background: var(--highlight);
+  }
+}
+.pr-num,
+.pr-title,
+.pr-go,
+.cert-org {
+  transition:
+    transform var(--dur-base) var(--ease-spring),
+    color var(--dur-base) ease,
+    opacity var(--dur-base) ease;
+}
+
+/* --- 3. Kart üstünde yumuşak ışık süpürmesi --- */
+/* Bedirhan'daki "aurora" hissinin kâğıt karşılığı: limon bir parıltı
+   karttan bir kez geçer. Renk değil IŞIK ekler, paleti bozmaz. */
+.project-row,
+.cert-card,
+.hl-band {
+  position: relative;
+  overflow: hidden;
+}
+.project-row::after,
+.cert-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    color-mix(in srgb, var(--highlight) 30%, transparent) 50%,
+    transparent 65%
+  );
+  transform: translateX(-100%);
+  transition: opacity var(--dur-fast) ease;
+}
+@media (hover: hover) {
+  .project-row:not(.no-link):hover::after,
+  .cert-card:hover::after {
+    opacity: 1;
+    animation: isik-supur 0.75s var(--ease-out);
+  }
+}
+@keyframes isik-supur {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* --- 4. Yetenek çipleri sırayla gelsin --- */
+.chip:nth-child(1) {
+  animation-delay: 0ms;
+}
+.chip:nth-child(2) {
+  animation-delay: 40ms;
+}
+.chip:nth-child(3) {
+  animation-delay: 80ms;
+}
+.chip:nth-child(4) {
+  animation-delay: 120ms;
+}
+.chip:nth-child(5) {
+  animation-delay: 160ms;
+}
+.chip:nth-child(6) {
+  animation-delay: 200ms;
+}
+.chip:nth-child(n + 7) {
+  animation-delay: 240ms;
+}
+@keyframes chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+}
+
+/* --- 5. Kaydırınca menü düğmesi toparlansın --- */
+/* Bedirhan'daki küçülen üst çubuğun karşılığı: hamburger sayfa
+   kaydırılınca sıkışır ve gölgesi artar, "yüzüyor" hissi verir. */
+html.kaydirildi .menu-toggle {
+  padding-block: 9px;
+  box-shadow: 0 6px 22px rgb(35 38 28 / 18%);
+}
+html.kaydirildi .mt-page {
+  opacity: 0;
+  max-width: 0;
+  margin-inline-start: -9px;
+  overflow: hidden;
+}
+
+/* --- 6. Sayılar büyürken göze çarpsın --- */
+.hl-score-num,
+.ac-kpi-num {
+  transition: transform var(--dur-slow) var(--ease-spring);
+}
+@media (hover: hover) {
+  .hl-band:hover .hl-score-num,
+  .ac-kpi:hover .ac-kpi-num {
+    transform: scale(1.06);
+  }
+}
+
+/* --- Hareket azaltma: yukarıdakilerin hepsi kapanır --- */
+@media (prefers-reduced-motion: reduce) {
+  .section-title,
+  .page-no,
+  .chip {
+    animation: none;
+  }
+  .project-row::after,
+  .cert-card::after {
+    display: none;
+  }
+  html.kaydirildi .menu-toggle,
+  html.kaydirildi .mt-page {
+    transition: none;
+  }
+}
+
+/* --- 7. TEMA GEÇİŞİ: ani değil, yumuşak --- */
+/* Gündüz/gece geçişi renkleri bir anda değiştiriyordu. Artık View
+   Transitions destekleyen tarayıcıda çapraz geçiş, desteklemeyende
+   renk animasyonu var. Zemin GEÇİŞE DAHİL DEĞİL — dahil edilirse
+   sayfa geçişlerinde titreme geri gelir (bu daha önce yaşandı). */
+html.tema-degisiyor,
+html.tema-degisiyor .sidebar,
+html.tema-degisiyor .profile-card,
+html.tema-degisiyor .nav-btn,
+html.tema-degisiyor .project-row,
+html.tema-degisiyor .cert-card,
+html.tema-degisiyor .gb-entry,
+html.tema-degisiyor .now-card,
+html.tema-degisiyor .btn,
+html.tema-degisiyor .chip {
+  transition:
+    background-color var(--dur-slow) ease,
+    color var(--dur-slow) ease,
+    border-color var(--dur-slow) ease;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.42s;
+}
+
+/* --- 8. MIKNATIS DÜĞMELER --- */
+/* İmleç yaklaşınca düğme hafifçe ona doğru kayar. Hareket JS ile
+   ölçülüp CSS değişkenine yazılır; düğme kendisi CSS ile hareket eder. */
+.btn,
+.cv-btn {
+  transform: translate(var(--miknatis-x, 0), var(--miknatis-y, 0));
+  transition: transform var(--dur-base) var(--ease-spring);
+}
+.btn:active,
+.cv-btn:active {
+  transform: translate(var(--miknatis-x, 0), var(--miknatis-y, 0)) scale(0.97);
+}
+
+/* --- 9. PARALLAX: hero portresi kaydırmayla hafifçe ayrışır --- */
+
+/* --- 10. CAM EFEKTİ: menü düğmesi ve çekmece --- */
+@supports (backdrop-filter: blur(8px)) {
+  .menu-toggle {
+    backdrop-filter: blur(10px) saturate(140%);
+    background: color-mix(in srgb, var(--highlight) 88%, transparent);
+  }
+}
+
+/* --- 11. BÖLÜM BAŞINA FARKLI GİRİŞ --- */
+/* Prompt: "her section farklı bir giriş efekti kullanabilir" */
+.home .reveal {
+  animation-name: gir-asagidan;
+}
+.about-grid .reveal {
+  animation-name: gir-yandan;
+}
+.project-row.reveal {
+  animation-name: gir-olcekli;
+}
+.cert-card.reveal {
+  animation-name: gir-asagidan;
+}
+@keyframes gir-asagidan {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+@keyframes gir-yandan {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+}
+@keyframes gir-olcekli {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .cv-btn,
+  .hero-photo {
+    transform: none !important;
+  }
+  html.tema-degisiyor,
+  html.tema-degisiyor * {
+    transition: none !important;
   }
 }
