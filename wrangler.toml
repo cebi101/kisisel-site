@@ -6,6 +6,16 @@ name = "kisisel-site"
 compatibility_date = "2026-08-04"
 pages_build_output_dir = "dist"
 
+# DÜZ DEĞİŞKENLER
+# wrangler.toml varken Cloudflare panelinden düz değişken EKLENEMEZ —
+# panel yalnız Secret kabul eder ("Environment variables ... are being
+# managed through wrangler.toml"). Gizli olmayanlar bu yüzden burada.
+[vars]
+# Gönderen adresi. Sandbox: alan adı doğrulaması GEREKTİRMEZ.
+# Kendi alan adına geçmek istersen yalnız bu satırı değiştir; kod değişmez.
+MAIL_FROM = "Site formu <onboarding@resend.dev>"
+CONTACT_TO = "seymanurcebi6@gmail.com"
+
 # ÜRETİM ve YEREL GELİŞTİRME
 # Pages'te üst düzey bağlama hem üretimde hem `wrangler pages dev` sırasında
 # kullanılır. `[env.production]` altına taşınırsa yerel geliştirme bağlamayı
