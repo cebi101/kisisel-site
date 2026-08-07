@@ -16,6 +16,8 @@ const { t } = Astro.props;
   </div>
   <div class="project-list">
     {
+      // Gecikme sınıfı ELLE verilmiyor; sıralı giriş CSS'te nth-child ile
+      // sayılıyor, böylece proje eklenince sıra kendiliğinden doğru kalır.
       t.projects.items.map((p, i) => {
         const meta = PROJECTS[i];
         const href = meta?.href ?? null;
@@ -26,7 +28,7 @@ const { t } = Astro.props;
             href={href ?? undefined}
             target={href ? "_blank" : undefined}
             rel={href ? "noopener" : undefined}
-            class={`project-row reveal ${href ? "" : "no-link"} ${i ? `d${Math.min(i, 3)}` : ""}`}
+            class={`project-row reveal ${href ? "" : "no-link"}`}
           >
             <span class="pr-num" aria-hidden="true">
               {String(i + 1).padStart(2, "0")}

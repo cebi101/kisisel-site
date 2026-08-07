@@ -2521,18 +2521,15 @@ html.tema-degisiyor .chip {
 }
 
 /* --- 11. BÖLÜM BAŞINA FARKLI GİRİŞ --- */
-/* Prompt: "her section farklı bir giriş efekti kullanabilir" */
-.home .reveal {
-  animation-name: gir-asagidan;
-}
+/* YALNIZ animation-name yazan kurallar KALDIRILDI: süre tanımlamadıkları
+   için hiçbir şey yapmıyor (0s), üstelik aşağıdaki sıralı giriş
+   kurallarıyla çakışıp ölçümü yanıltıyorlardı.
+   Bölüm farkı artık gecikme ritmiyle veriliyor (aşağıdaki nth-child
+   blokları): hero hızlı ve geniş adımlı, kartlar 120 ms aralıklı,
+   liste öğeleri daha sık. */
 .about-grid .reveal {
   animation-name: gir-yandan;
-}
-.project-row.reveal {
-  animation-name: gir-olcekli;
-}
-.cert-card.reveal {
-  animation-name: gir-asagidan;
+  animation-duration: var(--dur-slow);
 }
 @keyframes gir-asagidan {
   from {
@@ -2685,48 +2682,58 @@ html.tema-degisiyor .chip {
    eklendiğinde sıra kendiliğinden doğru kalır. Saf CSS — JS eklenmiyor
    (bütçede ~50 B pay var). */
 
-/* Projeler: kartlar birbiri ardına */
-.js .project-row.reveal.visible:nth-of-type(1) {
+/* Projeler: kartlar birbiri ardına, ana sayfayla AYNI his.
+   DİKKAT: kartların bir kısmı <a>, bağlantısız olanlar <div>. nth-of-type
+   her etiketi AYRI saydığı için sıra bozuluyordu — nth-child kullanılıyor.
+   Ayrıca ana sayfadaki varis-gir (28 px, 0,72 sn) burada da kullanılıyor;
+   reveal-in (14 px, 0,42 sn) fark edilmeyecek kadar sönüktü. */
+.js .project-list > .reveal.visible {
+  animation: varis-gir 0.72s var(--ease-out) both;
+}
+.js .project-list > .reveal.visible:nth-child(1) {
   animation-delay: 0ms;
 }
-.js .project-row.reveal.visible:nth-of-type(2) {
-  animation-delay: 90ms;
+.js .project-list > .reveal.visible:nth-child(2) {
+  animation-delay: 120ms;
 }
-.js .project-row.reveal.visible:nth-of-type(3) {
-  animation-delay: 180ms;
+.js .project-list > .reveal.visible:nth-child(3) {
+  animation-delay: 240ms;
 }
-.js .project-row.reveal.visible:nth-of-type(4) {
-  animation-delay: 270ms;
+.js .project-list > .reveal.visible:nth-child(4) {
+  animation-delay: 360ms;
 }
-.js .project-row.reveal.visible:nth-of-type(n + 5) {
-  animation-delay: 340ms;
+.js .project-list > .reveal.visible:nth-child(5) {
+  animation-delay: 480ms;
+}
+.js .project-list > .reveal.visible:nth-child(n + 6) {
+  animation-delay: 560ms;
 }
 
 /* Sertifikalar */
-.js .cert-card.reveal.visible:nth-of-type(1) {
+.js .cert-card.reveal.visible:nth-child(1) {
   animation-delay: 0ms;
 }
-.js .cert-card.reveal.visible:nth-of-type(2) {
+.js .cert-card.reveal.visible:nth-child(2) {
   animation-delay: 80ms;
 }
-.js .cert-card.reveal.visible:nth-of-type(3) {
+.js .cert-card.reveal.visible:nth-child(3) {
   animation-delay: 160ms;
 }
-.js .cert-card.reveal.visible:nth-of-type(n + 4) {
+.js .cert-card.reveal.visible:nth-child(n + 4) {
   animation-delay: 220ms;
 }
 
 /* Zaman çizelgesi kayıtları */
-.js .tl-item.reveal.visible:nth-of-type(1) {
+.js .tl-item.reveal.visible:nth-child(1) {
   animation-delay: 0ms;
 }
-.js .tl-item.reveal.visible:nth-of-type(2) {
+.js .tl-item.reveal.visible:nth-child(2) {
   animation-delay: 70ms;
 }
-.js .tl-item.reveal.visible:nth-of-type(3) {
+.js .tl-item.reveal.visible:nth-child(3) {
   animation-delay: 140ms;
 }
-.js .tl-item.reveal.visible:nth-of-type(n + 4) {
+.js .tl-item.reveal.visible:nth-child(n + 4) {
   animation-delay: 200ms;
 }
 
